@@ -1,13 +1,20 @@
 # Created by newuser for 5.6.2
 
-#if ! pgrep -u "$USER" ssh-agent > /dev/null; then
-#    ssh-agent > ~/.ssh-agent-env
-#fi
-#if [[ "$SSH_AGENT_PID" == "" ]]; then
-#    eval "$(<~/.ssh-agent-env)"
-#fi
+source ~/.zplug/init.zsh
 
-EDITOR=nvim
+zplug "0i0/0i0.zsh-theme", as:theme
+
+zplug load
+
+autoload -Uz compinit promptinit
+compinit
+promptinit
+
+export EDITOR=nvim
 alias vim=nvim
 alias ls=exa
 alias md=mkdir
+
+# https://github.com/clvv/fasd
+# fast file-dir navigation-access
+eval "$(fasd --init auto)"

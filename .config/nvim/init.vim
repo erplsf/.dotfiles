@@ -17,6 +17,9 @@ Plug 'tpope/vim-fugitive' " Git from the Vim!
 Plug 'pangloss/vim-javascript'
 Plug 'mxw/vim-jsx'
 
+" Dracula theme
+Plug 'dracula/vim', { 'as': 'dracula' }
+
 call plug#end()
 
 " On pressing tab, insert 2 spaces

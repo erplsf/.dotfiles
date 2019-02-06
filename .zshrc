@@ -45,9 +45,6 @@ setopt HIST_VERIFY
 # no beep!
 unsetopt beep
 
-# load key definitions
-source ~/.bindkeys.zsh
-
 # alias hub as git for better future!
 # https://github.com/github/hub
 eval "$(hub alias -s)"

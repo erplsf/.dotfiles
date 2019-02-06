@@ -2,6 +2,8 @@
 
 source ~/.zplug/init.zsh
 
+bindkey -e
+
 zplug "dracula/zsh", as:theme
 
 # Let zplug manage itself. To update run `zplug update`

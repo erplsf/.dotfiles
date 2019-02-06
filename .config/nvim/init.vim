@@ -12,15 +12,27 @@ Plug 'w0rp/ale' " linting/fixing for the future!
 " ? editorconfig/editorconfig-vim ?
 " ? terryma/vim-multiple-cursors ?
 Plug 'tpope/vim-fugitive' " Git from the Vim!
+Plug 'tpope/vim-vinegar'
 
-" JS/React plugins section
+" JS/Typescript/React plugins section
 Plug 'pangloss/vim-javascript'
+Plug 'jason0x43/vim-js-indent'
 Plug 'mxw/vim-jsx'
+Plug 'Quramy/tsuquyomi'
+Plug 'leafgarland/typescript-vim'
+Plug 'peitalin/vim-jsx-typescript'
 
-" Dracula theme
+" theme
 Plug 'dracula/vim', { 'as': 'dracula' }
 
+Plug 'ctrlpvim/ctrlp.vim'
+
 call plug#end()
+
+syntax on
+color dracula
+
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
 " On pressing tab, insert 2 spaces
 set expandtab

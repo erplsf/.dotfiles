@@ -39,6 +39,7 @@
 ;; install packages
 
 (straight-use-package 'org)
+(straight-use-package 'magit)
 
 ;; package-specific config section
 ;; org-mode

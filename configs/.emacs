@@ -35,6 +35,9 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
+;; follow symlinks
+
+(setq vc-follow-symlinks t)
 
 ;; install packages
 

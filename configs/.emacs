@@ -53,3 +53,7 @@
 
 (setq org-todo-keywords
   '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
+
+;; magit
+
+(global-set-key (kbd "C-x g") 'magit-status)

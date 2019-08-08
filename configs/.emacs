@@ -3,12 +3,19 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (tsdh-dark))))
+ '(custom-enabled-themes (quote (dracula)))
+ '(custom-safe-themes
+   (quote
+    ("0301a26dedfda81ca220ad6169588b5408884e7b4a5363f3e6a0e98d5c65a257" default))))
 
 ;; disable gui stuff
 (menu-bar-mode -1) 
 (toggle-scroll-bar -1) 
 (tool-bar-mode -1) 
+
+;; save backups in one folder
+(setq backup-directory-alist '(("." . "~/.emacs-backups")))
+(setq backup-by-copying t)
 
 ;; set default font
 (set-frame-font "Hack 12" nil t)
@@ -36,6 +43,7 @@
 
 (straight-use-package 'org)
 (straight-use-package 'magit)
+(straight-use-package 'dracula-theme)
 
 ;; package-specific config section
 ;; org-mode
@@ -49,9 +57,9 @@
 
 (setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 
-(setq org-agenda-files '("~/gtd/inbox.org"
-                         "~/gtd/gtd.org"
-                         "~/gtd/tickler.org"))
+(setq org-agenda-files '("~/org/inbox.org"
+                         "~/org/gtd.org"
+                         "~/org/tickler.org"))
 
 (setq org-capture-templates '(("t" "Todo [inbox]" entry
                                (file+headline "~/org/inbox.org" "Tasks")
@@ -70,3 +78,9 @@
 (setq inferior-lisp-program "/bin/sbcl")
 (require 'slime)
 (slime-setup)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

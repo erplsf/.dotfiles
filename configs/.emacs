@@ -63,3 +63,10 @@
 ;; magit
 
 (global-set-key (kbd "C-x g") 'magit-status)
+
+;; slime
+
+(load (expand-file-name "~/quicklisp/slime-helper.el"))
+(setq inferior-lisp-program "/bin/sbcl")
+(require 'slime)
+(slime-setup)

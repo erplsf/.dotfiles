@@ -79,6 +79,10 @@
                                (file+headline "~/org/tickler.org" "Tickler")
                                "* %i%? \n %U")))
 
+(setq org-refile-targets '(("~/org/gtd.org" :maxlevel . 3)
+                           ("~/org/someday.org" :level . 1)
+                           ("~/org/tickler.org" :maxlevel . 2)))
+
 ;; magit
 
 (global-set-key (kbd "C-x g") 'magit-status)

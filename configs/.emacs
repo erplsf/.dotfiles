@@ -3,7 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes `dracula)
+ '(custom-enabled-themes (quote (dracula)))
  '(custom-safe-themes
    (quote
     ("0301a26dedfda81ca220ad6169588b5408884e7b4a5363f3e6a0e98d5c65a257" default))))
@@ -88,11 +88,11 @@
 (global-set-key (kbd "C-x g") 'magit-status)
 
 ;; slime
-
-(load (expand-file-name "~/quicklisp/slime-helper.el"))
-(setq inferior-lisp-program "/bin/sbcl")
-(require 'slime)
-(slime-setup)
+(if (file-exists-p "~/quicklisp/slime-helper.el")
+    ((load (expand-file-name "~/quicklisp/slime-helper.el"))
+     (setq inferior-lisp-program "/bin/sbcl")
+     (require 'slime)
+     (slime-setup)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -132,3 +132,12 @@ There are two things you can do about this warning:
   :hook (after-init . doom-modeline-mode))
 
 (use-package all-the-icons)
+
+;; don't forget to run `M-x all-the-icons-install-fonts`
+
+(straight-use-package 'projectile)
+
+(projectile-mode +1)
+(define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+
+(setq projectile-project-search-path '("/code/brandslisten/"))

@@ -1,3 +1,5 @@
+(straight-use-package 'dracula-theme)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -43,18 +45,10 @@
 
 (straight-use-package 'org)
 (straight-use-package 'magit)
-(straight-use-package 'dracula-theme)
-(straight-use-package 'ivy)
-(straight-use-package 'counsel)
+(straight-use-package 'helm)
 
-(ivy-mode 1)
-(setq ivy-use-virtual-buffers t)
-(setq enable-recursive-minibuffers t)
-;; enable this if you want `swiper' to use it
-;; (setq search-default-mode #'char-fold-to-regexp)
-(global-set-key "\C-s" 'swiper)
-(global-set-key (kbd "C-c C-r") 'ivy-resume)
-(global-set-key (kbd "C-x C-f") 'counsel-find-file)
+;; helm config
+(require 'helm-config)
 
 ;; package-specific config section
 ;; org-mode

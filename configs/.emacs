@@ -1,3 +1,19 @@
+;;  bootstrap straight.el
+
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+
 (straight-use-package 'dracula-theme)
 
 (custom-set-variables
@@ -22,21 +38,6 @@
 ;; set default font
 (set-frame-font "Hack 12" nil t)
 
-;; bootstrap straight.el
-
-(defvar bootstrap-version)
-(let ((bootstrap-file
-       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-      (bootstrap-version 5))
-  (unless (file-exists-p bootstrap-file)
-    (with-current-buffer
-        (url-retrieve-synchronously
-         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-         'silent 'inhibit-cookies)
-      (goto-char (point-max))
-      (eval-print-last-sexp)))
-  (load bootstrap-file nil 'nomessage))
-
 ;; follow symlinks
 
 (setq vc-follow-symlinks t)
@@ -46,6 +47,30 @@
 (straight-use-package 'org)
 (straight-use-package 'magit)
 (straight-use-package 'helm)
+(straight-use-package `smex)
+(straight-use-package 'page-break-lines)
+(straight-use-package `dashboard)
+(straight-use-package 'company)
+(straight-use-package 'ace-window)
+(straight-use-package 'flycheck)
+(straight-use-package 'avy)
+
+(global-set-key (kbd "C-:") 'avy-goto-char)
+
+(add-hook 'after-init-hook 'global-flycheck-mode)
+
+(global-set-key (kbd "M-o") 'ace-window)
+
+(add-hook 'after-init-hook #'global-company-mode)
+
+;; (require 'dashboard)
+(dashboard-setup-startup-hook)
+
+(setq global-page-break-lines-mode t)
+
+(require 'smex)
+(smex-initialize)
+(global-set-key (kbd "M-x") 'smex)
 
 ;; helm config
 (require 'helm-config)
@@ -81,12 +106,7 @@
 
 (global-set-key (kbd "C-x g") 'magit-status)
 
-;; slime
-(if (file-exists-p "~/quicklisp/slime-helper.el")
-    ((load (expand-file-name "~/quicklisp/slime-helper.el"))
-     (setq inferior-lisp-program "/bin/sbcl")
-     (require 'slime)
-     (slime-setup)))
+;; TODO: slime
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

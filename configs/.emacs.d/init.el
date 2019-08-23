@@ -13,7 +13,6 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-
 (straight-use-package 'dracula-theme)
 
 (custom-set-variables
@@ -24,7 +23,11 @@
  '(custom-enabled-themes (quote (dracula)))
  '(custom-safe-themes
    (quote
-    ("0301a26dedfda81ca220ad6169588b5408884e7b4a5363f3e6a0e98d5c65a257" default))))
+    ("0301a26dedfda81ca220ad6169588b5408884e7b4a5363f3e6a0e98d5c65a257" default)))
+ '(safe-local-variable-values
+   (quote
+    ((flycheck-disabled-checkers quote
+				 (emacs-lisp-checkdoc))))))
 
 ;; disable gui stuff
 (menu-bar-mode -1) 

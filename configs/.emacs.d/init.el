@@ -39,7 +39,7 @@
 (setq backup-by-copying t)
 
 ;; set default font
-(set-frame-font "Hack 12" nil t)
+(add-to-list 'default-frame-alist '((font . "Hack 16")))
 
 ;; follow symlinks
 

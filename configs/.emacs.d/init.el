@@ -30,16 +30,24 @@
 				 (emacs-lisp-checkdoc))))))
 
 ;; disable gui stuff
-(menu-bar-mode -1) 
-(toggle-scroll-bar -1) 
-(tool-bar-mode -1) 
+(progn
+  (menu-bar-mode -1)
+  (tooltip-mode -1)
+  (tool-bar-mode -1)
+  (set-face-attribute 'default nil :height 150))
+
+(setq scroll-bar-mode nil)
+(setq horizontal-scroll-bar-mode nil)
+
+(add-to-list 'default-frame-alist
+             '(vertical-scroll-bars . nil))
 
 ;; save backups in one folder
 (setq backup-directory-alist '(("." . "~/.emacs-backups")))
 (setq backup-by-copying t)
 
 ;; set default font
-(add-to-list 'default-frame-alist '((font . "Hack 16")))
+(setq default-frame-alist '((font . "Hack 14")))
 
 ;; follow symlinks
 
@@ -57,6 +65,9 @@
 (straight-use-package 'ace-window)
 (straight-use-package 'flycheck)
 (straight-use-package 'avy)
+(straight-use-package 'pdf-tools)
+
+(pdf-loader-install)
 
 (global-set-key (kbd "C-:") 'avy-goto-char)
 
@@ -68,6 +79,7 @@
 
 ;; (require 'dashboard)
 (dashboard-setup-startup-hook)
+(setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
 
 (setq global-page-break-lines-mode t)
 
@@ -149,6 +161,7 @@ There are two things you can do about this warning:
   :hook (after-init . doom-modeline-mode))
 
 (use-package all-the-icons)
+(setq doom-modeline-icon t)
 
 ;; don't forget to run `M-x all-the-icons-install-fonts`
 

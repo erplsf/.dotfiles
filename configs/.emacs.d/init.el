@@ -66,6 +66,9 @@
 (straight-use-package 'flycheck)
 (straight-use-package 'avy)
 (straight-use-package 'pdf-tools)
+(straight-use-package 'rainbow-delimiters)
+
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
 (pdf-loader-install)
 
@@ -122,6 +125,10 @@
 (global-set-key (kbd "C-x g") 'magit-status)
 
 ;; TODO: slime
+
+(straight-use-package 'slime)
+(setq inferior-lisp-program "/bin/sbcl")
+(setq slime-contribs '(slime-fancy))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

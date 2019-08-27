@@ -13,34 +13,20 @@
       (eval-print-last-sexp)))
   (load bootstrap-file nil 'nomessage))
 
-(straight-use-package 'dracula-theme)
+(straight-use-package 'color-theme-sanityinc-tomorrow)
+(require 'color-theme-sanityinc-tomorrow)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (dracula)))
- '(custom-safe-themes
-   (quote
-    ("0301a26dedfda81ca220ad6169588b5408884e7b4a5363f3e6a0e98d5c65a257" default)))
- '(safe-local-variable-values
-   (quote
-    ((flycheck-disabled-checkers quote
-				 (emacs-lisp-checkdoc))))))
+;; disable gui stuff TODO:
 
-;; disable gui stuff
-(progn
-  (menu-bar-mode -1)
-  (tooltip-mode -1)
-  (tool-bar-mode -1)
-  (set-face-attribute 'default nil :height 150))
+(tool-bar-mode -1)
+(menu-bar-mode -1) 
+;; (toggle-scroll-bar -1) ;; -> doesn't work in client/daemon
+(customize-set-variable 'scroll-bar-mode nil)
+(customize-set-variable 'horizontal-scroll-bar-mode nil)
+;; (add-to-list 'default-frame-alist
+;;             '(vertical-scroll-bars . nil))
 
-(setq scroll-bar-mode nil)
-(setq horizontal-scroll-bar-mode nil)
-
-(add-to-list 'default-frame-alist
-             '(vertical-scroll-bars . nil))
+(blink-cursor-mode 0)
 
 ;; save backups in one folder
 (setq backup-directory-alist '(("." . "~/.emacs-backups")))
@@ -67,6 +53,7 @@
 (straight-use-package 'avy)
 (straight-use-package 'pdf-tools)
 (straight-use-package 'rainbow-delimiters)
+
 
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
@@ -130,13 +117,6 @@
 (setq inferior-lisp-program "/bin/sbcl")
 (setq slime-contribs '(slime-fancy))
 
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 
@@ -178,3 +158,20 @@ There are two things you can do about this warning:
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
 (setq projectile-project-search-path '("/code/brandslisten/"))
+
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(custom-enabled-themes (quote (sanityinc-tomorrow-night)))
+ '(custom-safe-themes
+   (quote
+    ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

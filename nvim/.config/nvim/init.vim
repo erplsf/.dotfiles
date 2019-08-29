@@ -34,14 +34,17 @@ let g:terraform_align=1
 let g:terraform_fmt_on_save=1
 
 " theme
-Plug 'dracula/vim', { 'as': 'dracula' }
+
+Plug 'chriskempson/base16-vim'
 
 Plug 'ctrlpvim/ctrlp.vim'
 
 call plug#end()
 
 syntax on
-color dracula
+
+colorscheme base16-tomorrow-night
+set termguicolors
 
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 

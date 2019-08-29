@@ -335,8 +335,15 @@ globalkeys = gears.table.join(
               {description = "show the menubar", group = "launcher"}),
 
     -- Custom keys
-    awful.key({ modkey}, "l" , function() awful.spawn("physlock -p 'no cake for you'") end,
-              {description = "Lock the screen", group = "system"})
+    awful.key({ modkey}, "l" , function() awful.spawn("slock") end,
+              {description = "Lock the screen", group = "system"}),
+
+    awful.key({ modkey }, "b",
+          function ()
+              myscreen = awful.screen.focused()
+              myscreen.mywibox.visible = not myscreen.mywibox.visible
+          end,
+          {description = "toggle statusbar"})
 )
 
 clientkeys = gears.table.join(

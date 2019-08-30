@@ -59,6 +59,8 @@
 (require 'perspective)
 (persp-mode)
 
+(setq tramp-default-method "ssh")
+
 (setq auto-mode-alist
   (cons '("\\.tf$" . terraform-mode) auto-mode-alist))
 

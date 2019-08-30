@@ -44,16 +44,23 @@
 (straight-use-package 'org)
 (straight-use-package 'magit)
 (straight-use-package 'helm)
-(straight-use-package `smex)
+(straight-use-package 'smex)
 (straight-use-package 'page-break-lines)
-(straight-use-package `dashboard)
+(straight-use-package 'dashboard)
 (straight-use-package 'company)
 (straight-use-package 'ace-window)
 (straight-use-package 'flycheck)
 (straight-use-package 'avy)
 (straight-use-package 'pdf-tools)
 (straight-use-package 'rainbow-delimiters)
+(straight-use-package 'terraform-mode)
+(straight-use-package 'perspective)
 
+(require 'perspective)
+(persp-mode)
+
+(setq auto-mode-alist
+  (cons '("\\.tf$" . terraform-mode) auto-mode-alist))
 
 (add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 

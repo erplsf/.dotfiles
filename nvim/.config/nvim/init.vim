@@ -60,3 +60,5 @@ set shiftwidth=2
 
 " Change the leader
 let mapleader=","
+
+let g:netrw_dirhistmax = 0

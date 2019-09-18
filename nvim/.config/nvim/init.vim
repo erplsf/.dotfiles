@@ -12,6 +12,8 @@ Plug 'w0rp/ale' " linting/fixing for the future!
 " ? editorconfig/editorconfig-vim ?
 " ? terryma/vim-multiple-cursors ?
 Plug 'tpope/vim-fugitive' " Git from the Vim!
+Plug 'tpope/vim-rhubarb'
+
 Plug 'tpope/vim-vinegar'
 
 " JS/Typescript/React plugins section

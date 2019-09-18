@@ -338,6 +338,9 @@ globalkeys = gears.table.join(
     awful.key({ modkey}, "l" , function() awful.spawn("slock") end,
               {description = "Lock the screen", group = "system"}),
 
+    awful.key({ modkey}, "`" , function() awful.spawn("shot.sh") end,
+              {description = "Make a screenshot", group = "system"}),
+
     awful.key({ modkey }, "b",
           function ()
               myscreen = awful.screen.focused()

@@ -30,6 +30,8 @@ Plug 'godlygeek/tabular'
 " terraform
 Plug 'hashivim/vim-terraform'
 
+Plug 'triglav/vim-visual-increment'
+
 let g:terraform_align=1
 let g:terraform_fmt_on_save=1
 

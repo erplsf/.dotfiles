@@ -90,31 +90,42 @@
 (require 'helm-config)
 
 ;; package-specific config section
-;; org-mode
+;; org-mode, stolen from here http://doc.norang.ca/org-mode.html
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cc" 'org-capture)
 (global-set-key "\C-cb" 'org-switchb)
 
-;;(setq org-todo-keywords
-;;      '((sequence "TODO" "IN-PROGRESS" "WAITING" "DONE")))
+(setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
 
-(setq org-todo-keywords '((sequence "TODO(t)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+(setq org-todo-keyword-faces
+      (quote (("TODO" :foreground "red")
+              ("NEXT" :foreground "royal blue")
+              ("DONE" :foreground "forest green")
+              ("WAITING" :foreground "orange")
+              ("CANCELLED" :foreground "forest green"))))
 
-(setq org-agenda-files '("~/org/inbox.org"
-                         "~/org/gtd.org"
+(setq org-directory "~/org")
+(setq org-default-notes-file "~/org/inbox.org")
+
+(setq org-agenda-files '("~/org/gtd.org"
                          "~/org/tickler.org"))
 
 (setq org-capture-templates '(("t" "Todo [inbox]" entry
-                               (file+headline "~/org/inbox.org" "Tasks")
+                               (file "~/org/inbox.org")
                                "* TODO %i%?")
                               ("T" "Tickler" entry
                                (file+headline "~/org/tickler.org" "Tickler")
                                "* %i%? \n %U")))
 
-(setq org-refile-targets '(("~/org/gtd.org" :maxlevel . 3)
-                           ("~/org/someday.org" :level . 1)
-                           ("~/org/tickler.org" :maxlevel . 2)))
+(setq org-refile-use-outline-path 'file)
+(setq org-refile-targets '((org-agenda-files :maxlevel . 2)
+			   ("~/org/someday.org" :maxlevel . 2)))
+
+;; (setq org-refile-targets '(("~/org/gtd.org" :maxlevel . 3)
+;;                           ("~/org/someday.org" :level . 1)
+;;                           ("~/org/tickler.org" :maxlevel . 2)))
+;;                           ("~/org/archive.org" :level . 1)))
 
 ;; magit
 

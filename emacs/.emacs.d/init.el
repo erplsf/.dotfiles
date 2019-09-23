@@ -48,7 +48,6 @@
 (straight-use-package 'dashboard)
 (straight-use-package 'company)
 (straight-use-package 'ace-window)
-(straight-use-package 'flycheck)
 (straight-use-package 'avy)
 (straight-use-package 'pdf-tools)
 (straight-use-package 'rainbow-delimiters)
@@ -69,8 +68,9 @@
 
 (global-set-key (kbd "C-:") 'avy-goto-char)
 
-(add-hook 'after-init-hook 'global-flycheck-mode)
-(setq-default flycheck-disabled-checkers '(emacs-lisp))
+;; (straight-use-package 'flycheck) -> don't really use currently
+;; (add-hook 'after-init-hook 'global-flycheck-mode)
+;; (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc emacs-lisp))
 
 (global-set-key (kbd "M-o") 'ace-window)
 

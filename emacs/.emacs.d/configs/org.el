@@ -1,5 +1,9 @@
 ;;;; org-mode
 ;; mostly stolen from here http://doc.norang.ca/org-mode.html
+
+(straight-use-package 'org)
+(require 'org)
+
 (global-set-key "\C-cl" 'org-store-link)
 (global-set-key "\C-ca" 'org-agenda)
 (global-set-key "\C-cc" 'org-capture)
@@ -20,6 +24,7 @@
 (setq org-default-notes-file "~/org/inbox.org")
 
 (setq org-agenda-files '("~/org/inbox.org"
+			 "~/org/habits.org"
 			 "~/org/gtd.org"
                          "~/org/tickler.org"
 			 "~/org/brandslisten.org"))
@@ -31,10 +36,11 @@
                                (file+headline "~/org/tickler.org" "Tickler")
                                "* %i%? \n %U")))
 
-(setq org-refile-use-outline-path 'file)
 (setq org-refile-targets '((org-agenda-files :maxlevel . 2)
 			   ("~/org/someday.org" :maxlevel . 2)))
 
 (setq org-agenda-custom-commands
       '(("x" agenda)
         ("n" todo "NEXT")))
+
+(add-to-list 'org-modules 'org-habit t)

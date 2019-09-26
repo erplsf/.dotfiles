@@ -54,6 +54,10 @@
 (straight-use-package 'terraform-mode)
 (straight-use-package 'perspective)
 
+(straight-use-package 'yaml-mode)
+(straight-use-package 'aggressive-indent)
+(global-aggressive-indent-mode 1)
+
 (require 'perspective)
 (persp-mode)
 
@@ -90,7 +94,44 @@
 (require 'helm-config)
 
 ;; package-specific config section
-(straight-use-package 'org)
+(load "~/.emacs.d/configs/org.el")
+
+(require 'perspective)
+(persp-mode)
+
+(setq tramp-default-method "ssh")
+
+(setq auto-mode-alist
+  (cons '("\\.tf$" . terraform-mode) auto-mode-alist))
+
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
+
+(pdf-loader-install)
+
+(global-set-key (kbd "C-:") 'avy-goto-char)
+
+;; (straight-use-package 'flycheck) -> don't really use currently
+;; (add-hook 'after-init-hook 'global-flycheck-mode)
+;; (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc emacs-lisp))
+
+(global-set-key (kbd "M-o") 'ace-window)
+
+(add-hook 'after-init-hook #'global-company-mode)
+
+;; (require 'dashboard)
+(dashboard-setup-startup-hook)
+(setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+
+(setq global-page-break-lines-mode t)
+
+(require 'smex)
+(smex-initialize)
+(global-set-key (kbd "M-x") 'smex)
+
+;; helm config
+(require 'helm-config)
+
+;; package-specific config section
 (load "~/.emacs.d/configs/org.el")
 
 ;; magit
@@ -100,8 +141,10 @@
 ;; TODO: slime
 
 (straight-use-package 'slime)
+(require 'slime)
 (setq inferior-lisp-program "/bin/sbcl")
 (setq slime-contribs '(slime-fancy))
+(slime-setup '(slime-fancy slime-quicklisp slime-asdf))
 
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
@@ -154,7 +197,10 @@ There are two things you can do about this warning:
  '(custom-enabled-themes (quote (sanityinc-tomorrow-night)))
  '(custom-safe-themes
    (quote
-    ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default))))
+    ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default)))
+ '(horizontal-scroll-bar-mode nil)
+ '(safe-local-variable-values (quote ((flycheck-disabled-checkers emacs-lisp-checkdoc))))
+ '(scroll-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

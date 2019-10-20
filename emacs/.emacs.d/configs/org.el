@@ -25,7 +25,7 @@
 
 (setq org-agenda-files '("~/org/inbox.org"
 			 "~/org/habits.org"
-			 "~/org/gtd.org"
+			 "~/org/personal.org"
                          "~/org/tickler.org"
 			 "~/org/brandslisten.org"))
 

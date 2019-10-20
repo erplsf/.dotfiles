@@ -146,6 +146,14 @@
 (setq slime-contribs '(slime-fancy))
 (slime-setup '(slime-fancy slime-quicklisp slime-asdf))
 
+(defun slime-qlot-exec (directory)
+  (interactive (list (read-directory-name "Project directory: ")))
+  (slime-start :program "~/.roswell/bin/qlot"
+               :program-args '("exec" "ros" "-S" "." "run")
+               :directory directory
+               :name 'qlot
+               :env (list (concat "PATH=" (mapconcat 'identity exec-path ":")))))
+
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 
@@ -186,8 +194,7 @@ There are two things you can do about this warning:
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
-(setq projectile-project-search-path '("/code/brandslisten/"))
-
+(setq projectile-project-search-path '("/code/"))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

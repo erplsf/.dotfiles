@@ -15,17 +15,17 @@
 
 (setq org-todo-keyword-faces
       (quote (("TODO" :foreground "red")
-              ("NEXT" :foreground "royal blue")
-              ("DONE" :foreground "forest green")
-              ("WAITING" :foreground "orange")
-              ("CANCELLED" :foreground "forest green"))))
+	      ("NEXT" :foreground "royal blue")
+	      ("DONE" :foreground "forest green")
+	      ("WAITING" :foreground "orange")
+	      ("CANCELLED" :foreground "forest green"))))
 
 (setq org-directory "~/org")
 (setq org-default-notes-file "~/org/inbox.org")
 
 (setq org-agenda-files '("~/org/inbox.org"
 			 "~/org/habits.org"
-			 "~/org/gtd.org"
+			 "~/org/personal.org"
                          "~/org/tickler.org"
 			 "~/org/brandslisten.org"))
 

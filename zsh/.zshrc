@@ -167,3 +167,7 @@ if [[ $#h -gt 0 ]]; then
   zstyle ':completion:*:ssh:*' hosts $h
   zstyle ':completion:*:slogin:*' hosts $h
 fi
+
+if command -v ros >/dev/null 2>&1; then
+  export PATH="$HOME/.roswell/bin:$PATH"
+fi

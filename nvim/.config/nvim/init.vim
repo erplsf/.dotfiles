@@ -45,6 +45,9 @@ Plug 'chriskempson/base16-vim'
 
 Plug 'ctrlpvim/ctrlp.vim'
 
+" For the Markdown!
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & npm install'  }
+
 call plug#end()
 
 syntax on

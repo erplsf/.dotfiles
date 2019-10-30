@@ -107,6 +107,8 @@ eval "$(rbenv init -)"
 
 export PATH=$PATH:~/bin
 
+export PATH=$PATH:~/.roswell/bin
+
 # SSH completion
 # taken from here https://serverfault.com/questions/170346/how-to-edit-command-completion-for-ssh-on-zsh
 h=()

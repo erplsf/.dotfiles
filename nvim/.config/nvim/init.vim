@@ -34,9 +34,6 @@ Plug 'hashivim/vim-terraform'
 
 Plug 'triglav/vim-visual-increment'
 
-let g:terraform_align=1
-let g:terraform_fmt_on_save=1
-
 Plug 'scrooloose/nerdcommenter'
 
 " theme
@@ -50,12 +47,31 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & npm install'  }
 
 call plug#end()
 
+let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
+let g:ctrlp_working_path_mode = 'rca'
+
+let g:terraform_align=1
+let g:terraform_fmt_on_save=1
+
+filetype indent off
+
+set updatetime=100
+let g:mkdp_preview_options = {
+    \ 'mkit': {"level": 2},
+    \ 'katex': {},
+    \ 'uml': {},
+    \ 'maid': {},
+    \ 'disable_sync_scroll': 0,
+    \ 'sync_scroll_type': 'middle',
+    \ 'hide_yaml_meta': 1,
+    \ 'sequence_diagrams': {}
+    \ }
+
+
 syntax on
 
-colorscheme base16-tomorrow-night
+colorscheme base16-tomorrow-night-eighties
 set termguicolors
-
-let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 
 " On pressing tab, insert 2 spaces
 set expandtab

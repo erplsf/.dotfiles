@@ -41,7 +41,6 @@
 
 ;; install packages
 
-(straight-use-package 'org)
 (straight-use-package 'magit)
 (straight-use-package 'helm)
 (straight-use-package 'smex)
@@ -49,12 +48,15 @@
 (straight-use-package 'dashboard)
 (straight-use-package 'company)
 (straight-use-package 'ace-window)
-(straight-use-package 'flycheck)
 (straight-use-package 'avy)
 (straight-use-package 'pdf-tools)
 (straight-use-package 'rainbow-delimiters)
 (straight-use-package 'terraform-mode)
 (straight-use-package 'perspective)
+
+(straight-use-package 'yaml-mode)
+(straight-use-package 'aggressive-indent)
+(global-aggressive-indent-mode 1)
 
 (require 'perspective)
 (persp-mode)
@@ -70,7 +72,9 @@
 
 (global-set-key (kbd "C-:") 'avy-goto-char)
 
-(add-hook 'after-init-hook 'global-flycheck-mode)
+;; (straight-use-package 'flycheck) -> don't really use currently
+;; (add-hook 'after-init-hook 'global-flycheck-mode)
+;; (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc emacs-lisp))
 
 (global-set-key (kbd "M-o") 'ace-window)
 
@@ -90,42 +94,45 @@
 (require 'helm-config)
 
 ;; package-specific config section
-;; org-mode, stolen from here http://doc.norang.ca/org-mode.html
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-cb" 'org-switchb)
+(load "~/.emacs.d/configs/org.el")
 
-(setq org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "WAITING(w)" "|" "DONE(d)" "CANCELLED(c)")))
+(require 'perspective)
+(persp-mode)
 
-(setq org-todo-keyword-faces
-      (quote (("TODO" :foreground "red")
-              ("NEXT" :foreground "royal blue")
-              ("DONE" :foreground "forest green")
-              ("WAITING" :foreground "orange")
-              ("CANCELLED" :foreground "forest green"))))
+(setq tramp-default-method "ssh")
 
-(setq org-directory "~/org")
-(setq org-default-notes-file "~/org/inbox.org")
+(setq auto-mode-alist
+  (cons '("\\.tf$" . terraform-mode) auto-mode-alist))
 
-(setq org-agenda-files '("~/org/gtd.org"
-                         "~/org/tickler.org"))
+(add-hook 'prog-mode-hook #'rainbow-delimiters-mode)
 
-(setq org-capture-templates '(("t" "Todo [inbox]" entry
-                               (file "~/org/inbox.org")
-                               "* TODO %i%?")
-                              ("T" "Tickler" entry
-                               (file+headline "~/org/tickler.org" "Tickler")
-                               "* %i%? \n %U")))
+(pdf-loader-install)
 
-(setq org-refile-use-outline-path 'file)
-(setq org-refile-targets '((org-agenda-files :maxlevel . 2)
-			   ("~/org/someday.org" :maxlevel . 2)))
+(global-set-key (kbd "C-:") 'avy-goto-char)
 
-;; (setq org-refile-targets '(("~/org/gtd.org" :maxlevel . 3)
-;;                           ("~/org/someday.org" :level . 1)
-;;                           ("~/org/tickler.org" :maxlevel . 2)))
-;;                           ("~/org/archive.org" :level . 1)))
+;; (straight-use-package 'flycheck) -> don't really use currently
+;; (add-hook 'after-init-hook 'global-flycheck-mode)
+;; (setq-default flycheck-disabled-checkers '(emacs-lisp-checkdoc emacs-lisp))
+
+(global-set-key (kbd "M-o") 'ace-window)
+
+(add-hook 'after-init-hook #'global-company-mode)
+
+;; (require 'dashboard)
+(dashboard-setup-startup-hook)
+(setq initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+
+(setq global-page-break-lines-mode t)
+
+(require 'smex)
+(smex-initialize)
+(global-set-key (kbd "M-x") 'smex)
+
+;; helm config
+(require 'helm-config)
+
+;; package-specific config section
+(load "~/.emacs.d/configs/org.el")
 
 ;; magit
 
@@ -134,8 +141,18 @@
 ;; TODO: slime
 
 (straight-use-package 'slime)
+(require 'slime)
 (setq inferior-lisp-program "/bin/sbcl")
 (setq slime-contribs '(slime-fancy))
+(slime-setup '(slime-fancy slime-quicklisp slime-asdf))
+
+(defun slime-qlot-exec (directory)
+  (interactive (list (read-directory-name "Project directory: ")))
+  (slime-start :program "~/.roswell/bin/qlot"
+               :program-args '("exec" "ros" "-S" "." "run")
+               :directory directory
+               :name 'qlot
+               :env (list (concat "PATH=" (mapconcat 'identity exec-path ":")))))
 
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
@@ -177,8 +194,7 @@ There are two things you can do about this warning:
 (projectile-mode +1)
 (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
 
-(setq projectile-project-search-path '("/code/brandslisten/"))
-
+(setq projectile-project-search-path '("/code/"))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -188,7 +204,10 @@ There are two things you can do about this warning:
  '(custom-enabled-themes (quote (sanityinc-tomorrow-night)))
  '(custom-safe-themes
    (quote
-    ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default))))
+    ("06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" default)))
+ '(horizontal-scroll-bar-mode nil)
+ '(safe-local-variable-values (quote ((flycheck-disabled-checkers emacs-lisp-checkdoc))))
+ '(scroll-bar-mode nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

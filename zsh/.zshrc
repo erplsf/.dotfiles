@@ -55,21 +55,35 @@ zplug "dracula/zsh", as:theme
 zplug 'zplug/zplug', hook-build:'zplug --self-manage'
 zplug "plugins/kubectl", from:oh-my-zsh
 
+# load .env files from directories
+zplug "plugins/dotenv", from:oh-my-zsh
+
+
 zplug load
 
 autoload -Uz compinit promptinit
 compinit
 promptinit
 
-export EDITOR=nvim
-alias vim=nvim
-alias ls=exa
+
+if command -v nvim >/dev/null 2>&1; then
+	alias vim=nvim
+	export EDITOR=nvim
+fi
+
+if command -v exa >/dev/null 2>&1; then
+	alias ls=exa
+fi
+
 alias md=mkdir
 alias be="bundle exec"
 
 # https://github.com/clvv/fasd
 # fast file-dir navigation-access
-eval "$(fasd --init auto)"
+
+if command -v fasd >/dev/null 2>&1; then
+	eval "$(fasd --init auto)"
+fi
 
 # history stuff
 HISTFILE=~/.histfile
@@ -94,20 +108,47 @@ unsetopt beep
 
 # alias hub as git for better future!
 # https://github.com/github/hub
-eval "$(hub alias -s)"
+
+if command -v hub >/dev/null 2>&1; then
+	eval "$(hub alias -s)"
+fi
 
 # nodenv
 # https://github.com/nodenv/nodenv
-export PATH="$HOME/.nodenv/bin:$PATH"
-eval "$(nodenv init -)"
+
+if command -v nodenv >/dev/null 2>&1; then
+	export PATH="$HOME/.nodenv/bin:$PATH"
+	eval "$(nodenv init -)"
+fi
 
 # rbenv
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+
+if command -v rbenv >/dev/null 2>&1; then
+	export PATH="$HOME/.rbenv/bin:$PATH"
+	eval "$(rbenv init -)"
+fi
+
+if [[ -f $HOME/.nodenv/bin/nodenv ]]; then
+  export PATH="$HOME/.nodenv/bin:$PATH"
+  eval "$(nodenv init -)"
+fi
 
 export PATH=$PATH:~/bin
 
-export PATH=$PATH:~/.roswell/bin
+# WSL-specific configs
+if uname -r | grep -q 'Microsoft' ; then
+	# For X-Server
+	export DISPLAY=:0
+	export LIBGL_ALWAYS_INDIRECT=1
+
+  export DOCKER_HOST=tcp://localhost:2375
+
+	alias w-emacs="nohup emacs >& /dev/null &"
+  
+  export PATH="$PATH:/mnt/c/Windows/System32"
+
+  source ~/lib/azure-cli/az.completion
+fi
 
 # SSH completion
 # taken from here https://serverfault.com/questions/170346/how-to-edit-command-completion-for-ssh-on-zsh
@@ -121,4 +162,8 @@ fi
 if [[ $#h -gt 0 ]]; then
   zstyle ':completion:*:ssh:*' hosts $h
   zstyle ':completion:*:slogin:*' hosts $h
+fi
+
+if command -v ros >/dev/null 2>&1; then
+  export PATH="$HOME/.roswell/bin:$PATH"
 fi

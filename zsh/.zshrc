@@ -146,13 +146,9 @@ if uname -r | grep -q 'Microsoft' ; then
 	alias w-emacs="nohup emacs >& /dev/null &"
   
   export PATH="$PATH:/mnt/c/Windows/System32"
+
+  source ~/lib/azure-cli/az.completion
 fi
-
-export PATH=$PATH:/home/inerchte/bin
-
-autoload -U +X bashcompinit && bashcompinit
-
-source '/home/inerchte/lib/azure-cli/az.completion'
 
 # SSH completion
 # taken from here https://serverfault.com/questions/170346/how-to-edit-command-completion-for-ssh-on-zsh

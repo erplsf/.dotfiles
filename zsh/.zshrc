@@ -171,3 +171,5 @@ fi
 if command -v ros >/dev/null 2>&1; then
   export PATH="$HOME/.roswell/bin:$PATH"
 fi
+
+export PATH="/home/inerchte/.local/bin:$PATH"

@@ -25,7 +25,9 @@ Plug 'leafgarland/typescript-vim'
 Plug 'peitalin/vim-jsx-typescript'
 
 Plug 'sbdchd/neoformat'
-Plug 'prettier/vim-prettier', { 'do': 'npm install' }
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'npm install',
+  \ 'for': ['javascript', 'typescript', 'css', 'less', 'scss', 'json', 'graphql', 'markdown', 'vue', 'yaml', 'html'] }
 
 Plug 'godlygeek/tabular'
 
@@ -45,7 +47,18 @@ Plug 'ctrlpvim/ctrlp.vim'
 " For the Markdown!
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & npm install'  }
 
+" ruby stuff
+Plug 'vim-ruby/vim-ruby'
+Plug 'Chiel92/vim-autoformat'
+
 call plug#end()
+
+" use only vim-autoformat
+au BufWrite * :Autoformat
+let g:autoformat_autoindent = 0
+let g:autoformat_retab = 0
+let g:autoformat_remove_trailing_spaces = 0
+" /end
 
 let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files -co --exclude-standard']
 let g:ctrlp_working_path_mode = 'rca'
@@ -85,3 +98,13 @@ set shiftwidth=2
 let mapleader=","
 
 let g:netrw_dirhistmax = 0
+
+noremap <Up> <nop>
+noremap <Down> <nop>
+noremap <Left> <nop>
+noremap <Right> <nop>
+
+inoremap <Up> <nop>
+inoremap <Down> <nop>
+inoremap <Left> <nop>
+inoremap <Right> <nop>

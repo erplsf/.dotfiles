@@ -41,7 +41,13 @@ end
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
-beautiful.init("/usr/share/awesome/themes/default/theme.lua")
+if gears.filesystem.dir_readable(gears.filesystem.get_configuration_dir()  .. "themes/ronin") then
+  naughty.notify({ title = "loading custom theme", text = "loading ronin" })
+  beautiful.init(gears.filesystem.get_configuration_dir()  .. "themes/ronin/theme.lua")
+else
+  naughty.notify({ title = "loading default theme", text = "loading default theme" })
+  beautiful.init("/usr/share/awesome/themes/default/theme.lua")
+end
 
 -- This is used later as the default terminal and editor to run.
 terminal = "alacritty"
@@ -335,18 +341,8 @@ globalkeys = gears.table.join(
               {description = "show the menubar", group = "launcher"}),
 
     -- Custom keys
-    awful.key({ modkey}, "l" , function() awful.spawn("slock") end,
-              {description = "Lock the screen", group = "system"}),
-
-    awful.key({ modkey}, "`" , function() awful.spawn("shot.sh") end,
-              {description = "Make a screenshot", group = "system"}),
-
-    awful.key({ modkey }, "b",
-          function ()
-              myscreen = awful.screen.focused()
-              myscreen.mywibox.visible = not myscreen.mywibox.visible
-          end,
-          {description = "toggle statusbar"})
+    awful.key({ modkey}, "l" , function() awful.spawn("physlock -p 'no cake for you'") end,
+              {description = "Lock the screen", group = "system"})
 )
 
 clientkeys = gears.table.join(

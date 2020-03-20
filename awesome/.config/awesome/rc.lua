@@ -490,6 +490,10 @@ awful.rules.rules = {
         }
       }, properties = { floating = true }},
 
+    -- Emacs
+    { rule = { class = "Emacs" },
+     properties = { size_hints_honor = false } },
+
     -- DISABLE TITLEBARS
     -- Add titlebars to normal clients and dialogs
     -- { rule_any = {type = { "normal", "dialog" }

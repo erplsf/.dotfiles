@@ -204,3 +204,23 @@
    ("C-M-<right>". windmove-right)
    ("C-M-<up>". windmove-up)
    ("C-M-<down>". windmove-down)))
+
+;; org-super-agenda
+
+(use-package org-super-agenda
+  :hook
+  (after-init . org-super-agenda-mode)
+  :config
+  (setq org-super-agenda-groups '((:name "Today"
+				:time-grid t
+				:scheduled today)
+			   (:name "Due today"
+				:deadline today)
+			   (:name "Important"
+				:priority "A")
+			   (:name "Overdue"
+				:deadline past)
+			   (:name "Due soon"
+				:deadline future)
+			   (:name "Waiting"
+			       :todo "WAIT"))))

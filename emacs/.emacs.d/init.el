@@ -73,8 +73,7 @@
   (org-capture-templates
       (quote (("t" "todo" entry (file "~/org/gtd/refile.org")
                "* TODO %?"))))
-  (org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)")
-		       (sequence "WAITING(w@/!)" "|" "CANCELED(c@/!)"))))
+  (org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)"))))
 
 ;; rainbow-delimiters
 (use-package rainbow-delimiters
@@ -113,6 +112,7 @@
 (use-package magit)
 
 ;; eyebrowse
+(setq eyebrowse-keymap-prefix "C-c e")
 
 (use-package eyebrowse
   :hook

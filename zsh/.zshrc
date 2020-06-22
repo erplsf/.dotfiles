@@ -169,3 +169,15 @@ if command -v ros >/dev/null 2>&1; then
 fi
 
 export PATH="$HOME/.local/bin:$PATH"
+
+# hledger section
+
+if command -v hledger >/dev/null 2>&1; then
+  hledger-current-month () {
+    hledger "$@" -B --depth=3 -b="`date '+%Y.%m'`" -e="`date -d '+1 month' '+%Y.%m'`"
+  }
+fi
+
+if command -v nnn >/dev/null 2>&1; then
+  export NNN_TRASH=1
+fi

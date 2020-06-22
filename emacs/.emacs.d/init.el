@@ -38,6 +38,9 @@
 
 (fringe-mode 0)                                    ; Disable fringes
 (menu-bar-mode 0)                                ; Disable the menu bar
+(setq-default indent-tabs-mode nil) ; tabs are evil
+(setq-default tab-width 2)
+(setq-default js-indent-level 2)
 
 ;; increase gc/related configs for lsp
 
@@ -68,8 +71,8 @@
   (org-default-notes-file "~/org/inbox.org")
   (org-agenda-files '("~/org/gtd"))
   (org-archive-location "~/org/gtd/archive/archive.org::* From %s")
-  (org-refile-use-outline-path 'file)
-  (org-refile-targets '((org-agenda-files . (:maxlevel . 1))))
+; (org-refile-use-outline-path 'file)
+  (org-refile-targets '((org-agenda-files . (:maxlevel . 3))))
   (org-capture-templates
       (quote (("t" "todo" entry (file "~/org/gtd/refile.org")
                "* TODO %?"))))
@@ -112,7 +115,7 @@
 (use-package magit)
 
 ;; eyebrowse
-(setq eyebrowse-keymap-prefix "C-c e")
+(setq eyebrowse-keymap-prefix (kbd "C-c e"))
 
 (use-package eyebrowse
   :hook
@@ -147,7 +150,7 @@
 
 ;; lsp (and it's glory suite)
 
-(setq lsp-keymap-prefix "C-c l")
+(setq lsp-keymap-prefix (kbd "C-c l"))
 
 (use-package lsp-mode
   :hook
@@ -175,6 +178,7 @@
 (use-package flycheck
   :hook
   (js-mode . flycheck-mode)
+  (bash-mode . flycheck-mode)
   :custom
   (flycheck-check-syntax-automatically '(save mode-enabled))
   (flycheck-disabled-checkers '(emacs-lisp-checkdoc))
@@ -211,9 +215,8 @@
   :hook
   (after-init . org-super-agenda-mode)
   :config
-  (setq org-super-agenda-groups '((:name "Today"
-				:time-grid t
-				:scheduled today)
+  (setq org-super-agenda-groups '((:name "Next"
+				:todo "NEXT")
 			   (:name "Due today"
 				:deadline today)
 			   (:name "Important"
@@ -224,3 +227,41 @@
 				:deadline future)
 			   (:name "Waiting"
 			       :todo "WAIT"))))
+
+;; dockerfile mode
+
+(use-package dockerfile-mode
+  :config
+  (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
+
+;; terraform mode
+
+(use-package terraform-mode
+  :config
+  (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode))
+
+;; haskell-mode
+
+(use-package haskell-mode)
+
+;; ace-window
+
+(global-set-key (kbd "M-o") 'ace-window)
+(use-package ace-window)
+
+;; traad-rename (python)
+
+(use-package traad)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(safe-local-variable-values (quote ((dockerfile-image-name . "agent")))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

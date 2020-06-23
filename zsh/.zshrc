@@ -136,14 +136,15 @@ fi
 export PATH=$PATH:~/bin
 
 # WSL-specific configs
-if uname -r | grep -q 'Microsoft' ; then
+if uname -r | grep -qi 'Microsoft' ; then
 	# For X-Server
-	export DISPLAY=:0
+  export DISPLAY=$(cat /etc/resolv.conf | grep nameserver | awk '{print $2}'):0
 	export LIBGL_ALWAYS_INDIRECT=1
 
   export DOCKER_HOST=tcp://localhost:2375
 
 	alias w-emacs="nohup emacs >& /dev/null &"
+  export BROWSER="wslview"
   
   export PATH="$PATH:/mnt/c/Windows/System32"
 

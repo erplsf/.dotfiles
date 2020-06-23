@@ -34,7 +34,8 @@
   (blink-cursor-mode 0)                           ; Disable the cursor blinking
   (scroll-bar-mode 0)                             ; Disable the scroll bar
   (tool-bar-mode 0)                               ; Disable the tool bar
-  (tooltip-mode 0))                                ; Disable the tooltips
+  (tooltip-mode 0)
+  (add-to-list 'default-frame-alist '(fullscreen . maximized)))                                ; Disable the tooltips
 
 (fringe-mode 0)                                    ; Disable fringes
 (menu-bar-mode 0)                                ; Disable the menu bar
@@ -150,39 +151,41 @@
 
 ;; lsp (and it's glory suite)
 
-(setq lsp-keymap-prefix (kbd "C-c l"))
+;; reconfigure from the scratch, need to investigate more
 
-(use-package lsp-mode
-  :hook
-  ((js-mode . lsp-deferred)
-   (python-mode . lsp-deferred)
-   (lsp-mode . lsp-enable-which-key-integration))
-  :commands lsp lsp-deferred)
+;; (setq lsp-keymap-prefix (kbd "C-c l"))
 
-(use-package lsp-ui
-  :commands lsp-ui-mode)
+;; (use-package lsp-mode
+;;   :hook
+;;   ((js-mode . lsp-deferred)
+;;    (python-mode . lsp-deferred)
+;;    (lsp-mode . lsp-enable-which-key-integration))
+;;   :commands lsp lsp-deferred)
 
-(use-package company-lsp
-  :commands company-lsp)
+;; (use-package lsp-ui
+;;   :commands lsp-ui-mode)
 
-(use-package lsp-ivy
-  :commands lsp-ivy-workspace-symbol)
+;; (use-package company-lsp
+;;   :commands company-lsp)
+
+;; (use-package lsp-ivy
+;;   :commands lsp-ivy-workspace-symbol)
 
 ;; typescript/javascript (needs `npm install -g typescript-language-server`)
 ;; a hack too
 
-(add-to-list 'exec-path (expand-file-name "~/.nodenv/shims"))
+;; (add-to-list 'exec-path (expand-file-name "~/.nodenv/shims"))
 
 ;; flycheck
 
-(use-package flycheck
-  :hook
-  (js-mode . flycheck-mode)
-  (bash-mode . flycheck-mode)
-  :custom
-  (flycheck-check-syntax-automatically '(save mode-enabled))
-  (flycheck-disabled-checkers '(emacs-lisp-checkdoc))
-  (flycheck-display-errors-delay .3))
+;; (use-package flycheck
+;;   :hook
+;;   (js-mode . flycheck-mode)
+;;   (bash-mode . flycheck-mode)
+;;   :custom
+;;   (flycheck-check-syntax-automatically '(save mode-enabled))
+;;   (flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+;;   (flycheck-display-errors-delay .3))
 
 ;; manage versions better
 
@@ -197,52 +200,52 @@
 
 ;; hledger
 
-(use-package hledger-mode
-  :mode ("\\.journal\\'"))
+;; (use-package hledger-mode
+;;   :mode ("\\.journal\\'"))
 
 ;; windmove
 
-(use-package windmove
-  :bind
-  (("C-M-<left>". windmove-left)
-   ("C-M-<right>". windmove-right)
-   ("C-M-<up>". windmove-up)
-   ("C-M-<down>". windmove-down)))
+;; (use-package windmove
+;;   :bind
+;;   (("C-M-<left>". windmove-left)
+;;    ("C-M-<right>". windmove-right)
+;;    ("C-M-<up>". windmove-up)
+;;    ("C-M-<down>". windmove-down)))
 
 ;; org-super-agenda
 
-(use-package org-super-agenda
-  :hook
-  (after-init . org-super-agenda-mode)
-  :config
-  (setq org-super-agenda-groups '((:name "Next"
-				:todo "NEXT")
-			   (:name "Due today"
-				:deadline today)
-			   (:name "Important"
-				:priority "A")
-			   (:name "Overdue"
-				:deadline past)
-			   (:name "Due soon"
-				:deadline future)
-			   (:name "Waiting"
-			       :todo "WAIT"))))
+;; (use-package org-super-agenda
+;;   :hook
+;;   (after-init . org-super-agenda-mode)
+;;   :config
+;;   (setq org-super-agenda-groups '((:name "Next"
+;; 				:todo "NEXT")
+;; 			   (:name "Due today"
+;; 				:deadline today)
+;; 			   (:name "Important"
+;; 				:priority "A")
+;; 			   (:name "Overdue"
+;; 				:deadline past)
+;; 			   (:name "Due soon"
+;; 				:deadline future)
+;; 			   (:name "Waiting"
+;; 			       :todo "WAIT"))))
 
 ;; dockerfile mode
 
-(use-package dockerfile-mode
-  :config
-  (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
+;; (use-package dockerfile-mode
+;;   :config
+;;   (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
 
 ;; terraform mode
 
-(use-package terraform-mode
-  :config
-  (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode))
+;; (use-package terraform-mode
+;;   :config
+;;   (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode))
 
 ;; haskell-mode
 
-(use-package haskell-mode)
+;; (use-package haskell-mode)
 
 ;; ace-window
 
@@ -251,17 +254,6 @@
 
 ;; traad-rename (python)
 
-(use-package traad)
+;; (use-package traad)
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(safe-local-variable-values (quote ((dockerfile-image-name . "agent")))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(use-package markdown-mode)

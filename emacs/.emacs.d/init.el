@@ -34,11 +34,13 @@
   (blink-cursor-mode 0)                           ; Disable the cursor blinking
   (scroll-bar-mode 0)                             ; Disable the scroll bar
   (tool-bar-mode 0)                               ; Disable the tool bar
-  (tooltip-mode 0)
-  (add-to-list 'default-frame-alist '(fullscreen . maximized)))                                ; Disable the tooltips
+  (tooltip-mode 0)                                ; Disable the tooltips
+  (add-to-list 'default-frame-alist '(fullscreen . maximized)))
 
-(fringe-mode 0)                                    ; Disable fringes
+(fringe-mode 0)                                  ; Disable fringes
 (menu-bar-mode 0)                                ; Disable the menu bar
+(setq inhibit-splash-screen t)                   ; Inhibit the starting splash screen
+
 (setq-default indent-tabs-mode nil) ; tabs are evil
 (setq-default tab-width 2)
 (setq-default js-indent-level 2)
@@ -67,6 +69,7 @@
   ("C-c a" . org-agenda)
   :config
   (require 'ox-md)
+  (require 'org-refile)                 ; requried to fix 'org-get-outline-path': https://github.com/hlissner/doom-emacs/issues/2757
   :custom
   (org-directory "~/org")
   (org-default-notes-file "~/org/inbox.org")
@@ -90,8 +93,11 @@
   :hook
   (after-init . global-company-mode)
   :custom
-  company-dabbrev-downcase 0
-  company-idle-delay 0)
+  (company-minimum-prefix-length 1)
+  (company-require-match 'never)  
+  (company-idle-delay 0.1)
+  :config
+  (global-company-mode 1))
 
 ;; projectile
 
@@ -149,43 +155,43 @@
   :hook
   (after-init . ivy-mode))
 
+;; flycheck
+
+(use-package flycheck
+  :hook
+  (ruby-mode . flycheck-mode)
+  :custom
+  (flycheck-check-syntax-automatically '(save mode-enabled))
+  (flycheck-disabled-checkers '(emacs-lisp-checkdoc))
+  (flycheck-display-errors-delay .3)
+  :init
+  (global-flycheck-mode))
+
 ;; lsp (and it's glory suite)
 
 ;; reconfigure from the scratch, need to investigate more
 
-;; (setq lsp-keymap-prefix (kbd "C-c l"))
+(setq lsp-keymap-prefix (kbd "C-c l")
+      lsp-prefer-capf t
+      lsp-idle-delay 0.500
+      lsp-solargraph-use-bundler t)
 
-;; (use-package lsp-mode
-;;   :hook
-;;   ((js-mode . lsp-deferred)
-;;    (python-mode . lsp-deferred)
-;;    (lsp-mode . lsp-enable-which-key-integration))
-;;   :commands lsp lsp-deferred)
+(use-package lsp-mode
+  :hook
+  ((ruby-mode . lsp-deferred)
+   (lsp-mode . lsp-enable-which-key-integration))
+  :commands (lsp lsp-deferred))
 
-;; (use-package lsp-ui
-;;   :commands lsp-ui-mode)
+(use-package lsp-ui
+  :commands lsp-ui-mode)
 
-;; (use-package company-lsp
-;;   :commands company-lsp)
-
-;; (use-package lsp-ivy
-;;   :commands lsp-ivy-workspace-symbol)
+(use-package lsp-ivy
+  :commands lsp-ivy-workspace-symbol)
 
 ;; typescript/javascript (needs `npm install -g typescript-language-server`)
 ;; a hack too
 
 ;; (add-to-list 'exec-path (expand-file-name "~/.nodenv/shims"))
-
-;; flycheck
-
-;; (use-package flycheck
-;;   :hook
-;;   (js-mode . flycheck-mode)
-;;   (bash-mode . flycheck-mode)
-;;   :custom
-;;   (flycheck-check-syntax-automatically '(save mode-enabled))
-;;   (flycheck-disabled-checkers '(emacs-lisp-checkdoc))
-;;   (flycheck-display-errors-delay .3))
 
 ;; manage versions better
 
@@ -256,4 +262,20 @@
 
 ;; (use-package traad)
 
-(use-package markdown-mode)
+;; (use-package markdown-mode)
+
+;; update packages automagically
+
+(use-package auto-package-update
+  :config
+  (setq auto-package-update-delete-old-versions t)
+  (setq auto-package-update-hide-results t)
+  (auto-package-update-maybe))
+
+;; (use-package rbenv
+;;  :hook
+;;  (after-init . global-rbenv-mode))
+
+;; ag frontend
+
+(use-package ag)

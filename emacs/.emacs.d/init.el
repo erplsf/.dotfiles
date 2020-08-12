@@ -18,11 +18,21 @@
 (straight-use-package 'use-package)
 (setq straight-use-package-by-default t)
 
+(eval-when-compile
+  (require 'use-package))
+
 ;; set up theme
 
 (use-package color-theme-sanityinc-tomorrow
   :config
-  (load-theme 'sanityinc-tomorrow-night t))
+  (load-theme 'sanityinc-tomorrow-night t)
+  (let ((line (face-attribute 'mode-line :underline)))
+    (set-face-attribute 'mode-line          nil :overline   line)
+    (set-face-attribute 'mode-line-inactive nil :overline   line)
+    (set-face-attribute 'mode-line-inactive nil :underline  line)
+    (set-face-attribute 'mode-line          nil :box        nil)
+    (set-face-attribute 'mode-line-inactive nil :box        nil)
+    (set-face-attribute 'mode-line-inactive nil :background "#f9f2d9")))
 
 ;; set up font
 
@@ -35,12 +45,15 @@
   (scroll-bar-mode 0)                             ; Disable the scroll bar
   (tool-bar-mode 0)                               ; Disable the tool bar
   (tooltip-mode 0)                                ; Disable the tooltips
-  (add-to-list 'default-frame-alist '(fullscreen . maximized)))
+  (add-to-list 'default-frame-alist '(fullscreen . maximized))
+  (set-frame-parameter (selected-frame) 'alpha 90) ; enable true transparency when compositor (Picom) is running
+  (add-to-list 'default-frame-alist '(alpha . 90))) ; same
 
 (fringe-mode 0)                                  ; Disable fringes
 (menu-bar-mode 0)                                ; Disable the menu bar
 (setq inhibit-splash-screen t)                   ; Inhibit the starting splash screen
 
+(setq-default fill-column 120)
 (setq-default indent-tabs-mode nil) ; tabs are evil
 (setq-default tab-width 2)
 (setq-default js-indent-level 2)
@@ -62,25 +75,43 @@
 ; set up other packages
 ;; org
 
+(defun am/start-pause-afk-clock ()
+  "TODO: add documentation / intent ;)
+   TODO: change to use ids?"
+  (interactive)
+  (org-with-point-at (org-find-exact-heading-in-directory "Non-working time" (car org-agenda-files))
+    (if (org-clock-is-active)
+      (org-clock-out)
+      (org-clock-in))))
+
 (use-package org
   :bind
   ("C-c c" . org-capture)
   ("C-c b" . org-switchb)
   ("C-c a" . org-agenda)
+  ("C-c k t" . am/start-pause-afk-clock)
   :config
   (require 'ox-md)
+  (require 'org-habit)
   (require 'org-refile)                 ; requried to fix 'org-get-outline-path': https://github.com/hlissner/doom-emacs/issues/2757
+  (add-to-list 'org-modules 'org-habit t)
+  (org-clock-persistence-insinuate)
   :custom
   (org-directory "~/org")
   (org-default-notes-file "~/org/inbox.org")
   (org-agenda-files '("~/org/gtd"))
   (org-archive-location "~/org/gtd/archive/archive.org::* From %s")
-; (org-refile-use-outline-path 'file)
-  (org-refile-targets '((org-agenda-files . (:maxlevel . 3))))
-  (org-capture-templates
-      (quote (("t" "todo" entry (file "~/org/gtd/refile.org")
-               "* TODO %?"))))
-  (org-todo-keywords '((sequence "TODO(t)" "NEXT(n)" "|" "DONE(d)"))))
+  (org-refile-use-outline-path 'file)
+  (org-outline-path-complete-in-steps nil)
+  (org-refile-targets '((org-agenda-files . (:maxlevel . 1))))
+  (org-capture-templates '(("t" "todo" entry (file "~/org/gtd/refile.org") "* TODO %?")))
+  (org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d)")))
+  (org-return-follows-link t)
+  ;; agenda configs
+  (org-deadline-warning-days 7)
+  (org-agenda-skip-scheduled-if-done t)
+  (org-agenda-start-on-weekday nil)
+  (org-clock-persist 'history))
 
 ;; rainbow-delimiters
 (use-package rainbow-delimiters
@@ -104,6 +135,7 @@
 (use-package projectile
   :hook
   (after-init . projectile-global-mode)
+  (projectile-after-switch-project-hook . projectile-invalidate-cache)
   :bind
   ("C-c p" . projectile-command-map)
   :init
@@ -155,6 +187,19 @@
   :hook
   (after-init . ivy-mode))
 
+;; counsel
+
+(use-package counsel
+  :after ivy
+  :config (counsel-mode))
+
+;; swiper
+
+(use-package swiper
+  :after ivy
+  :bind (("C-s" . swiper)
+         ("C-r" . swiper)))
+
 ;; flycheck
 
 (use-package flycheck
@@ -174,13 +219,18 @@
 (setq lsp-keymap-prefix (kbd "C-c l")
       lsp-prefer-capf t
       lsp-idle-delay 0.500
-      lsp-solargraph-use-bundler t)
+      lsp-solargraph-use-bundler t
+      lsp-haskell-process-path-hie "hie-wrapper")
 
 (use-package lsp-mode
   :hook
   ((ruby-mode . lsp-deferred)
+   (haskell-mode . lsp-deferred)
    (lsp-mode . lsp-enable-which-key-integration))
   :commands (lsp lsp-deferred))
+
+(use-package lsp-haskell
+  :after lsp-mode)
 
 (use-package lsp-ui
   :commands lsp-ui-mode)
@@ -206,8 +256,15 @@
 
 ;; hledger
 
-;; (use-package hledger-mode
-;;   :mode ("\\.journal\\'"))
+(use-package ledger-mode
+  :mode "\\.journal\\'"
+  :config
+  (setq ledger-mode-should-check-version nil
+        ledger-report-links-in-register nil
+        ledger-binary-path "hledger")
+  :custom
+  (ledger-post-account-alignment-column 2 "Obey the common standard")
+  (ledger-post-amount-alignment-column 0 "Don't align amounts for now"))
 
 ;; windmove
 
@@ -220,24 +277,15 @@
 
 ;; org-super-agenda
 
-;; (use-package org-super-agenda
-;;   :hook
-;;   (after-init . org-super-agenda-mode)
-;;   :config
-;;   (setq org-super-agenda-groups '((:name "Next"
-;; 				:todo "NEXT")
-;; 			   (:name "Due today"
-;; 				:deadline today)
-;; 			   (:name "Important"
-;; 				:priority "A")
-;; 			   (:name "Overdue"
-;; 				:deadline past)
-;; 			   (:name "Due soon"
-;; 				:deadline future)
-;; 			   (:name "Waiting"
-;; 			       :todo "WAIT"))))
+(use-package org-super-agenda
+  :hook
+  (after-init . org-super-agenda-mode)
+  :config
+  (setq org-super-agenda-groups
+        '((:name "Next" :tag "next" :todo "NEXT")
+          (:habit t))))
 
-;; dockerfile mode
+;; Dockerfile mode
 
 ;; (use-package dockerfile-mode
 ;;   :config
@@ -251,7 +299,13 @@
 
 ;; haskell-mode
 
-;; (use-package haskell-mode)
+(use-package haskell-mode
+  :init
+  (setq haskell-process-type 'stack-ghci)
+  :config
+  (require 'haskell-interactive-mode)
+  (require 'haskell-process)
+  (add-hook 'haskell-mode-hook 'interactive-haskell-mode))
 
 ;; ace-window
 
@@ -262,7 +316,7 @@
 
 ;; (use-package traad)
 
-;; (use-package markdown-mode)
+(use-package markdown-mode)
 
 ;; update packages automagically
 
@@ -279,3 +333,74 @@
 ;; ag frontend
 
 (use-package ag)
+
+;; counsel-projectile
+
+(use-package counsel-projectile
+  :config
+  (counsel-projectile-mode))
+
+;; hydra
+
+(use-package hydra)
+
+;; smerge hydra
+
+(use-package smerge-mode
+  :after hydra
+  :config
+  (defhydra unpackaged/smerge-hydra
+    (:color pink :hint nil :post (smerge-auto-leave))
+    "
+^Move^       ^Keep^               ^Diff^                 ^Other^
+^^-----------^^-------------------^^---------------------^^-------
+_n_ext       _b_ase               _<_: upper/base        _C_ombine
+_p_rev       _u_pper              _=_: upper/lower       _r_esolve
+^^           _l_ower              _>_: base/lower        _k_ill current
+^^           _a_ll                _R_efine
+^^           _RET_: current       _E_diff
+"
+    ("n" smerge-next)
+    ("p" smerge-prev)
+    ("b" smerge-keep-base)
+    ("u" smerge-keep-upper)
+    ("l" smerge-keep-lower)
+    ("a" smerge-keep-all)
+    ("RET" smerge-keep-current)
+    ("\C-m" smerge-keep-current)
+    ("<" smerge-diff-base-upper)
+    ("=" smerge-diff-upper-lower)
+    (">" smerge-diff-base-lower)
+    ("R" smerge-refine)
+    ("E" smerge-ediff)
+    ("C" smerge-combine-with-next)
+    ("r" smerge-resolve)
+    ("k" smerge-kill-current)
+    ("ZZ" (lambda ()
+            (interactive)
+            (save-buffer)
+            (bury-buffer))
+     "Save and bury buffer" :color blue)
+    ("q" nil "cancel" :color blue))
+  :hook (magit-diff-visit-file . (lambda ()
+                                   (when smerge-mode
+                                     (unpackaged/smerge-hydra/body)))))
+
+
+;; minions
+
+(use-package minions
+  :config (minions-mode 1))
+
+;; moody
+
+(use-package moody
+  :config
+  (setq x-underline-at-descent-line t)
+  (moody-replace-mode-line-buffer-identification)
+  (moody-replace-vc-mode)
+  :custom
+  (moody-mode-line-height 35))
+
+;; pdf-tools
+(use-package pdf-tools)

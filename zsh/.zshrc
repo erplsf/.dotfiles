@@ -85,6 +85,15 @@ if command -v fasd >/dev/null 2>&1; then
 	eval "$(fasd --init auto)"
 fi
 
+if [[ -f $HOME/.nodenv/bin/nodenv ]]; then
+  export PATH="$HOME/.nodenv/bin:$PATH"
+  eval "$(nodenv init -)"
+fi
+
+if [[ -d $HOME/.krew/bin/ ]]; then
+  export PATH="${PATH}:${HOME}/.krew/bin"
+fi
+
 # history stuff
 HISTFILE=~/.histfile
 HISTSIZE=1000

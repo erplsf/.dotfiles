@@ -111,7 +111,9 @@
   (org-deadline-warning-days 7)
   (org-agenda-skip-scheduled-if-done t)
   (org-agenda-start-on-weekday nil)
-  (org-clock-persist 'history))
+  (org-clock-persist 'history)
+  (org-habit-show-habits-only-for-today nil)
+  (org-agenda-show-future-repeats nil))
 
 ;; rainbow-delimiters
 (use-package rainbow-delimiters
@@ -308,13 +310,13 @@ With a prefix argument, remove the effective date."
 
 ;; org-super-agenda
 
-(use-package org-super-agenda
-  :hook
-  (after-init . org-super-agenda-mode)
-  :config
-  (setq org-super-agenda-groups
-        '((:name "Next" :tag "next" :todo "NEXT")
-          (:habit t))))
+;; (use-package org-super-agenda
+;;   :hook
+;;   (after-init . org-super-agenda-mode)
+;;   :config
+;;   (setq org-super-agenda-groups
+;;         '((:name "Next" :tag "next" :todo "NEXT")
+;;           (:habit t))))
 
 ;; Dockerfile mode
 

@@ -49,6 +49,19 @@ if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
 	add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
 fi
 
+### ctrl+arrows
+bindkey "\e[1;5C" forward-word
+bindkey "\e[1;5D" backward-word
+
+### ctrl+delete
+bindkey "\e[3;5~" kill-word
+
+### ctrl+backspace
+bindkey '^H' backward-kill-word
+
+### ctrl+shift+delete
+bindkey "\e[3;6~" kill-line
+
 zplug "dracula/zsh", as:theme
 
 # Let zplug manage itself. To update run `zplug update`

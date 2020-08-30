@@ -185,7 +185,8 @@
 
 (use-package ivy
   :hook
-  (after-init . ivy-mode))
+  (after-init . ivy-mode)
+  :bind (("C-c C-r" . ivy-resume)))
 
 ;; counsel
 
@@ -256,8 +257,38 @@
 
 ;; hledger
 
+(defun am/ledger-insert-effective-date (&optional date)
+  "Insert effective date `DATE' to the transaction or posting.
+
+If `DATE' is nil, prompt the user a date.
+
+Replace the current effective date if there's one in the same
+line.
+
+With a prefix argument, remove the effective date."
+  (interactive)
+  (if (and (listp current-prefix-arg)
+           (= 4 (prefix-numeric-value current-prefix-arg)))
+      (ledger-remove-effective-date)
+    (let* ((context (car (ledger-context-at-point)))
+           (date-string (or date (ledger-read-date "Effective date: "))))
+      (save-restriction
+        (narrow-to-region (point-at-bol) (point-at-eol))
+        (cond
+         ((eq 'xact context)
+          (beginning-of-line)
+          (re-search-forward ledger-iso-date-regexp)
+          (when (= (char-after) ?=)
+            (ledger-remove-effective-date))
+          (insert "=" date-string))
+         ((eq 'acct-transaction context)
+          (end-of-line)
+          (ledger-remove-effective-date)
+          (insert "  ; cleared on date:" date-string ))))))) 
+
 (use-package ledger-mode
   :mode "\\.journal\\'"
+  :bind (:map ledger-mode-map ("C-c C-t" . am/ledger-insert-effective-date))
   :config
   (setq ledger-mode-should-check-version nil
         ledger-report-links-in-register nil

@@ -128,7 +128,7 @@
   :custom
   (company-minimum-prefix-length 1)
   (company-require-match 'never)  
-  (company-idle-delay 0.1)
+  (company-idle-delay 0.5)
   :config
   (global-company-mode 1))
 
@@ -151,9 +151,11 @@
 
 (use-package yaml-mode :mode "\\.yml\\'" "\\.yaml\\'")
 
-;; magit
+;; magit + forgeglory
 
 (use-package magit)
+(use-package forge
+  :after magit)
 
 ;; eyebrowse
 (setq eyebrowse-keymap-prefix (kbd "C-c e"))
@@ -183,6 +185,10 @@
   :hook
   (after-init . which-key-mode))
 
+;; smex
+
+(use-package smex)
+
 ;; ivy
 
 (use-package ivy
@@ -208,12 +214,35 @@
 (use-package flycheck
   :hook
   (ruby-mode . flycheck-mode)
+  (rust-mode . flycheck-mode)
   :custom
   (flycheck-check-syntax-automatically '(save mode-enabled))
   (flycheck-disabled-checkers '(emacs-lisp-checkdoc))
   (flycheck-display-errors-delay .3)
   :init
   (global-flycheck-mode))
+
+;; rust
+
+(use-package rust-mode)
+
+(use-package flycheck-rust
+  :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
+
+(use-package cargo :ensure t
+  :config
+  (progn
+  (add-hook 'rust-mode-hook 'cargo-minor-mode)
+	(add-hook 'toml-mode-hook 'cargo-minor-mode)))
+
+;; go
+
+(use-package go-mode)
+
+(defun am/go-mode-hook ()
+  (add-hook 'before-save-hook 'gofmt-before-save))
+
+(add-hook 'go-mode-hook `am/go-mode-hook)
 
 ;; lsp (and it's glory suite)
 
@@ -229,6 +258,9 @@
   :hook
   ((ruby-mode . lsp-deferred)
    (haskell-mode . lsp-deferred)
+   (rust-mode . lsp-deferred)
+   (terraform-mode . lsp-deferred)
+   (go-mode . lsp-deferred)
    (lsp-mode . lsp-enable-which-key-integration))
   :commands (lsp lsp-deferred))
 
@@ -240,6 +272,13 @@
 
 (use-package lsp-ivy
   :commands lsp-ivy-workspace-symbol)
+
+;; (lsp-register-client
+;;  (make-lsp-client :new-connection (lsp-stdio-connection '("/bin/terraform-ls" "serve"))
+;;                   :major-modes '(terraform-mode)
+;;                   :server-id 'terraform-ls))
+
+;; (add-hook 'terraform-mode-hook #'lsp-mode)
 
 ;; typescript/javascript (needs `npm install -g typescript-language-server`)
 ;; a hack too
@@ -326,9 +365,9 @@ With a prefix argument, remove the effective date."
 
 ;; terraform mode
 
-;; (use-package terraform-mode
-;;   :config
-;;   (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode))
+(use-package terraform-mode
+   :config
+   (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode))
 
 ;; haskell-mode
 
@@ -382,7 +421,7 @@ With a prefix argument, remove the effective date."
 (use-package smerge-mode
   :after hydra
   :config
-  (defhydra unpackaged/smerge-hydra
+  (defhydra am/unpackaged/smerge-hydra
     (:color pink :hint nil :post (smerge-auto-leave))
     "
 ^Move^       ^Keep^               ^Diff^                 ^Other^
@@ -417,7 +456,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
     ("q" nil "cancel" :color blue))
   :hook (magit-diff-visit-file . (lambda ()
                                    (when smerge-mode
-                                     (unpackaged/smerge-hydra/body)))))
+                                     (am/unpackaged/smerge-hydra/body)))))
 
 
 ;; minions
@@ -437,3 +476,15 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 ;; pdf-tools
 (use-package pdf-tools)
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
+
+;; dap-mode (for delve -> golang)
+(use-package dap-mode)
+(require 'dap-go)
+
+;; jsonnet-mode
+(use-package jsonnet-mode)
+
+;; json-mode
+(use-package json-mode)

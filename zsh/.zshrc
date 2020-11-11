@@ -71,13 +71,13 @@ zplug "plugins/kubectl", from:oh-my-zsh
 # load .env files from directories
 zplug "plugins/dotenv", from:oh-my-zsh
 
-
 zplug load
+
+fpath+=~/.zfunc # add completitions and stuff
 
 autoload -Uz compinit promptinit
 compinit
 promptinit
-
 
 if command -v nvim >/dev/null 2>&1; then
 	alias vim=nvim
@@ -204,3 +204,7 @@ fi
 if command -v nnn >/dev/null 2>&1; then
   export NNN_TRASH=1
 fi
+
+export PATH="$PATH:$HOME/go/bin"
+
+eval "$(starship init zsh)"

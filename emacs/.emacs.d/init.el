@@ -1,5 +1,7 @@
 ;; set up straight.el
 
+(setq straight-use-package-by-default t)
+
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -16,10 +18,13 @@
 ;; install use-package and configure it to use straight
 
 (straight-use-package 'use-package)
-(setq straight-use-package-by-default t)
 
 (eval-when-compile
   (require 'use-package))
+
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/") t)
 
 ;; set up theme
 
@@ -99,7 +104,7 @@
   :custom
   (org-directory "~/org")
   (org-default-notes-file "~/org/inbox.org")
-  (org-agenda-files '("~/org/gtd"))
+  (org-agenda-files (file-expand-wildcards "~/org/gtd/*.org"))
   (org-archive-location "~/org/gtd/archive/archive.org::* From %s")
   (org-refile-use-outline-path 'file)
   (org-outline-path-complete-in-steps nil)
@@ -113,7 +118,19 @@
   (org-agenda-start-on-weekday nil)
   (org-clock-persist 'history)
   (org-habit-show-habits-only-for-today nil)
-  (org-agenda-show-future-repeats nil))
+  (org-agenda-show-future-repeats nil)
+  (org-agenda-custom-commands
+      '(("a" "Super custom view"
+         ((agenda "" ((org-agenda-span 'week)
+                      (org-super-agenda-groups
+                       '((:name "Today"
+                                :time-grid t
+                                :date today)))))
+         (alltodo "" ((org-agenda-overriding-header "")
+                       (org-super-agenda-groups
+                        '((:name "Next"
+                                 :tag "next")
+                          (:discard (:anything t)))))))))))
 
 ;; rainbow-delimiters
 (use-package rainbow-delimiters
@@ -153,9 +170,20 @@
 
 ;; magit + forgeglory
 
-(use-package magit)
+(use-package magit
+  :init
+  (setq magit-pull-or-fetch t))
+
 (use-package forge
   :after magit)
+
+(setq auth-sources '("~/.authinfo"))
+
+(add-to-list 'forge-alist
+             '("github-leanix"
+               "api.github.com"
+               "github.com"
+               forge-github-repository))
 
 ;; eyebrowse
 (setq eyebrowse-keymap-prefix (kbd "C-c e"))
@@ -261,14 +289,22 @@
    (rust-mode . lsp-deferred)
    (terraform-mode . lsp-deferred)
    (go-mode . lsp-deferred)
+   (java-mode . lsp-deferred)
    (lsp-mode . lsp-enable-which-key-integration))
   :commands (lsp lsp-deferred))
+
+(use-package yasnippet :config (yas-global-mode))
 
 (use-package lsp-haskell
   :after lsp-mode)
 
+(use-package lsp-java
+  :after lsp-mode)
+
 (use-package lsp-ui
   :commands lsp-ui-mode)
+
+(use-package lsp-treemacs)
 
 (use-package lsp-ivy
   :commands lsp-ivy-workspace-symbol)
@@ -349,13 +385,13 @@ With a prefix argument, remove the effective date."
 
 ;; org-super-agenda
 
-;; (use-package org-super-agenda
-;;   :hook
-;;   (after-init . org-super-agenda-mode)
-;;   :config
-;;   (setq org-super-agenda-groups
-;;         '((:name "Next" :tag "next" :todo "NEXT")
-;;           (:habit t))))
+(use-package org-super-agenda
+  :hook
+  (after-init . org-super-agenda-mode)
+  :config
+  (setq org-super-agenda-groups
+        '((:name "Next" :tag "next" :todo t)
+          (:habit t))))
 
 ;; Dockerfile mode
 
@@ -488,3 +524,25 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 ;; json-mode
 (use-package json-mode)
+
+;; persistent-scratch
+(use-package persistent-scratch
+  :config
+  (persistent-scratch-setup-default))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(org-agenda-files
+   '("~/org/gtd/cdt.org" "~/org/gtd/day-trips.org" "~/org/gtd/habits.org" "~/org/gtd/next.org" "~/org/gtd/refile.org" "~/org/gtd/someday.org" "~/org/gtd/tickler.org")))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
+
+;; lua-mode
+(use-package lua-mode)

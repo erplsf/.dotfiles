@@ -208,3 +208,9 @@ fi
 export PATH="$PATH:$HOME/go/bin"
 
 eval "$(starship init zsh)"
+
+if command -v fzf >/dev/null 2>&1; then
+  hist() {
+    print -z $(cat $HISTFILE | fzf-tmux --no-sort --no-mouse --no-multi)
+  }
+fi

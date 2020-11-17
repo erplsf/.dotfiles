@@ -1,5 +1,8 @@
+;;; init.el -*- lexical-binding: t; -*-
+
 ;; set up straight.el
 
+(defvar straight-use-package-by-default)
 (setq straight-use-package-by-default t)
 
 (defvar bootstrap-version)
@@ -26,6 +29,8 @@
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 
+(require 'straight-x)
+
 ;; set up theme
 
 (use-package color-theme-sanityinc-tomorrow
@@ -41,7 +46,7 @@
 
 ;; set up font
 
-(set-face-attribute 'default nil :family "Input" :height 140)
+(set-face-attribute 'default nil :family "Input" :height 135)
 
 ;; important stuff
 
@@ -54,7 +59,7 @@
   (set-frame-parameter (selected-frame) 'alpha 90) ; enable true transparency when compositor (Picom) is running
   (add-to-list 'default-frame-alist '(alpha . 90))) ; same
 
-(fringe-mode 0)                                  ; Disable fringes
+(fringe-mode 0)                                 ; TODO: maybe reenable them sometime?
 (menu-bar-mode 0)                                ; Disable the menu bar
 (setq inhibit-splash-screen t)                   ; Inhibit the starting splash screen
 
@@ -65,7 +70,8 @@
 
 ;; increase gc/related configs for lsp
 
-(setq gc-cons-threshold 100000000)
+(setq gc-cons-threshold-original gc-cons-threshold)
+(setq gc-cons-threshold (* 1024 1024 100))
 (setq read-process-output-max (* 1024 1024))
 
 ;; edit this file
@@ -86,7 +92,7 @@
   (interactive)
   (org-with-point-at (org-find-exact-heading-in-directory "Non-working time" (car org-agenda-files))
     (if (org-clock-is-active)
-      (org-clock-out)
+        (org-clock-out)
       (org-clock-in))))
 
 (use-package org
@@ -104,7 +110,7 @@
   :custom
   (org-directory "~/org")
   (org-default-notes-file "~/org/inbox.org")
-  (org-agenda-files (file-expand-wildcards "~/org/gtd/*.org"))
+  (org-agenda-files '("~/org/gtd"))
   (org-archive-location "~/org/gtd/archive/archive.org::* From %s")
   (org-refile-use-outline-path 'file)
   (org-outline-path-complete-in-steps nil)
@@ -120,34 +126,53 @@
   (org-habit-show-habits-only-for-today nil)
   (org-agenda-show-future-repeats nil)
   (org-agenda-custom-commands
-      '(("a" "Super custom view"
-         ((agenda "" ((org-agenda-span 'week)
-                      (org-super-agenda-groups
-                       '((:name "Today"
-                                :time-grid t
-                                :date today)))))
-         (alltodo "" ((org-agenda-overriding-header "")
-                       (org-super-agenda-groups
-                        '((:name "Next"
-                                 :tag "next")
-                          (:discard (:anything t)))))))))))
+   '(("a" "Super custom view"
+      ((agenda "" ((org-agenda-span 'week)
+                   (org-super-agenda-groups
+                    '((:name "Today"
+                             :time-grid t
+                             :date today)))))
+       (alltodo "" ((org-agenda-overriding-header "")
+                    (org-super-agenda-groups
+                     '((:name "Next"
+                              :tag "next")
+                       (:discard (:anything t)))))))))))
 
 ;; rainbow-delimiters
+
 (use-package rainbow-delimiters
   :hook
   (prog-mode . rainbow-delimiters-mode))
 
-;; company
+;; company TODO: review (because I copied it over from angrybacon)
 
 (use-package company
   :hook
   (after-init . global-company-mode)
   :custom
+  (company-backends '(company-capf))
+  (company-dabbrev-downcase nil)
+  (company-dabbrev-ignore-case nil)
+  (company-dabbrev-other-buffers nil)
+  (company-global-modes '(not help-mode message-mode))
+  (company-idle-delay .0)
   (company-minimum-prefix-length 1)
-  (company-require-match 'never)  
-  (company-idle-delay 0.5)
+  (company-require-match nil)
+  (company-selection-wrap-around t)
+  (company-tooltip-align-annotations t)
+  (company-tooltip-flip-when-above t)
+  (company-tooltip-offset-display nil)
+  (company-tooltip-width-grow-only t)
   :config
-  (global-company-mode 1))
+  (company-tng-mode))
+
+(use-package company-box
+  :hook
+  (company-mode . company-box-mode)
+  :custom
+  (company-box-max-candidates 50)
+  (company-box-scrollbar nil)
+  (company-box-show-single-candidate 'always))
 
 ;; projectile
 
@@ -159,16 +184,17 @@
   ("C-c p" . projectile-command-map)
   :init
   (setq-default
-     projectile-cache-file (expand-file-name ".projectile-cache" user-emacs-directory)
-     projectile-known-projects-file (expand-file-name ".projectile-bookmarks" user-emacs-directory))
+   projectile-cache-file (expand-file-name ".projectile-cache" user-emacs-directory)
+   projectile-known-projects-file (expand-file-name ".projectile-bookmarks" user-emacs-directory))
   :custom
-  (projectile-enable-caching t))
+  (projectile-enable-caching t)
+  (projectile-completion-system 'default))
 
 ;; yaml
 
 (use-package yaml-mode :mode "\\.yml\\'" "\\.yaml\\'")
 
-;; magit + forgeglory
+;; magit + forge glory
 
 (use-package magit
   :init
@@ -204,6 +230,9 @@
 ;; aggressive-indent
 
 (use-package aggressive-indent
+  :config
+  (global-aggressive-indent-mode 1)
+  (add-to-list 'aggressive-indent-excluded-modes 'java-mode)
   :custom
   (aggressive-indent-comments-too t))
 
@@ -217,25 +246,20 @@
 
 (use-package smex)
 
-;; ivy
+;; selectrum and friends
 
-(use-package ivy
-  :hook
-  (after-init . ivy-mode)
-  :bind (("C-c C-r" . ivy-resume)))
+(use-package selectrum
+  :config (selectrum-mode +1))
 
-;; counsel
-
-(use-package counsel
-  :after ivy
-  :config (counsel-mode))
-
-;; swiper
-
-(use-package swiper
-  :after ivy
-  :bind (("C-s" . swiper)
-         ("C-r" . swiper)))
+(use-package selectrum-prescient
+  :after selectrum
+  :config
+  (selectrum-prescient-mode +1)
+  (prescient-persist-mode +1))
+  
+(use-package ctrlf
+  :config
+  (ctrlf-mode +1))
 
 ;; flycheck
 
@@ -257,11 +281,11 @@
 (use-package flycheck-rust
   :config (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
-(use-package cargo :ensure t
+(use-package cargo
   :config
   (progn
-  (add-hook 'rust-mode-hook 'cargo-minor-mode)
-	(add-hook 'toml-mode-hook 'cargo-minor-mode)))
+    (add-hook 'rust-mode-hook 'cargo-minor-mode)
+	  (add-hook 'toml-mode-hook 'cargo-minor-mode)))
 
 ;; go
 
@@ -306,9 +330,6 @@
 
 (use-package lsp-treemacs)
 
-(use-package lsp-ivy
-  :commands lsp-ivy-workspace-symbol)
-
 ;; (lsp-register-client
 ;;  (make-lsp-client :new-connection (lsp-stdio-connection '("/bin/terraform-ls" "serve"))
 ;;                   :major-modes '(terraform-mode)
@@ -324,13 +345,13 @@
 ;; manage versions better
 
 (setq
-  backup-by-copying t
-  backup-directory-alist `(("." . ,(expand-file-name "backups/" user-emacs-directory)))
-  auto-save-file-name-transforms `((".*" "~/.emacs.d/saves" t))
-  delete-old-versions t
-  version-control t
-  kept-new-versions 10
-  kept-old-versions 5)
+ backup-by-copying t
+ backup-directory-alist `(("." . ,(expand-file-name "backups/" user-emacs-directory)))
+ auto-save-file-name-transforms `((".*" "~/.emacs.d/saves" t))
+ delete-old-versions t
+ version-control t
+ kept-new-versions 10
+ kept-old-versions 5)
 
 ;; hledger
 
@@ -442,12 +463,6 @@ With a prefix argument, remove the effective date."
 
 (use-package ag)
 
-;; counsel-projectile
-
-(use-package counsel-projectile
-  :config
-  (counsel-projectile-mode))
-
 ;; hydra
 
 (use-package hydra)
@@ -530,19 +545,12 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :config
   (persistent-scratch-setup-default))
 
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(org-agenda-files
-   '("~/org/gtd/cdt.org" "~/org/gtd/day-trips.org" "~/org/gtd/habits.org" "~/org/gtd/next.org" "~/org/gtd/refile.org" "~/org/gtd/someday.org" "~/org/gtd/tickler.org")))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
 ;; lua-mode
+
 (use-package lua-mode)
+
+;; diff-hl
+
+(use-package diff-hl
+  :config
+  (global-diff-hl-mode))

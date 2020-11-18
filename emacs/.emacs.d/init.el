@@ -215,6 +215,7 @@
 (setq eyebrowse-keymap-prefix (kbd "C-c e"))
 
 (use-package eyebrowse
+  :disabled
   :hook
   (after-init . eyebrowse-mode)
   :custom
@@ -223,6 +224,7 @@
 ;; desktop
 
 (use-package desktop
+  :disabled
   :hook
   (after-init . desktop-read)
   (after-init . desktop-save-mode))
@@ -554,3 +556,24 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 (use-package diff-hl
   :config
   (global-diff-hl-mode))
+
+;; undo-tree
+
+(use-package undo-tree
+  :config
+  (global-undo-tree-mode))
+
+;; perspective
+
+(use-package perspective
+  :bind-keymap ("C-x x" . perspective-map)
+  :bind (("C-x b" . persp-switch-to-buffer*)
+         ("C-x k" . persp-kill-buffer*))
+  :init (setq-default persp-initial-frame-name "personal")
+  :custom (persp-state-default-file (expand-file-name ".perspective-state" user-emacs-directory))
+  :hook
+  (kill-emacs . persp-state-save)
+  (after-init . (lambda ()
+                  (persp-state-load persp-state-default-file)))
+  :config
+  (persp-mode))

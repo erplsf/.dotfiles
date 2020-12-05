@@ -2,9 +2,6 @@
 
 ;; set up straight.el
 
-(defvar straight-use-package-by-default)
-(setq straight-use-package-by-default t)
-
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -29,7 +26,13 @@
 (add-to-list 'package-archives
              '("melpa" . "https://melpa.org/packages/") t)
 
-(require 'straight-x)
+;; some community features (cleanup and stuff
+
+;; (require 'straight-x)
+
+;; make use-package always use straight
+
+(setq straight-use-package-by-default t)
 
 ;; set up theme
 
@@ -64,7 +67,7 @@
 (setq inhibit-splash-screen t)                   ; Inhibit the starting splash screen
 
 (setq-default fill-column 120)
-(setq-default indent-tabs-mode nil) ; tabs are evil
+(setq-default indent-tabs-mode nil) ; tabs are evil, use spaces
 (setq-default tab-width 2)
 (setq-default js-indent-level 2)
 
@@ -78,12 +81,12 @@
 
 (defun find-config ()
   "Edit config.org"
-  (interactive)
-  (find-file "~/.emacs.d/init.el"))
+  (interactive)  
+  (find-file (expand-file-name "init.el" user-emacs-directory)))
 
 (global-set-key (kbd "C-c I") 'find-config)
 
-; set up other packages
+;; set up other packages
 ;; org
 
 (defun am/start-pause-afk-clock ()
@@ -127,7 +130,7 @@
   (org-agenda-show-future-repeats nil)
   (org-agenda-custom-commands
    '(("a" "Super custom view"
-      ((agenda "" ((org-agenda-span 'week)
+      ((agenda "" ((org-agenda-span 'day)
                    (org-super-agenda-groups
                     '((:name "Today"
                              :time-grid t
@@ -138,13 +141,19 @@
                               :tag "next")
                        (:discard (:anything t)))))))))))
 
+;; advanced org
+
+(use-package org-edna
+  :config
+  (org-edna-mode))
+
 ;; rainbow-delimiters
 
 (use-package rainbow-delimiters
   :hook
   (prog-mode . rainbow-delimiters-mode))
 
-;; company TODO: review (because I copied it over from angrybacon)
+;; company TODO: review (because I just copied it over from angrybacon)
 
 (use-package company
   :hook
@@ -303,8 +312,8 @@
 ;; reconfigure from the scratch, need to investigate more
 
 (setq lsp-keymap-prefix (kbd "C-c l")
-      lsp-prefer-capf t
-      lsp-idle-delay 0.500
+      lsp-completion-provider :capf
+      lsp-idle-delay 1
       lsp-solargraph-use-bundler t
       lsp-haskell-process-path-hie "hie-wrapper")
 
@@ -317,7 +326,10 @@
    (go-mode . lsp-deferred)
    (java-mode . lsp-deferred)
    (lsp-mode . lsp-enable-which-key-integration))
-  :commands (lsp lsp-deferred))
+  :commands (lsp lsp-deferred)
+  ;; :custom
+  ;; lsp-rust-build-on-save t
+  )
 
 (use-package yasnippet :config (yas-global-mode))
 
@@ -328,7 +340,8 @@
   :after lsp-mode)
 
 (use-package lsp-ui
-  :commands lsp-ui-mode)
+  :custom
+  lsp-ui-doc-position 'at-point)
 
 (use-package lsp-treemacs)
 
@@ -577,3 +590,20 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
                   (persp-state-load persp-state-default-file)))
   :config
   (persp-mode))
+
+
+;; system-packages
+
+(use-package system-packages
+  :custom
+  system-packages-package-manager 'yay)
+
+(use-package use-package-ensure-system-package
+  :ensure t)
+
+;; magit-todos
+
+(use-package magit-todos
+  :config
+  (magit-todos-mode)
+  :ensure-system-package rg)

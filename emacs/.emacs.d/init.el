@@ -607,3 +607,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   :config
   (magit-todos-mode)
   :ensure-system-package rg)
+
+;; PKGBUILD
+
+(use-package pkgbuild-mode)

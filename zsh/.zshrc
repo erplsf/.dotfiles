@@ -165,7 +165,9 @@ if uname -r | grep -qi 'Microsoft' ; then
 
   export DOCKER_HOST=tcp://localhost:2375
 
-	alias w-emacs="nohup emacs >& /dev/null &"
+  function w-emacs() {
+    nohup emacs $@ >& /dev/null &
+  }
   export BROWSER="wslview"
   
   export PATH="$PATH:/mnt/c/Windows/System32"

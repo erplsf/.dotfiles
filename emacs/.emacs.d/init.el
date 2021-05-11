@@ -49,7 +49,15 @@
 
 ;; set up font
 
-(set-face-attribute 'default nil :family "Input" :height 135)
+(set-face-attribute 'default nil
+                    :family "Input Mono"
+                    :weight 'light
+                    :height 140)
+;; :height 200)
+
+;; set default for symbols
+
+(set-fontset-font "fontset-default" nil "MesloLGS NF")
 
 ;; important stuff
 
@@ -58,11 +66,11 @@
   (scroll-bar-mode 0)                             ; Disable the scroll bar
   (tool-bar-mode 0)                               ; Disable the tool bar
   (tooltip-mode 0)                                ; Disable the tooltips
-  (add-to-list 'default-frame-alist '(fullscreen . maximized))
+  (add-to-list 'default-frame-alist '(fullscreen . maximized)) ; Start maximized, whatever that could mean
   (set-frame-parameter (selected-frame) 'alpha 90) ; enable true transparency when compositor (Picom) is running
   (add-to-list 'default-frame-alist '(alpha . 90))) ; same
 
-(fringe-mode 0)                                 ; TODO: maybe reenable them sometime?
+(fringe-mode 1)                                 ; TODO: maybe reenable them sometime?
 (menu-bar-mode 0)                                ; Disable the menu bar
 (setq inhibit-splash-screen t)                   ; Inhibit the starting splash screen
 
@@ -81,7 +89,7 @@
 
 (defun find-config ()
   "Edit config.org"
-  (interactive)  
+  (interactive)
   (find-file (expand-file-name "init.el" user-emacs-directory)))
 
 (global-set-key (kbd "C-c I") 'find-config)
@@ -89,14 +97,21 @@
 ;; set up other packages
 ;; org
 
+;; don't show async-shell-command on execution
+(add-to-list 'display-buffer-alist '("*Async Shell Command*" display-buffer-no-window (nil)))
+
 (defun am/start-pause-afk-clock ()
   "TODO: add documentation / intent ;)
    TODO: change to use ids?"
   (interactive)
   (org-with-point-at (org-find-exact-heading-in-directory "Non-working time" (car org-agenda-files))
     (if (org-clock-is-active)
-        (org-clock-out)
-      (org-clock-in))))
+        (prog1
+          (org-clock-out)
+          (async-shell-command "polybar-msg hook org 1"))
+      (prog1
+        (org-clock-in)
+        (async-shell-command "polybar-msg hook org 2")))))
 
 (use-package org
   :bind
@@ -111,6 +126,10 @@
   (add-to-list 'org-modules 'org-habit t)
   (org-clock-persistence-insinuate)
   :custom
+  (org-babel-load-languages '((python . t)
+                              (J . t)))
+  (org-babel-J-command "j9 -c")
+  (org-confirm-babel-evaluate nil) ; TODO: unsafe!
   (org-directory "~/org")
   (org-default-notes-file "~/org/inbox.org")
   (org-agenda-files '("~/org/gtd"))
@@ -130,15 +149,16 @@
   (org-agenda-show-future-repeats nil)
   (org-agenda-custom-commands
    '(("a" "Super custom view"
-      ((agenda "" ((org-agenda-span 'day)
+      ((agenda "" ((org-agenda-span 'week)
                    (org-super-agenda-groups
-                    '((:name "Today"
-                             :time-grid t
-                             :date today)))))
+                    '((:time-grid t)))))
        (alltodo "" ((org-agenda-overriding-header "")
+                    (org-agenda-block-separator "-")
                     (org-super-agenda-groups
                      '((:name "Next"
                               :tag "next")
+                       ;; (:name "Active films"
+                       ;;        :todo ("ACTIVE" "TOWATCH"))
                        (:discard (:anything t)))))))))))
 
 ;; advanced org
@@ -199,6 +219,18 @@
   (projectile-enable-caching t)
   (projectile-completion-system 'default))
 
+(use-package projectile-ripgrep)
+
+(use-package persp-projectile
+  :bind
+  ("C-c p p" . projectile-persp-switch-project))
+
+;; treemacs
+
+(use-package treemacs)
+
+(use-package treemacs-projectile)
+
 ;; yaml
 
 (use-package yaml-mode :mode "\\.yml\\'" "\\.yaml\\'")
@@ -206,6 +238,8 @@
 ;; magit + forge glory
 
 (use-package magit
+  :bind (:map magit-file-section-map
+              ("<C-return>" . magit-diff-visit-file-other-window))
   :init
   (setq magit-pull-or-fetch t))
 
@@ -214,11 +248,11 @@
 
 (setq auth-sources '("~/.authinfo"))
 
-(add-to-list 'forge-alist
-             '("github-leanix"
-               "api.github.com"
-               "github.com"
-               forge-github-repository))
+;; (add-to-list 'forge-alist ;; broke
+;;              '("github-leanix"
+;;                "api.github.com"
+;;                "github.com"
+;;                forge-github-repository))
 
 ;; eyebrowse
 (setq eyebrowse-keymap-prefix (kbd "C-c e"))
@@ -241,11 +275,17 @@
 ;; aggressive-indent
 
 (use-package aggressive-indent
+  :hook
+  (c++-mode . aggressive-indent-mode)
   :config
-  (global-aggressive-indent-mode 1)
   (add-to-list 'aggressive-indent-excluded-modes 'java-mode)
   :custom
-  (aggressive-indent-comments-too t))
+  (aggressive-indent-comments-too t)
+  (add-to-list
+   'aggressive-indent-dont-indent-if
+   '(and (derived-mode-p 'c++-mode)
+         (null (string-match "\\([;{}]\\|\\b\\(if\\|for\\|while\\)\\b\\)"
+                             (thing-at-point 'line))))))
 
 ;; which-key
 
@@ -257,7 +297,7 @@
 
 (use-package smex)
 
-;; selectrum and friends
+;; selectrum and friends (filtering and selection and stuff)
 
 (use-package selectrum
   :config (selectrum-mode +1))
@@ -312,10 +352,16 @@
 ;; reconfigure from the scratch, need to investigate more
 
 (setq lsp-keymap-prefix (kbd "C-c l")
+      lsp-auto-guess-root t
       lsp-completion-provider :capf
       lsp-idle-delay 1
+      lsp-enable-indentation nil
+      lsp-enable-on-type-formatting nil
+      ;;      
       lsp-solargraph-use-bundler t
-      lsp-haskell-process-path-hie "hie-wrapper")
+      lsp-haskell-process-path-hie "hie-wrapper"
+      lsp-csharp-server-path "/usr/bin/omnisharp"
+      ) 
 
 (use-package lsp-mode
   :hook
@@ -325,6 +371,9 @@
    (terraform-mode . lsp-deferred)
    (go-mode . lsp-deferred)
    (java-mode . lsp-deferred)
+   (python-mode . lsp-deferred)
+   (c++-mode . lsp-deferred)
+   (csharp-mode . lsp-deferred)
    (lsp-mode . lsp-enable-which-key-integration))
   :commands (lsp lsp-deferred)
   ;; :custom
@@ -431,9 +480,9 @@ With a prefix argument, remove the effective date."
 
 ;; Dockerfile mode
 
-;; (use-package dockerfile-mode
-;;   :config
-;;   (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
+(use-package dockerfile-mode
+  :config
+  (add-to-list 'auto-mode-alist '("Dockerfile\\'" . dockerfile-mode)))
 
 ;; terraform mode
 
@@ -541,7 +590,10 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
   (moody-mode-line-height 35))
 
 ;; pdf-tools
-(use-package pdf-tools)
+(use-package pdf-tools
+  :config
+  (pdf-tools-install))
+
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 
@@ -580,7 +632,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 (use-package perspective
   :bind-keymap ("C-x x" . perspective-map)
-  :bind (("C-x b" . persp-switch-to-buffer*)
+  :bind (("C-x b" . persp-switch-to-buffer)
          ("C-x k" . persp-kill-buffer*))
   :init (setq-default persp-initial-frame-name "personal")
   :custom (persp-state-default-file (expand-file-name ".perspective-state" user-emacs-directory))
@@ -594,9 +646,7 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 
 ;; system-packages
 
-(use-package system-packages
-  :custom
-  system-packages-package-manager 'yay)
+(use-package system-packages)
 
 (use-package use-package-ensure-system-package
   :ensure t)
@@ -611,3 +661,161 @@ _p_rev       _u_pper              _=_: upper/lower       _r_esolve
 ;; PKGBUILD
 
 (use-package pkgbuild-mode)
+
+;; ebuild
+
+(use-package ebuild-mode)
+
+;; origami (folding)
+
+(use-package origami)
+
+;; web-mode (for golang templates)
+
+(use-package web-mode
+  :init
+  (setq web-mode-engines-alist '(("go" . "\\.tmpl\\'"))))
+
+;; emms
+
+(use-package emms
+  :config
+  (emms-all)
+  (emms-default-players))
+
+
+;; emacs-ccls
+
+(use-package ccls
+  :after projectile
+  :ensure-system-package ccls
+  :custom
+  (ccls-args nil)
+  (ccls-executable (executable-find "ccls"))
+  (projectile-project-root-files-top-down-recurring
+   (append '("compile_commands.json" ".ccls")
+           projectile-project-root-files-top-down-recurring))
+  :config (push ".ccls-cache" projectile-globally-ignored-directories))
+
+;; cmake
+
+(use-package cmake-mode
+  :mode ("CMakeLists\\.txt\\'" "\\.cmake\\'"))
+
+(use-package cmake-font-lock
+  :after (cmake-mode)
+  :hook (cmake-mode . cmake-font-lock-activate))
+
+(use-package cmake-ide
+  :after projectile
+  :hook (c++-mode . my/cmake-ide-find-project)
+  :preface
+  (defun my/cmake-ide-find-project ()
+    "Finds the directory of the project for cmake-ide."
+    (with-eval-after-load 'projectile
+      (setq cmake-ide-project-dir (projectile-project-root))
+      (setq cmake-ide-build-dir (concat cmake-ide-project-dir "build")))
+    (setq cmake-ide-compile-command 
+          (concat "cd " cmake-ide-build-dir " && cmake -GNinja .. && ninja"))
+    (cmake-ide-load-db))
+
+  (defun my/switch-to-compilation-window ()
+    "Switches to the *compilation* buffer after compilation."
+    (other-window 1))
+  :bind ([remap comment-region] . cmake-ide-compile)
+  :init (cmake-ide-setup)
+  :config (advice-add 'cmake-ide-compile :after #'my/switch-to-compilation-window))
+
+(use-package google-c-style
+  :hook ((c-mode c++-mode) . google-set-c-style)
+  (c-mode-common . google-make-newline-indent))
+
+(defun nuke-all-buffers ()
+  (interactive)
+  (mapcar 'kill-buffer (buffer-list))
+  (delete-other-windows))
+
+(global-set-key (kbd "C-x K") 'nuke-all-buffers)
+
+;; Enable richer annotations using the Marginalia package
+(use-package marginalia
+  ;; Either bind `marginalia-cycle` globally or only in the minibuffer
+  :bind (:map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
+
+  ;; The :init configuration is always executed (Not lazy!)
+  :init
+
+  ;; Must be in the :init section of use-package such that the mode gets
+  ;; enabled right away. Note that this forces loading the package.
+  (marginalia-mode)
+
+  ;; When using Selectrum, ensure that Selectrum is refreshed when cycling annotations.
+  (advice-add #'marginalia-cycle :after
+              (lambda () (when (bound-and-true-p selectrum-mode) (selectrum-exhibit))))
+
+  ;; Prefer richer, more heavy, annotations over the lighter default variant.
+  ;; E.g. M-x will show the documentation string additional to the keybinding.
+  ;; By default only the keybinding is shown as annotation.
+  ;; Note that there is the command `marginalia-cycle' to
+  ;; switch between the annotators.
+  (setq marginalia-annotators '(marginalia-annotators-heavy marginalia-annotators-light nil)))
+
+(use-package beacon
+  :init
+  (beacon-mode 1))
+
+;; csharp
+
+(use-package csharp-mode)
+
+(global-set-key (kbd "C-c C-r") 'revert-buffer)
+
+(set-language-environment "UTF-8")
+(set-default-coding-systems 'utf-8)
+
+;; modalka ;; TODO: disabled as setup is not finished yet
+
+(use-package modalka
+  :commands modalka-mode
+  :bind ("C-c SPC" . modalka-mode)
+  :config
+  (modalka-define-kbd "W" "M-w")
+  (modalka-define-kbd "Y" "M-y")
+  (modalka-define-kbd "a" "C-a")
+  (modalka-define-kbd "b" "C-b")
+  (modalka-define-kbd "e" "C-e")
+  (modalka-define-kbd "f" "C-f")
+  (modalka-define-kbd "g" "C-g")
+  (modalka-define-kbd "n" "C-n")
+  (modalka-define-kbd "p" "C-p")
+  (modalka-define-kbd "w" "C-w")
+  (modalka-define-kbd "y" "C-y")
+  (modalka-define-kbd "SPC" "C-SPC"))
+
+;; (setq modalka-cursor-type 'hollow-box)
+
+;; general TODO: maybe?
+
+;; (use-package general)
+
+;; evil?
+
+;; dev stuff TODO: move out to separate packages
+
+(use-package s)
+(use-package dash)
+(use-package package-lint)
+(use-package flycheck-package)
+
+;; end of dev stuff
+
+(use-package winner
+  :init
+  (winner-mode))
+
+;; chicken-scheme
+
+(use-package geiser
+  :custom
+  (geiser-chicken-binary "chicken-csi"))

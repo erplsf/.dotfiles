@@ -222,7 +222,7 @@ zicdreplay # replay defined completion functions so they are added
 
 # alias for mplayer
 
-alias mpv="mpv -audio-device='pulse/alsa_output.pci-0000_09_00.1.hdmi-stereo' --hwdec=API"
+alias mpv="mpv -audio-device='pulse/alsa_output.pci-0000_09_00.1.hdmi-stereo' --hwdec=API --input-ipc-server=/tmp/mpvsocket"
 
 # alias for mkdir
 
@@ -238,3 +238,6 @@ alias he="hl balance -B --pretty-tables --monthly -b 'last quarter' expenses"
 
 # doom emacs
 export PATH="$PATH:$HOME/.emacs.d/bin"
+
+# alias herbsluftwm
+alias hc="herbstclient"

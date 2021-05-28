@@ -90,7 +90,7 @@ hc keybind $Mod-comma  use_index -1 --skip-visible
 hc keybind $Mod-r remove
 hc keybind $Mod-s floating toggle
 hc keybind $Mod-f fullscreen toggle
-hc keybind $Mod-p pseudotile toggle
+# hc keybind $Mod-p pseudotile toggle # NOTE: See line 187
 # The following cycles through the available layouts within a frame, but skips
 # layouts, if the layout change wouldn't affect the actual window positions.
 # I.e. if there are two windows within a frame, the grid layout is skipped.
@@ -109,7 +109,7 @@ hc mousebind $Mod-Button3 resize
 hc keybind $Mod-BackSpace   cycle_monitor
 hc keybind $Mod-Tab         cycle_all +1
 hc keybind $Mod-Shift-Tab   cycle_all -1
-hc keybind $Mod-c cycle
+# hc keybind $Mod-c cycle NOTE: See line 186
 hc keybind $Mod-i jumpto urgent
 
 # theme
@@ -183,6 +183,8 @@ hc unlock
 
 # keybinds
 hc keybind $Mod-q  spawn rofi -show combi
+hc keybind $Mod-c  spawn rofi -show calc -modi calc -no-show-match -no-sort
+hc keybind $Mod-p  spawn rofi-pass
 hc keybind $Mod-t  spawn ~/.config/herbstluftwm/toogle_top.sh
 hc keybind $Mod-Right use_index +1 --skip-visible
 hc keybind $Mod-Left  use_index -1 --skip-visible

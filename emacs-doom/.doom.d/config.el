@@ -58,16 +58,16 @@
 (setq enable-local-variables 'yes)
 
 (unless (am/phone-p)
-(use-package! keychain-environment
-  :init
-  (keychain-refresh-environment))
+  (use-package! keychain-environment
+    :init
+    (keychain-refresh-environment))
 
-(use-package! web-mode
-  :init
-  (add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))
-  :custom
-  (web-mode-code-indent-offset 2)
-  (web-mode-alist '(("go" . "\\.tmpl\\'")))))
+  (use-package! web-mode
+    :init
+    (add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))
+    :custom
+    (web-mode-code-indent-offset 2)
+    (web-mode-alist '(("go" . "\\.tmpl\\'")))))
 
 (defun am/ledger-insert-effective-date (&optional date)
   "Insert effective date `DATE' to the transaction or posting.
@@ -145,23 +145,23 @@ With a prefix argument, remove the effective date."
    org-habit-show-habits-only-for-today nil
    org-agenda-show-future-repeats nil
    org-agenda-custom-commands '(("a" "Super custom view"
-                                ((agenda "" ((org-agenda-span 'week)
-                                                (org-super-agenda-groups
-                                                '((:time-grid t)))))
-                                (alltodo "" ((org-agenda-overriding-header "")
-                                                (org-agenda-block-separator "-")
-                                                (org-super-agenda-groups
-                                                 '((:name "Work"
-                                                    :tag "work")
-                                                   (:name "Next"
+                                 ((agenda "" ((org-agenda-span 'week)
+                                              (org-super-agenda-groups
+                                               '((:time-grid t)))))
+                                  (alltodo "" ((org-agenda-overriding-header "")
+                                               (org-agenda-block-separator "-")
+                                               (org-super-agenda-groups
+                                                '((:name "Work"
+                                                   :tag "work")
+                                                  (:name "Next"
                                                    :tag "next")
-                                                   (:name "Returns"
-                                                    :tag "returns")
-                                                   (:name "Refile"
+                                                  (:name "Returns"
+                                                   :tag "returns")
+                                                  (:name "Refile"
                                                    :tag "refile")
-                                                   ;; :auto-tags t)
-                                                ;; (:name "Active films"
-                                                ;;        :todo ("ACTIVE" "TOWATCH"))
+                                                  ;; :auto-tags t)
+                                                  ;; (:name "Active films"
+                                                  ;;        :todo ("ACTIVE" "TOWATCH"))
                                                   (:discard (:anything t))))))))))
   (use-package! doct
     :config
@@ -173,31 +173,31 @@ With a prefix argument, remove the effective date."
   :config
   (org-edna-mode))
 (unless (am/phone-p)
-(add-hook 'compilation-finish-functions
-  (lambda (_buf str)
-    (if (null (string-match ".*exited abnormally.*" str))
-        ;;no errors, make the compilation window go away in a few seconds
-        (progn
-          (run-at-time
-           "1 sec" nil 'delete-windows-on
-           (get-buffer-create "*compilation*<ml>"))
-          (message "No Compilation Errors!")))))
+  (add-hook 'compilation-finish-functions
+            (lambda (_buf str)
+              (if (null (string-match ".*exited abnormally.*" str))
+                  ;;no errors, make the compilation window go away in a few seconds
+                  (progn
+                    (run-at-time
+                     "1 sec" nil 'delete-windows-on
+                     (get-buffer-create "*compilation*<ml>"))
+                    (message "No Compilation Errors!")))))
 
-(use-package! yequake
-  :custom
-  (yequake-frames
-   '(("org-capture"
-      (buffer-fns . (yequake-org-capture))
-      (width . 0.75)
-      (height . 0.5)
-      (alpha . 0.95)
-      (frame-parameters . ((undecorated . t)
-                           (skip-taskbar . t)
-                           (sticky . t)))))))
+  (use-package! yequake
+    :custom
+    (yequake-frames
+     '(("org-capture"
+        (buffer-fns . (yequake-org-capture))
+        (width . 0.75)
+        (height . 0.5)
+        (alpha . 0.95)
+        (frame-parameters . ((undecorated . t)
+                             (skip-taskbar . t)
+                             (sticky . t)))))))
 
-(use-package! lsp-java
-  :init
-  (setq lsp-java-java-path "/usr/lib/jvm/java-11-openjdk/bin/java")
-  (setq lsp-java-format-settings-url "file://home/komrad/.leanix-java-formatting.xml")
-  (setq lsp-java-format-settings-profile "LeanixFlavoredGoogleStyle")
-  (setq lsp-java-save-actions-organize-imports t)))
+  (use-package! lsp-java
+    :init
+    (setq lsp-java-java-path "/usr/lib/jvm/java-11-openjdk/bin/java")
+    (setq lsp-java-format-settings-url "file://home/komrad/.leanix-java-formatting.xml")
+    (setq lsp-java-format-settings-profile "LeanixFlavoredGoogleStyle")
+    (setq lsp-java-save-actions-organize-imports t)))

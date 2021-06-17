@@ -3,7 +3,7 @@
 # this is a simple config for herbstluftwm
 
 hc() {
-    herbstclient "$@"
+	herbstclient "$@"
 }
 
 hc emit_hook reload
@@ -16,75 +16,77 @@ hc keyunbind --all
 # keybindings
 # if you have a super key you will be much happier with Mod set to Mod4
 #Mod=Mod1    # Use alt as the main modifier
-Mod=Mod4   # Use the super key as the main modifier
+Mod=Mod4 # Use the super key as the main modifier
+Tilde='`'
 
 # hc keybind $Mod-Shift-q quit NOTE: Who in their own mind uses this?
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
 hc keybind $Mod-Return spawn ${TERMINAL:-alacritty} # use your $TERMINAL with alacritty as fallback
 hc keybind $Mod-e spawn emacsclient --create-frame --no-wait
-hc keybind $Mod-w spawn emacsclient -n -e '(yequake-toggle "org-capture")' 
+hc keybind $Mod-w spawn emacsclient -n -e '(yequake-toggle "org-capture")'
+hc keybind $Mod-m spawn sudo nvidia-settings
 
 # basic movement
 # focusing clients
-hc keybind $Mod-Left  focus left
-hc keybind $Mod-Down  focus down
+hc keybind $Mod-Left focus left
+hc keybind $Mod-Down focus down
 # hc keybind $Mod-Up    focus up
 # hc keybind $Mod-Right focus right
-hc keybind $Mod-h     focus left
-hc keybind $Mod-j     focus down
-hc keybind $Mod-k     focus up
-hc keybind $Mod-l     focus right
+hc keybind $Mod-h focus left
+hc keybind $Mod-j focus down
+hc keybind $Mod-k focus up
+hc keybind $Mod-l focus right
 
 # moving clients
-hc keybind $Mod-Shift-Left  shift left
-hc keybind $Mod-Shift-Down  shift down
-hc keybind $Mod-Shift-Up    shift up
+hc keybind $Mod-Shift-Left shift left
+hc keybind $Mod-Shift-Down shift down
+hc keybind $Mod-Shift-Up shift up
 hc keybind $Mod-Shift-Right shift right
-hc keybind $Mod-Shift-h     shift left
-hc keybind $Mod-Shift-j     shift down
-hc keybind $Mod-Shift-k     shift up
-hc keybind $Mod-Shift-l     shift right
+hc keybind $Mod-Shift-h shift left
+hc keybind $Mod-Shift-j shift down
+hc keybind $Mod-Shift-k shift up
+hc keybind $Mod-Shift-l shift right
 
 # splitting frames
 # create an empty frame at the specified direction
-hc keybind $Mod-u       split   bottom  0.5
-hc keybind $Mod-o       split   right   0.5
+hc keybind $Mod-u split bottom 0.5
+hc keybind $Mod-o split right 0.5
 # let the current frame explode into subframes
 hc keybind $Mod-Control-space split explode
 
 # resizing frames
 resizestep=0.05
-hc keybind $Mod-Control-h       resize left +$resizestep
-hc keybind $Mod-Control-j       resize down +$resizestep
-hc keybind $Mod-Control-k       resize up +$resizestep
-hc keybind $Mod-Control-l       resize right +$resizestep
-hc keybind $Mod-Control-Left    resize left +$resizestep
-hc keybind $Mod-Control-Down    resize down +$resizestep
-hc keybind $Mod-Control-Up      resize up +$resizestep
-hc keybind $Mod-Control-Right   resize right +$resizestep
+hc keybind $Mod-Control-h resize left +$resizestep
+hc keybind $Mod-Control-j resize down +$resizestep
+hc keybind $Mod-Control-k resize up +$resizestep
+hc keybind $Mod-Control-l resize right +$resizestep
+hc keybind $Mod-Control-Left resize left +$resizestep
+hc keybind $Mod-Control-Down resize down +$resizestep
+hc keybind $Mod-Control-Up resize up +$resizestep
+hc keybind $Mod-Control-Right resize right +$resizestep
 
 # default layout
 hc set default_frame_layout max
 hc set_layout max
 
 # tags
-tag_names=( {1..9} )
-tag_keys=( {1..9} 0 )
+tag_names=({1..9})
+tag_keys=({1..9} 0)
 
 hc rename default "${tag_names[0]}" || true
-for i in ${!tag_names[@]} ; do
-    hc add "${tag_names[$i]}"
-    key="${tag_keys[$i]}"
-    if ! [ -z "$key" ] ; then
-        hc keybind "$Mod-$key" use_index "$i"
-        hc keybind "$Mod-Shift-$key" move_index "$i"
-    fi
+for i in ${!tag_names[@]}; do
+	hc add "${tag_names[$i]}"
+	key="${tag_keys[$i]}"
+	if ! [ -z "$key" ]; then
+		hc keybind "$Mod-$key" use_index "$i"
+		hc keybind "$Mod-Shift-$key" move_index "$i"
+	fi
 done
 
 # cycle through tags
 hc keybind $Mod-period use_index +1 --skip-visible
-hc keybind $Mod-comma  use_index -1 --skip-visible
+hc keybind $Mod-comma use_index -1 --skip-visible
 
 # layouting
 hc keybind $Mod-r remove
@@ -94,10 +96,10 @@ hc keybind $Mod-f fullscreen toggle
 # The following cycles through the available layouts within a frame, but skips
 # layouts, if the layout change wouldn't affect the actual window positions.
 # I.e. if there are two windows within a frame, the grid layout is skipped.
-hc keybind $Mod-space                                                           \
-            or , and . compare tags.focus.curframe_wcount = 2                   \
-                     . cycle_layout +1 vertical horizontal max vertical grid    \
-               , cycle_layout +1
+hc keybind $Mod-space \
+	or , and . compare tags.focus.curframe_wcount = 2 \
+	. cycle_layout +1 vertical horizontal max vertical grid \
+	, cycle_layout +1
 
 # mouse
 hc mouseunbind --all
@@ -106,9 +108,9 @@ hc mousebind $Mod-Button2 zoom
 hc mousebind $Mod-Button3 resize
 
 # focus
-hc keybind $Mod-BackSpace   cycle_monitor
-hc keybind $Mod-Tab         cycle_all +1
-hc keybind $Mod-Shift-Tab   cycle_all -1
+hc keybind $Mod-BackSpace cycle_monitor
+hc keybind $Mod-Tab cycle_all +1
+hc keybind $Mod-Shift-Tab cycle_all -1
 # hc keybind $Mod-c cycle NOTE: See line 186
 hc keybind $Mod-i jumpto urgent
 
@@ -182,24 +184,24 @@ hc unlock
 # custom stuff
 
 # keybinds
-hc keybind $Mod-q  spawn rofi -show combi
-hc keybind $Mod-c  spawn rofi -show calc -modi calc -no-show-match -no-sort
-hc keybind $Mod-p  spawn rofi-pass
-hc keybind $Mod-t  spawn ~/.config/herbstluftwm/toogle_top.sh
+hc keybind $Mod-q spawn rofi -show combi
+hc keybind $Mod-c spawn rofi -show calc -modi calc -no-show-match -no-sort
+hc keybind $Mod-p spawn rofi-pass
+hc keybind $Mod-t spawn ~/.config/herbstluftwm/toogle_top.sh
 hc keybind $Mod-Right use_index +1 --skip-visible
-hc keybind $Mod-Left  use_index -1 --skip-visible
+hc keybind $Mod-Left use_index -1 --skip-visible
 
 # padding for polybar
 hc pad 0 25 0 0 0
 
 # autostart stuff
-if hc silent new_attr bool my_not_first_autostart ; then
-    feh --bg-scale ~/wallpaper.png
-    picom -b --config ~/.config/picom/picom.conf
-    polybar -r default &
-    redshift -l 53:9 -b 1:0.75 &
-    hamsket &
-    qxkb &
-    dunst &
-    alacritty &
+if hc silent new_attr bool my_not_first_autostart; then
+	feh --bg-scale ~/wallpaper.png
+	picom -b --config ~/.config/picom/picom.conf
+	polybar -r default &
+	redshift -l 53:9 -b 1:0.75 &
+	hamsket &
+	qxkb &
+	dunst &
+	alacritty &
 fi

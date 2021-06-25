@@ -9,16 +9,19 @@
 ;; To install SOME-PACKAGE from MELPA, ELPA or emacsmirror:
 ;(package! some-package)
 
+(package! ledger-mode)
+(package! org-super-agenda)
+(package! org-edna)
+(package! doct)
+
+(unless (am/phone-p)
 (package! jsonnet-mode)
 (package! yaml-mode)
 (package! vterm)
 (package! keychain-environment)
 (package! go-mode)
 (package! web-mode)
-(package! org-super-agenda)
 (package! terraform-mode)
-(package! ledger-mode)
-(package! org-edna)
 (package! yequake)
 (package! dockerfile-mode)
 (package! lsp-java)
@@ -26,8 +29,7 @@
 (package! mustache-mode)
 (package! powershell)
 (package! pkgbuild-mode)
-(package! nasm-mode)
-(package! doct)
+(package! nasm-mode))
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:

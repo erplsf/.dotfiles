@@ -14,6 +14,10 @@
 ;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
 ;;      directory (for easy access to its source code).
 
+(defun am/phone-p ()
+  (and (equal system-name "localhost")
+       (not (equal user-login-name "komrad"))))
+
 (doom! :input
        ;;chinese
        ;;japanese

@@ -54,6 +54,10 @@
 ;; You can also try 'gd' (or 'C-c c d') to jump to their definition and see how
 ;; they are implemented.
 ;;
+
+(setq enable-local-variables 'yes)
+
+(unless (am/phone-p)
 (use-package! keychain-environment
   :init
   (keychain-refresh-environment))
@@ -63,7 +67,7 @@
   (add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))
   :custom
   (web-mode-code-indent-offset 2)
-  (web-mode-alist '(("go" . "\\.tmpl\\'"))))
+  (web-mode-alist '(("go" . "\\.tmpl\\'")))))
 
 (defun am/ledger-insert-effective-date (&optional date)
   "Insert effective date `DATE' to the transaction or posting.
@@ -168,7 +172,7 @@ With a prefix argument, remove the effective date."
 (use-package! org-edna
   :config
   (org-edna-mode))
-
+(unless (am/phone-p)
 (add-hook 'compilation-finish-functions
   (lambda (_buf str)
     (if (null (string-match ".*exited abnormally.*" str))
@@ -196,4 +200,4 @@ With a prefix argument, remove the effective date."
   (setq lsp-java-java-path "/usr/lib/jvm/java-11-openjdk/bin/java")
   (setq lsp-java-format-settings-url "file://home/komrad/.leanix-java-formatting.xml")
   (setq lsp-java-format-settings-profile "LeanixFlavoredGoogleStyle")
-  (setq lsp-java-save-actions-organize-imports t))
+  (setq lsp-java-save-actions-organize-imports t)))

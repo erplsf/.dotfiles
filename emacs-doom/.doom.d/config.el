@@ -155,8 +155,8 @@ With a prefix argument, remove the effective date."
                                                    :tag "work")
                                                   (:name "Next"
                                                    :tag "next")
-                                                  (:name "Returns"
-                                                   :tag "returns")
+                                                  (:name "Orders"
+                                                   :tag "orders")
                                                   (:name "Refile"
                                                    :tag "refile")
                                                   ;; :auto-tags t)

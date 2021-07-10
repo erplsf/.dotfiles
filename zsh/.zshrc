@@ -109,8 +109,8 @@ zinit from"gh-r" as"program" mv"exa* -> exa" \
       light-mode for \
       ogham/exa
 
-alias l='exa -l'
-alias ls='exa'
+# alias l='exa -l'
+# alias ls='exa'
 
 # jq
 zinit from'gh-r' as'program' mv'jq* -> jq' \
@@ -135,11 +135,11 @@ zinit depth'1' atclone'lua z.lua --init zsh once enhanced > zzlua.zsh' \
 
 # pyenv
 
-zinit depth'1' atclone'PYENV_ROOT="$PWD" bin/pyenv init - > zpyenv.zsh' \
-      atinit'export PYENV_ROOT="$PWD"' atpull"%atclone" \
-      as'command' pick'bin/pyenv' src"zpyenv.zsh" nocompile'!' \
-      light-mode wait lucid for \
-      pyenv/pyenv
+# zinit depth'1' atclone'PYENV_ROOT="$PWD" bin/pyenv init - > zpyenv.zsh' \
+#       atinit'export PYENV_ROOT="$PWD"' atpull"%atclone" \
+#       as'command' pick'bin/pyenv' src"zpyenv.zsh" nocompile'!' \
+#       light-mode wait lucid for \
+#       pyenv/pyenv
 
 export PATH="$PATH:$HOME/.local/bin"
 
@@ -241,3 +241,6 @@ export PATH="$PATH:$HOME/.emacs.d/bin"
 
 # alias herbsluftwm
 alias hc="herbstclient"
+
+# alias safe k9s
+alias k9s="/usr/local/bin/k9s --readonly"

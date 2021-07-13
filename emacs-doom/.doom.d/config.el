@@ -151,10 +151,10 @@ With a prefix argument, remove the effective date."
                                   (alltodo "" ((org-agenda-overriding-header "")
                                                (org-agenda-block-separator "-")
                                                (org-super-agenda-groups
-                                                '((:name "Work"
-                                                   :tag "work")
-                                                  (:name "Next"
+                                                '((:name "Next"
                                                    :tag "next")
+                                                  (:name "Work"
+                                                   :tag "work")
                                                   (:name "Orders"
                                                    :tag "orders")
                                                   (:name "Refile"

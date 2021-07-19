@@ -110,7 +110,10 @@ With a prefix argument, remove the effective date."
         ledger-post-account-alignment-column 2
         ledger-post-amount-alignment-column 0))
 
-(setq evil-shift-width 2)
+(after! evil
+  (setq
+   evil-shift-width 2
+   evil-kill-on-visual-paste nil))
 
 (use-package! org-super-agenda
   :after org-agenda

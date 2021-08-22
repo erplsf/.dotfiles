@@ -29,7 +29,8 @@
   (package! mustache-mode)
   (package! powershell)
   (package! pkgbuild-mode)
-  (package! nasm-mode))
+  (package! nasm-mode)
+  (package! org-wild-notifier))
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:

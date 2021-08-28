@@ -32,8 +32,9 @@
   (package! nasm-mode)
   (package! rg)
   (package! forge)
-  (package! exec-path-from-shell))
-  ;; (package! js2-refactor))
+  (package! exec-path-from-shell)
+  ;; (package! js2-refactor)
+  (package! org-wild-notifier))
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:

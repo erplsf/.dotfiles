@@ -251,7 +251,7 @@ export PATH="$PATH:$HOME/ledger/bin"
 
 alias hl="hledger"
 alias hb="hl balance -B --pretty-tables --auto --monthly -b 'last quarter' -T budget"
-alias he="hl balance -B --pretty-tables --monthly -b 'last quarter' expenses"
+alias he="hl is -B --pretty-tables --monthly -b 'last quarter'"
 
 # doom emacs
 export PATH="$PATH:$HOME/.emacs.d/bin"

@@ -57,6 +57,9 @@
 
 (setq enable-local-variables 'yes)
 
+(when (memq window-system '(mac ns x))
+  (exec-path-from-shell-initialize))
+
 (unless (am/phone-p)
   (use-package! keychain-environment
     :init
@@ -156,6 +159,8 @@ With a prefix argument, remove the effective date."
                                                (org-super-agenda-groups
                                                 '((:name "Next"
                                                    :tag "next")
+                                                  (:name "Vacation"
+                                                   :tag "vacation")
                                                   (:name "Work"
                                                    :tag "work")
                                                   (:name "Orders"
@@ -208,4 +213,14 @@ With a prefix argument, remove the effective date."
     (setq lsp-java-java-path "/usr/lib/jvm/java-11-openjdk/bin/java")
     (setq lsp-java-format-settings-url "file://home/komrad/.leanix-java-formatting.xml")
     (setq lsp-java-format-settings-profile "LeanixFlavoredGoogleStyle")
-    (setq lsp-java-save-actions-organize-imports t)))
+    (setq lsp-java-save-actions-organize-imports t))
+
+  (use-package! forge
+    :after magit)
+
+  (use-package company
+    :config
+    (setq company-shell-modes '()))
+
+  (add-hook! sh-mode
+    (setq-local company-backends (remove '(company-shell company-files) company-backends))))

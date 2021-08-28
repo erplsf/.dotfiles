@@ -84,13 +84,30 @@ export PATH="$PATH:$HOME/bin"
 zinit depth'1' atclone'RBENV_ROOT="$PWD" bin/rbenv init - > zrbenv.zsh' \
       atinit'export RBENV_ROOT="$PWD"' atpull"%atclone" \
       as'command' pick'bin/rbenv' src"zrbenv.zsh" nocompile'!' \
-      light-mode wait lucid for \
+      light-mode lucid for \
       rbenv/rbenv
 
 zinit depth'1' atclone'mkdir -p "$RBENV_ROOT/plugins/"; ln -sf "$PWD" "$RBENV_ROOT/plugins/ruby-build"' \
       as'null' nocompile \
       light-mode for \
       rbenv/ruby-build    
+
+# Nodenv
+zinit depth'1' atclone'NODENV_ROOT="$PWD" bin/nodenv init - > znodenv.zsh' \
+      atinit'export NODENV_ROOT="$PWD"' atpull"%atclone" \
+      as'command' pick'bin/nodenv' src"znodenv.zsh" nocompile'!' \
+      light-mode lucid for \
+      nodenv/nodenv
+
+zinit depth'1' atclone'mkdir -p "$NODENV_ROOT/plugins/"; ln -sf "$PWD" "$NODENV_ROOT/plugins/node-build"' \
+      as'null' nocompile \
+      light-mode for \
+      nodenv/node-build
+
+# kubeval
+zinit from'gh-r' as'program' \
+      light-mode for \
+      instrumenta/kubeval
 
 # tfenv stuff
 zinit depth'1' atinit'export PATH="$PATH:$PWD"' \
@@ -123,7 +140,7 @@ export NNN_TRASH=1 # trash (needs trash-cli) instead of delete
 
 # EDITOR
 
-export EDITOR="nvim"
+export EDITOR="emacsclient"
 
 # z.lua: jumping around TODO: Maybe add c-compiled module
 
@@ -135,11 +152,11 @@ zinit depth'1' atclone'lua z.lua --init zsh once enhanced > zzlua.zsh' \
 
 # pyenv
 
-# zinit depth'1' atclone'PYENV_ROOT="$PWD" bin/pyenv init - > zpyenv.zsh' \
-#       atinit'export PYENV_ROOT="$PWD"' atpull"%atclone" \
-#       as'command' pick'bin/pyenv' src"zpyenv.zsh" nocompile'!' \
-#       light-mode wait lucid for \
-#       pyenv/pyenv
+zinit depth'1' atclone'PYENV_ROOT="$PWD" bin/pyenv init --path > zpyenv.zsh' \
+      atinit'export PYENV_ROOT="$PWD"' atpull"%atclone" \
+      as'command' pick'bin/pyenv' src"zpyenv.zsh" nocompile'!' \
+      light-mode wait lucid for \
+      pyenv/pyenv
 
 export PATH="$PATH:$HOME/.local/bin"
 
@@ -244,3 +261,6 @@ alias hc="herbstclient"
 
 # alias safe k9s
 alias k9s="/usr/local/bin/k9s --readonly"
+alias k9s-unsafe="/usr/local/bin/k9s"
+
+export PATH="$HOME/.poetry/bin:$PATH"

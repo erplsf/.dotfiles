@@ -33,8 +33,9 @@
   (package! rg)
   (package! forge)
   (package! exec-path-from-shell)
-  ;; (package! js2-refactor)
-  (package! org-wild-notifier))
+  (package! js2-refactor)
+  (package! org-wild-notifier)
+  (package! flycheck-clang-tidy))
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:

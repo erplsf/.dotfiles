@@ -122,12 +122,14 @@ zinit depth'1' atinit'export PATH="$PATH:$PWD"' \
       cunymatthieu/tgenv
 
 # Exa
-zinit from"gh-r" as"program" mv"exa* -> exa" \
+zinit from'gh-r' \
+      as'command' mv'exa* -> exa' \
+      pick'bin/exa' \
       light-mode for \
       ogham/exa
 
-# alias l='exa -l'
-# alias ls='exa'
+alias l='exa -l'
+alias ls='exa'
 
 # jq
 zinit from'gh-r' as'program' mv'jq* -> jq' \
@@ -224,6 +226,13 @@ key[Control-Right]="${terminfo[kRIT5]}"
 [[ -n "${key[Control-Left]}"  ]] && bindkey -- "${key[Control-Left]}"  backward-word
 [[ -n "${key[Control-Right]}" ]] && bindkey -- "${key[Control-Right]}" forward-word
 
+# Enable Ctrl-x-e to edit command line
+autoload -U edit-command-line
+# Emacs style
+zle -N edit-command-line
+bindkey '^xe' edit-command-line
+bindkey '^x^e' edit-command-line
+
 # Finally, make sure the terminal is in application mode, when zle is
 # active. Only then are the values from $terminfo valid.
 if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
@@ -264,3 +273,6 @@ alias k9s="/usr/local/bin/k9s --readonly"
 alias k9s-unsafe="/usr/local/bin/k9s"
 
 export PATH="$HOME/.poetry/bin:$PATH"
+
+# alias editor
+alias edit="$EDITOR"

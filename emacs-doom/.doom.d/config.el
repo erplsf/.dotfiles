@@ -55,7 +55,7 @@
 ;; they are implemented.
 ;;
 
-(setq enable-local-variables 'yes)
+(setq enable-local-variables 't)
 
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
@@ -157,14 +157,15 @@ With a prefix argument, remove the effective date."
                                   (alltodo "" ((org-agenda-overriding-header "")
                                                (org-agenda-block-separator "-")
                                                (org-super-agenda-groups
-                                                '((:name "Orders"
+                                                '(
+                                                  (:name "Work"
+                                                   :tag "work")
+                                                  (:name "Orders"
                                                    :tag "orders")
                                                   (:name "Next"
                                                    :tag "next")
                                                   (:name "Vacation"
                                                    :tag "vacation")
-                                                  (:name "Work"
-                                                   :tag "work")
                                                   (:name "Refile"
                                                    :tag "refile")
                                                   ;; :auto-tags t)
@@ -223,4 +224,19 @@ With a prefix argument, remove the effective date."
     (setq company-shell-modes '()))
 
   (add-hook! sh-mode
-    (setq-local company-backends (remove '(company-shell company-files) company-backends))))
+    (setq-local company-backends (remove '(company-shell company-files) company-backends)))
+
+  (use-package flycheck-clang-tidy
+    :after flycheck
+    :hook
+    (flycheck-mode . flycheck-clang-tidy-setup))
+
+  (setq lsp-clients-clangd-args '("-j=3"
+                                "--background-index"
+                                "--clang-tidy"
+                                "--completion-style=detailed"
+                                "--header-insertion=never"
+                                "--header-insertion-decorators=0"))
+
+  (after! lsp-clangd (set-lsp-priority! 'clangd 2)))
+  ;; (setq +format-with-lsp nil))

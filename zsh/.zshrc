@@ -128,6 +128,7 @@ zinit from'gh-r' \
       light-mode for \
       ogham/exa
 
+# TODO: alias only if command exists
 alias l='exa -l'
 alias ls='exa'
 
@@ -271,6 +272,9 @@ alias hc="herbstclient"
 # alias safe k9s
 alias k9s="/usr/local/bin/k9s --readonly"
 alias k9s-unsafe="/usr/local/bin/k9s"
+
+# TODO: alias only if command exists
+alias vim="nvim"
 
 export PATH="$HOME/.poetry/bin:$PATH"
 

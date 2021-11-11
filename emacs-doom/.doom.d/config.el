@@ -224,7 +224,7 @@ With a prefix argument, remove the effective date."
     (setq company-shell-modes '()))
 
   (add-hook! sh-mode
-    (setq-local company-backends (remove '(company-shell company-files) company-backends)))
+    (set-company-backend! 'sh-mode nil))
 
   (use-package flycheck-clang-tidy
     :after flycheck
@@ -238,5 +238,6 @@ With a prefix argument, remove the effective date."
                                 "--header-insertion=never"
                                 "--header-insertion-decorators=0"))
 
-  (after! lsp-clangd (set-lsp-priority! 'clangd 2)))
-  ;; (setq +format-with-lsp nil))
+  (after! lsp-clangd (set-lsp-priority! 'clangd 2))
+  (setq +format-with-lsp nil)
+  (setq c-basic-offset 2))

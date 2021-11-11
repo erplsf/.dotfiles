@@ -248,7 +248,7 @@ zicdreplay # replay defined completion functions so they are added
 
 # alias for mplayer
 
-alias mpv="mpv -audio-device='pulse/alsa_output.pci-0000_09_00.1.hdmi-stereo' --hwdec=API --input-ipc-server=/tmp/mpvsocket"
+alias mpv="mpv --hwdec=API --input-ipc-server=/tmp/mpv.socket"
 
 # alias for mkdir
 
@@ -276,3 +276,38 @@ export PATH="$HOME/.poetry/bin:$PATH"
 
 # alias editor
 alias edit="$EDITOR"
+
+# TODO: switch to zinit to manage istioctl
+
+if [ -d "$HOME/istio-1.9.5" ]; then
+    export PATH="$PATH:$HOME/istio-1.9.5/bin"
+fi
+
+if [ -f "/opt/local/bin/port" ]; then
+    export PATH="$PATH:/opt/local/bin"
+fi
+
+# TODO: better aliases
+function awe() {
+      case "$1" in
+            "--")
+                  aws-vault exec default -- "${@:2}"
+                  ;;
+            "d")
+                  aws-vault exec klar-develop -- "${@:3}"
+                  ;;
+            "n")
+                  aws-vault exec klar-neutral -- "${@:3}"
+                  ;;
+            "s")
+                  aws-vault exec klar-staging -- "${@:3}"
+                  ;;
+            "live")
+                  aws-vault exec klar-live -- "${@:3}"
+                  ;;
+            *)
+                  echo "You have failed to specify what to do correctly."
+                  false
+                  ;;
+      esac
+}

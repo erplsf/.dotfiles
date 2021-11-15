@@ -292,26 +292,28 @@ if [ -f "/opt/local/bin/port" ]; then
 fi
 
 # TODO: better aliases
-function awe() {
-      case "$1" in
-            "--")
-                  aws-vault exec default -- "${@:2}"
-                  ;;
-            "d")
-                  aws-vault exec klar-develop -- "${@:3}"
-                  ;;
-            "n")
-                  aws-vault exec klar-neutral -- "${@:3}"
-                  ;;
-            "s")
-                  aws-vault exec klar-staging -- "${@:3}"
-                  ;;
-            "live")
-                  aws-vault exec klar-live -- "${@:3}"
-                  ;;
-            *)
-                  echo "You have failed to specify what to do correctly."
-                  false
-                  ;;
-      esac
-}
+if command -v aws-vault 1>/dev/null 2>&1; then
+      function awe() {
+            case "$1" in
+                  "--")
+                        aws-vault exec default -- "${@:2}"
+                        ;;
+                  "d")
+                        aws-vault exec klar-develop -- "${@:3}"
+                        ;;
+                  "n")
+                        aws-vault exec klar-neutral -- "${@:3}"
+                        ;;
+                  "s")
+                        aws-vault exec klar-staging -- "${@:3}"
+                        ;;
+                  "live")
+                        aws-vault exec klar-live -- "${@:3}"
+                        ;;
+                  *)
+                        echo "You have failed to specify what to do correctly."
+                        false
+                        ;;
+            esac
+      }
+fi

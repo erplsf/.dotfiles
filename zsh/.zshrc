@@ -112,7 +112,7 @@ zinit from'gh-r' as'program' \
 # hyperfine (cli benchmarking)
 zinit ice from'gh-r' as'program' mv'hyperfine* -> hyperfine' nocompile pick'hyperfine/hyperfine' \
       light-mode for \
-      sharkdp/hyperfine
+      @sharkdp/hyperfine
 
 # tfenv stuff
 zinit depth'1' atinit'export PATH="$PATH:$PWD"' \

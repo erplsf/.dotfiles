@@ -110,7 +110,9 @@ zinit from'gh-r' as'program' \
       instrumenta/kubeval
 
 # hyperfine (cli benchmarking)
-zinit ice from'gh-r' as'program' mv'hyperfine* -> hyperfine' nocompile pick'hyperfine/hyperfine' \
+zinit from'gh-r' as'program' \
+      mv'hyperfine* -> hyperfine' nocompile'!' \
+      pick'hyperfine/hyperfine' \
       light-mode for \
       @sharkdp/hyperfine
 

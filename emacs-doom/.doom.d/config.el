@@ -239,5 +239,6 @@ With a prefix argument, remove the effective date."
                                 "--header-insertion-decorators=0"))
 
   (after! lsp-clangd (set-lsp-priority! 'clangd 2))
+  (setq lsp-zig-zls-executable "~/zls/zig-out/bin/zls")
   (setq +format-with-lsp nil)
   (setq c-basic-offset 2))

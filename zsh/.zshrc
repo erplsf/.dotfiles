@@ -109,6 +109,11 @@ zinit from'gh-r' as'program' \
       light-mode for \
       instrumenta/kubeval
 
+# hyperfine (cli benchmarking)
+zinit ice from'gh-r' as'program' mv'hyperfine* -> hyperfine' nocompile pick'hyperfine/hyperfine' \
+      light-mode for \
+      sharkdp/hyperfine
+
 # tfenv stuff
 zinit depth'1' atinit'export PATH="$PATH:$PWD"' \
       as'command' pick'bin/tfenv' nocompile'!' \

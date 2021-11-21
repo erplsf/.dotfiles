@@ -57,8 +57,7 @@
 
 (setq enable-local-variables 't)
 
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
+(exec-path-from-shell-initialize)
 
 (unless (am/phone-p)
   (use-package! keychain-environment

@@ -324,3 +324,9 @@ if command -v aws-vault 1>/dev/null 2>&1; then
             esac
       }
 fi
+
+zinit depth'1' atclone'mkdir build; cd build && cmake -DZIG_PREFER_CLANG_CPP_DYLIB=true .. && make install' \
+      atpull"%atclone" \
+      as'command' pick'build/bin/zig' nocompile'!' \
+      light-mode for \
+      @ziglang/zig

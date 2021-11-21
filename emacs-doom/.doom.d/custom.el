@@ -5,6 +5,8 @@
  ;; If there is more than one, they won't work right.
  '(safe-local-variable-values
    '((org-todo-keyword-faces
+      ("ACTIVE" . "orange"))
+     (org-todo-keyword-faces
       ("WAITING" . "orange")
       ("TOSEND" . "salmon")
       ("SENT" . "olive drab")

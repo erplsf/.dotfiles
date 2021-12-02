@@ -339,3 +339,13 @@ zinit from'gh-r' as'program' \
       pick'kustomize' \
       light-mode for \
       @kubernetes-sigs/kustomize
+
+if command -v zig 1>/dev/null 2>&1; then
+      export PATH="$PATH:$(command -v zig)"
+else
+      zinit depth'1' atclone'mkdir build; cd build && cmake -DZIG_PREFER_CLANG_CPP_DYLIB=true .. && make install' \
+            atpull"%atclone" \
+            as'command' pick'build/bin/zig' nocompile'!' \
+            light-mode for \
+            @ziglang/zig
+fi

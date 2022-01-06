@@ -71,6 +71,32 @@
     (web-mode-code-indent-offset 2)
     (web-mode-alist '(("go" . "\\.tmpl\\'")))))
 
+(defvar am/buffer-name-max 50
+  "The maximal length of the buffer name in modeline.")
+
+(defun am/doom-modeline-segment--buffer-info ()
+"Almost the same as `doom-modeline-segment--buffer-info',
+but it truncates the buffer name within `am/buffer-name-max'."
+(concat
+  (s-truncate
+    am/buffer-name-max
+    (format-mode-line (doom-modeline-segment--buffer-info))
+    "...")))
+
+(defun am/doom-modeline-segment--org-clock ()
+  "Displays org-mode-clock"
+      (if (and (org-clocking-p) (doom-modeline--active))
+    org-mode-line-string))
+
+(after! doom-modeline
+  (setq! global-mode-string (remove 'org-mode-line-string global-mode-string)) ;; FIXME: it only works once, on eval
+  (add-to-list 'doom-modeline-fn-alist (cons 'am/buffer-info 'am/doom-modeline-segment--buffer-info))
+  (add-to-list 'doom-modeline-fn-alist (cons 'am/org-clock 'am/doom-modeline-segment--org-clock))
+  (doom-modeline-def-modeline 'main
+    '(bar matches am/org-clock am/buffer-info remote-host buffer-position parrot selection-info)
+    '(misc-info minor-modes checker input-method buffer-encoding major-mode process vcs))
+  )
+
 (defun am/ledger-insert-effective-date (&optional date)
   "Insert effective date `DATE' to the transaction or posting.
 
@@ -183,7 +209,8 @@ With a prefix argument, remove the effective date."
 
 (use-package! projectile
   :config
-  (setq projectile-project-search-path '("~/code/")))
+  (setq projectile-project-search-path '("~/code/"))
+  (setq projectile-git-submodule-command nil))
 
 (unless (am/phone-p)
   (add-hook 'compilation-finish-functions

@@ -299,29 +299,24 @@ fi
 if command -v aws-vault 1>/dev/null 2>&1; then
       function awe() {
             prev_KUBECTL_CONTEXT=$KUBECTL_CONTEXT
-            prev_K9S_CONTEXT=$K9S_CONTEXT
             case "$1" in
                   "--")
                         aws-vault exec default -- zsh -c "${*[2,-1]}"
                         ;;
                   "d")
                         export KUBECTL_CONTEXT='develop'
-                        export K9S_CONTEXT='develop'
                         aws-vault exec klar-develop -- zsh -c "${*[3,-1]}"
                         ;;
                   "n")
                         export KUBECTL_CONTEXT='neutral'
-                        export K9S_CONTEXT='neutral'
                         aws-vault exec klar-neutral -- zsh -c "${*[3,-1]}"
                         ;;
                   "s")
                         export KUBECTL_CONTEXT='staging'
-                        export K9S_CONTEXT='staging'
                         aws-vault exec klar-staging -- zsh -c "${*[3,-1]}"
                         ;;
                   "live")
                         export KUBECTL_CONTEXT='live'
-                        export K9S_CONTEXT='live'
                         aws-vault exec klar-live -- zsh -c "${*[3,-1]}"
                         ;;
                   *)
@@ -330,7 +325,6 @@ if command -v aws-vault 1>/dev/null 2>&1; then
                         ;;
             esac
             export KUBECTL_CONTEXT=$prev_KUBECTL_CONTEXT
-            export K9S_CONTEXT=$prev_K9S_CONTEXT
       }
 fi
 

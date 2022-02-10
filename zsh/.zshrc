@@ -122,11 +122,20 @@ zinit depth'1' atinit'export PATH="$PATH:$PWD"' \
       light-mode for \
       tfutils/tfenv
 
-# tgenv version manager # TODO: replace? it's old and unmaintained
-zinit depth'1' atinit'export PATH="$PATH:$PWD"' \
-      as'command' pick'bin/tgenv' nocompile'!' \
+# tgswitch
+zinit from'gh-r' as'program' \
       light-mode for \
-      cunymatthieu/tgenv
+      @warrensbox/tgswitch
+
+# load-tgswitch() {
+#   local tgswitchrc_path=".tgswitchrc"
+
+#   if [ -f "$tgswitchrc_path" ]; then
+#     tgswitch
+#   fi
+# }
+# add-zsh-hook chpwd load-tgswitch
+# load-tgswitch
 
 # Exa
 zinit from'gh-r' \

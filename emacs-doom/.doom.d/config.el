@@ -89,13 +89,14 @@ but it truncates the buffer name within `am/buffer-name-max'."
     org-mode-line-string))
 
 (after! doom-modeline
-  (setq! global-mode-string (remove 'org-mode-line-string global-mode-string)) ;; FIXME: it only works once, on eval
   (add-to-list 'doom-modeline-fn-alist (cons 'am/buffer-info 'am/doom-modeline-segment--buffer-info))
   (add-to-list 'doom-modeline-fn-alist (cons 'am/org-clock 'am/doom-modeline-segment--org-clock))
   (doom-modeline-def-modeline 'main
     '(bar matches am/org-clock am/buffer-info remote-host buffer-position parrot selection-info)
     '(misc-info minor-modes checker input-method buffer-encoding major-mode process vcs))
-  )
+  (doom-modeline-def-modeline 'vcs
+    '(bar window-number modals matches am/org-clock buffer-info buffer-position parrot selection-info)
+    '(misc-info battery irc mu4e gnus github debug minor-modes buffer-encoding major-mode process)))
 
 (defun am/ledger-insert-effective-date (&optional date)
   "Insert effective date `DATE' to the transaction or posting.
@@ -170,6 +171,8 @@ With a prefix argument, remove the effective date."
    calendar-week-start-day 1
    org-agenda-start-day nil
    org-deadline-warning-days 7
+   org-duration-format '((special . h:mm))
+   org-clock-clocked-in-display nil ;; see implementation above for doom-modeline
    org-agenda-skip-scheduled-if-done t
    org-agenda-start-on-weekday nil
    org-clock-persist 'history
@@ -265,6 +268,10 @@ With a prefix argument, remove the effective date."
                                 "--header-insertion-decorators=0"))
 
   (after! lsp-clangd (set-lsp-priority! 'clangd 2))
+
   (setq lsp-zig-zls-executable "~/zls/zig-out/bin/zls")
   (setq +format-with-lsp nil)
-  (setq c-basic-offset 2))
+  (setq c-basic-offset 2)
+
+  (after! magit (setq magit-prefer-remote-upstream 't))
+)

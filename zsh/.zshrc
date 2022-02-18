@@ -1,23 +1,29 @@
-### Added by Zinit's installer
-if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
-    print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
-    command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
-    command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
-        print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
-        print -P "%F{160}▓▒░ The clone has failed.%f%b"
-fi
+# NOTE: Evaluate later
+# # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# # Initialization code that may require console input (password prompts, [y/n]
+# # confirmations, etc.) must go above this block; everything else may go below.
+# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+# fi
 
-source "$HOME/.zinit/bin/zinit.zsh"
-autoload -Uz _zinit
-(( ${+_comps} )) && _comps[zinit]=_zinit
-### End of Zinit's installer chunk
+# Clone zinit
+ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
+mkdir -p "$(dirname $ZINIT_HOME)"
+git clone --depth 1 https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
 
-# Two regular plugins loaded without investigating.
+# Load it
+source "${ZINIT_HOME}/zinit.zsh"
+
+# Regular plugins loaded without investigating.
 zinit depth'1' \
       light-mode for \
       zsh-users/zsh-autosuggestions \
-      zdharma/fast-syntax-highlighting \
-      zdharma/history-search-multi-word
+      zdharma-continuum/fast-syntax-highlighting \
+      zdharma-continuum/history-search-multi-word
+      zdharma-continuum/zinit-annex-readurl \
+      zdharma-continuum/zinit-annex-bin-gem-node \
+      zdharma-continuum/zinit-annex-patch-dl \
+      zdharma-continuum/zinit-annex-rust
 
 zinit depth'1' \
       light-mode for \
@@ -61,7 +67,6 @@ setopt HIST_VERIFY               # Don't execute immediately upon history expans
 # setopt HIST_BEEP                 # Beep when accessing nonexistent history.
 
 ## env and stuff
-
 
 # Keychain -> do I need Keychain really?
 if command -v keychain 1>/dev/null 2>&1; then
@@ -191,15 +196,15 @@ zinit depth'1' make  as'program' pick'bin/fzf' src'../../../.fzf.zsh' \
       jhawthorn/fzy
 
 # install rustup annex
-zinit light-mode for \
-      zinit-zsh/z-a-rust
+# zinit light-mode for \
+#       zinit-zsh/z-a-rust
 
 # Just install rust and make it available globally in the system
 zinit id-as"rust" rustup as"command" \
       pick"bin/rustc" \
       atload="[[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] && zi creinstall -q rust; export CARGO_HOME=\$PWD; export RUSTUP_HOME=\$PWD/rustup" \
       light-mode for \
-      zdharma/null
+      zdharma-continuum/null
 
 # sudo plugin -> allows to use ESC-ESC to prepend `sudo` or `sudoedit` to previous command
 zinit light-mode for OMZP::sudo
@@ -311,29 +316,36 @@ if command -v aws-vault 1>/dev/null 2>&1; then
             case "$1" in
                   "--")
                         aws-vault exec default -- zsh -c "${*[2,-1]}"
+                        exitCode=$?
                         ;;
                   "d")
                         export KUBECTL_CONTEXT='develop'
                         aws-vault exec klar-develop -- zsh -c "${*[3,-1]}"
+                        exitCode=$?
                         ;;
                   "n")
                         export KUBECTL_CONTEXT='neutral'
                         aws-vault exec klar-neutral -- zsh -c "${*[3,-1]}"
+                        exitCode=$?
                         ;;
                   "s")
                         export KUBECTL_CONTEXT='staging'
                         aws-vault exec klar-staging -- zsh -c "${*[3,-1]}"
+                        exitCode=$?
                         ;;
                   "live")
                         export KUBECTL_CONTEXT='live'
                         aws-vault exec klar-live -- zsh -c "${*[3,-1]}"
+                        exitCode=$?
                         ;;
                   *)
                         echo "You have failed to specify what to do correctly."
                         false
+                        exitCode=$?
                         ;;
             esac
             export KUBECTL_CONTEXT=$prev_KUBECTL_CONTEXT
+            return $exitCode
       }
 fi
 

@@ -172,7 +172,7 @@ With a prefix argument, remove the effective date."
    org-agenda-start-day nil
    org-deadline-warning-days 7
    org-duration-format '((special . h:mm))
-   org-clock-clocked-in-display nil ;; see implementation above for doom-modeline
+   ;; org-clock-clocked-in-display nil ;; see implementation above for doom-modeline
    org-agenda-skip-scheduled-if-done t
    org-agenda-start-on-weekday nil
    org-clock-persist 'history

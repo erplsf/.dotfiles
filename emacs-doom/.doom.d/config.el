@@ -23,6 +23,7 @@
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 
 (setq doom-font (font-spec :family "MesloLGS NF" :size 19 :weight 'light :height 140))
+;; (setq doom-font (font-spec :family "Fira Code" :size 20))
 
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
@@ -275,3 +276,6 @@ With a prefix argument, remove the effective date."
 
   (after! magit (setq magit-prefer-remote-upstream 't))
 )
+
+(if (eq system-type 'darwin)
+    (mac-auto-operator-composition-mode))

@@ -8,8 +8,10 @@
 
 # Clone zinit
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
-mkdir -p "$(dirname $ZINIT_HOME)"
-git clone --depth 1 https://github.com/zdharma-continuum/zinit.git "$ZINIT_HOME"
+if [ ! -d "${ZINIT_HOME}" ]; then
+      mkdir -p "$(dirname ${ZINIT_HOME})"
+      git clone --depth 1 https://github.com/zdharma-continuum/zinit.git "${ZINIT_HOME}"
+fi
 
 # Load it
 source "${ZINIT_HOME}/zinit.zsh"
@@ -19,7 +21,7 @@ zinit depth'1' \
       light-mode for \
       zsh-users/zsh-autosuggestions \
       zdharma-continuum/fast-syntax-highlighting \
-      zdharma-continuum/history-search-multi-word
+      zdharma-continuum/history-search-multi-word \
       zdharma-continuum/zinit-annex-readurl \
       zdharma-continuum/zinit-annex-bin-gem-node \
       zdharma-continuum/zinit-annex-patch-dl \
@@ -95,19 +97,19 @@ zinit depth'1' atclone'RBENV_ROOT="$PWD" bin/rbenv init - > zrbenv.zsh' \
 zinit depth'1' atclone'mkdir -p "$RBENV_ROOT/plugins/"; ln -sf "$PWD" "$RBENV_ROOT/plugins/ruby-build"' \
       as'null' nocompile \
       light-mode for \
-      rbenv/ruby-build    
+      rbenv/ruby-build
 
 # Nodenv
 zinit depth'1' atclone'NODENV_ROOT="$PWD" bin/nodenv init - > znodenv.zsh' \
       atinit'export NODENV_ROOT="$PWD"' atpull"%atclone" \
       as'command' pick'bin/nodenv' src"znodenv.zsh" nocompile'!' \
       light-mode lucid for \
-      nodenv/nodenv
+      @nodenv/nodenv
 
 zinit depth'1' atclone'mkdir -p "$NODENV_ROOT/plugins/"; ln -sf "$PWD" "$NODENV_ROOT/plugins/node-build"' \
       as'null' nocompile \
       light-mode for \
-      nodenv/node-build
+      @nodenv/node-build
 
 # kubeval
 zinit from'gh-r' as'program' \
@@ -184,27 +186,27 @@ zinit depth'1' atclone'PYENV_ROOT="$PWD" bin/pyenv init --path > zpyenv.zsh' \
 
 export PATH="$PATH:$HOME/.local/bin"
 
-# fzf
+# fzf TODO: Fix ungly backtracking
 zinit depth'1' atclone'./install --no-bash --no-fish --completion --no-key-bindings --no-update-rc' \
-      atpull'./install --bin' as'program' pick'bin/fzf' src'../../../.fzf.zsh' \
+      atpull'./install --bin' as'program' pick'bin/fzf' src'../../../../../.fzf.zsh' \
       light-mode for \
       junegunn/fzf
 
 # fzy (to compare with fzf)
-zinit depth'1' make  as'program' pick'bin/fzf' src'../../../.fzf.zsh' \
-      light-mode for \
-      jhawthorn/fzy
+# zinit depth'1' make  as'program' pick'bin/fzf' src'../../../../../.fzf.zsh' \
+#       light-mode for \
+#       jhawthorn/fzy
 
 # install rustup annex
 # zinit light-mode for \
 #       zinit-zsh/z-a-rust
 
 # Just install rust and make it available globally in the system
-zinit id-as"rust" rustup as"command" \
-      pick"bin/rustc" \
-      atload="[[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] && zi creinstall -q rust; export CARGO_HOME=\$PWD; export RUSTUP_HOME=\$PWD/rustup" \
-      light-mode for \
-      zdharma-continuum/null
+# zinit id-as"rust" rustup as"command" \
+#       pick"bin/rustc" \
+#       atload="[[ ! -f ${ZINIT[COMPLETIONS_DIR]}/_cargo ]] && zi creinstall -q rust; export CARGO_HOME=\$PWD; export RUSTUP_HOME=\$PWD/rustup" \
+#       light-mode for \
+#       zdharma-continuum/null
 
 # sudo plugin -> allows to use ESC-ESC to prepend `sudo` or `sudoedit` to previous command
 zinit light-mode for OMZP::sudo

@@ -4,7 +4,10 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(safe-local-variable-values
-   '((org-todo-keyword-faces
+   '((rmsbolt-asm-format . ~)
+     (rmsbolt-demangle quote t)
+     (rmsbolt-demangle . "true")
+     (org-todo-keyword-faces
       ("ACTIVE" . "orange"))
      (org-todo-keyword-faces
       ("WAITING" . "orange")

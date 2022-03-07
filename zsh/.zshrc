@@ -285,6 +285,7 @@ export PATH="$PATH:$HOME/ledger/bin"
 alias hl="hledger"
 alias hb="hl balance -B --pretty-tables --auto --monthly -b 'last quarter' -T budget"
 alias he="hl is -B --pretty-tables --monthly -b 'last quarter'"
+alias hr="hl roi -Y --inv investments --pnl 'unrealized' --value='then'"
 
 # doom emacs
 export PATH="$PATH:$HOME/.emacs.d/bin"
@@ -300,12 +301,6 @@ export PATH="$HOME/.poetry/bin:$PATH"
 
 # alias editor
 alias edit="$EDITOR"
-
-# TODO: switch to zinit to manage istioctl
-
-if [ -d "$HOME/istio-1.9.5" ]; then
-    export PATH="$PATH:$HOME/istio-1.9.5/bin"
-fi
 
 if [ -f "/opt/local/bin/port" ]; then
     export PATH="$PATH:/opt/local/bin"
@@ -364,3 +359,21 @@ if !command -v zig 1>/dev/null 2>&1; then
             light-mode for \
             @ziglang/zig
 fi
+
+zinit from'gh-r' as'program' mv"gomplate* -> gomplate" \
+      nocompile'!' \
+      pick'gomplate' \
+      light-mode for \
+      @hairyhenderson/gomplate
+
+zinit from'gh-r' as'program' \
+      ver'1.10.5' \
+      nocompile'!' \
+      bpick'istioctl-1.10.5-osx.tar.gz' \
+      light-mode for \
+      @istio/istio
+
+zinit from'gh-r' as'program' \
+      nocompile'!' \
+      light-mode for \
+      @homeport/dyff

@@ -196,7 +196,7 @@ hc pad 0 25 0 0 0
 
 # autostart stuff
 if hc silent new_attr bool my_not_first_autostart; then
-	feh --bg-scale ~/wallpaper.png
+	feh --bg-scale ~/wallpaper.jpg
 	picom -b --config ~/.config/picom/picom.conf
 	polybar -r default &
 	redshift -l 53:9 -b 1:0.75 &

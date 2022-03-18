@@ -146,7 +146,7 @@ zinit from'gh-r' as'program' \
 
 # Exa
 zinit from'gh-r' \
-      as'command' mv'exa* -> exa' \
+      as'command' mv'bin/exa* -> bin/exa' \
       pick'bin/exa' \
       light-mode for \
       ogham/exa

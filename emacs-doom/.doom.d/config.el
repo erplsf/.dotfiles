@@ -280,3 +280,5 @@ With a prefix argument, remove the effective date."
 
 (if (eq system-type 'darwin)
     (mac-auto-operator-composition-mode))
+
+(setq org-roam-directory "~/org/roam")

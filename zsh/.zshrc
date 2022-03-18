@@ -267,8 +267,10 @@ if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
         add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
 fi
 
-zicompinit # init completions
-zicdreplay # replay defined completion functions so they are added
+autoload -Uz compinit
+compinit
+zinit cdreplay -q # <- execute compdefs provided by rest of plugins
+zinit cdlist # look at gathered compdefs
 
 # alias for mplayer
 
@@ -367,13 +369,14 @@ zinit from'gh-r' as'program' mv"gomplate* -> gomplate" \
       @hairyhenderson/gomplate
 
 zinit from'gh-r' as'program' \
-      ver'1.10.5' \
-      nocompile'!' \
-      bpick'istioctl-1.10.5-osx.tar.gz' \
-      light-mode for \
-      @istio/istio
-
-zinit from'gh-r' as'program' \
       nocompile'!' \
       light-mode for \
       @homeport/dyff
+
+zinit depth'1' \
+      light-mode for \
+      @asdf-vm/asdf
+
+if ! asdf plugin list | grep istioctl; then
+      asdf plugin-add istioctl
+fi

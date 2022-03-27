@@ -380,3 +380,5 @@ zinit depth'1' \
 if ! asdf plugin list | grep istioctl; then
       asdf plugin-add istioctl
 fi
+
+alias qemu-nixos='qemu-system-x86_64 -accel hvf -boot d -m 4G -cpu host -smp 4 -hda ~/nixos/nixos.img'

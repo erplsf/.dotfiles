@@ -3,7 +3,7 @@ if [ -n "$DESKTOP_SESSION" ]; then
     export SSH_AUTH_SOCK
 fi
 
-# alias k9s
+alias k9s
 if command -v k9s 1>/dev/null 2>&1; then
       alias k9s="k9s --context \"\${KUBECTL_CONTEXT}\""
 fi

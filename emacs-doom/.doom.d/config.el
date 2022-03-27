@@ -188,12 +188,14 @@ With a prefix argument, remove the effective date."
                                                (org-agenda-block-separator "-")
                                                (org-super-agenda-groups
                                                 '(
+                                                  (:name "Next"
+                                                   :tag "next")
+                                                  ;; (:name "Weekend"
+                                                  ;;  :tag "weekend")
                                                   (:name "Work"
                                                    :tag "work")
                                                   (:name "Orders"
                                                    :tag "orders")
-                                                  (:name "Next"
-                                                   :tag "next")
                                                   (:name "Vacation"
                                                    :tag "vacation")
                                                   (:name "Refile"

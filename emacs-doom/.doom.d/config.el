@@ -277,7 +277,9 @@ With a prefix argument, remove the effective date."
   (setq +format-with-lsp nil)
   (setq c-basic-offset 2)
 
-  (after! magit (setq magit-prefer-remote-upstream 't))
+  (after! magit (progn (setq magit-prefer-remote-upstream 't)
+                       (setq git-commit-style-convention-checks
+                             (remove 'overlong-summary-line git-commit-style-convention-checks))))
 )
 
 (if (eq system-type 'darwin)

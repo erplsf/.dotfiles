@@ -381,4 +381,20 @@ if ! asdf plugin list | grep istioctl; then
       asdf plugin-add istioctl
 fi
 
-alias qemu-nixos='qemu-system-x86_64 -accel hvf -boot d -m 4G -cpu host -smp 4 -hda ~/nixos/nixos.img'
+
+DOTFILES_PATH="${HOME}/.dotfiles/"
+
+alias qemu-nixos="qemu-system-x86_64 \
+      -accel hvf \
+      -boot d \
+      -m 4G \
+      -cpu host \
+      -smp 4 \
+      -hda ~/nixos/nixos.img \
+"
+
+      # -netdev user,id=n0,net=10.0.2.0/24,dhcpstart=10.0.2.15,smb=${HOME}/.dotfiles \
+      # -device virtio-net-pci,netdev=n0 \
+
+# -net nic,model=virtio \
+# -net tap,script=${HOME}/nixos/tap-up,downscript=${HOME}/nixos/tap-down \

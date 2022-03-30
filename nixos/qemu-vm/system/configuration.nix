@@ -36,6 +36,19 @@
   networking.useDHCP = false;
   networking.interfaces.ens3.useDHCP = true;
 
+  fileSystems."/mnt/dotfiles" = {
+    device = "//10.0.2.2/dotfiles"; # samba share from host-macOS
+    fsType = "cifs";
+    options = [
+      "nofail"
+      "uid=1000"
+      "gid=100"
+      "user=guest"
+      "rw"
+      "cache=none"
+    ];
+  };
+
   # VM specific
   # networking.defaultGateway = "10.0.2.2"; # SLIRP gateway
   networking.nameservers = [ "192.168.178.1" ]; # FritzBOX dns server
@@ -77,9 +90,8 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
-  #   wget
-  #   firefox
+    vim
+    git
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

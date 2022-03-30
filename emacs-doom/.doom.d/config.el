@@ -131,10 +131,12 @@ With a prefix argument, remove the effective date."
 
 (use-package! ledger-mode
   :mode "\\.journal\\'"
-  :bind (:map ledger-mode-map ("C-c C-t" . #'am/ledger-insert-effective-date))
   :config
-  (define-key! evil-normal-state-map
-    (kbd "SPC m e") #'am/ledger-insert-effective-date)
+  (map! :leader
+        :mode ledger
+        "m e" #'am/ledger-insert-effective-date
+        "m t" (cmd! (ledger-toggle-current 'pending))
+        "m s" #'ledger-sort-buffer)
   (setq ledger-mode-should-check-version nil
         ledger-report-links-in-register nil
         ledger-binary-path "hledger"

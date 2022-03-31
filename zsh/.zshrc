@@ -312,7 +312,6 @@ if command -v aws-vault 1>/dev/null 2>&1; then
       function awe() {
             prev_KUBECTL_CONTEXT=${KUBECTL_CONTEXT}
             unset KUBECTL_CONTEXT
-            export K9S_CMD='--readonly'
             case "$1" in
                   "--")
                         aws-vault exec default -- zsh -c "${*[2,-1]}"
@@ -320,29 +319,27 @@ if command -v aws-vault 1>/dev/null 2>&1; then
                         ;;
                   "d")
                         export KUBECTL_CONTEXT='develop'
-                        export K9S_CMD='--write'
                         kubectl config use-context ${KUBECTL_CONTEXT}
                         aws-vault exec klar-develop -- zsh -c "${*[3,-1]}"
                         exitCode=$?
                         ;;
                   "n")
                         export KUBECTL_CONTEXT='neutral'
-                        export K9S_CMD='--write'
                         kubectl config use-context ${KUBECTL_CONTEXT}
                         aws-vault exec klar-neutral -- zsh -c "${*[3,-1]}"
                         exitCode=$?
                         ;;
                   "s")
                         export KUBECTL_CONTEXT='staging'
-                        export K9S_CMD='--write'
                         kubectl config use-context ${KUBECTL_CONTEXT}
                         aws-vault exec klar-staging -- zsh -c "${*[3,-1]}"
                         exitCode=$?
                         ;;
                   "live")
                         export KUBECTL_CONTEXT='live'
+                        safe_k9s_alias="alias k9s='k9s --readonly'"
                         kubectl config use-context ${KUBECTL_CONTEXT}
-                        aws-vault exec klar-live -- zsh -c "${*[3,-1]}"
+                        aws-vault exec klar-live -- zsh -c "${safe_k9s_alias}; ${*[3,-1]}"
                         exitCode=$?
                         ;;
                   *)

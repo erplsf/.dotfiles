@@ -18,9 +18,7 @@ source "${ZINIT_HOME}/zinit.zsh"
 
 # Regular plugins loaded without investigating.
 zinit depth'1' \
-      light-mode for \
-      zsh-users/zsh-autosuggestions \
-      zdharma-continuum/fast-syntax-highlighting \
+      light-mode wait lucid for \
       zdharma-continuum/history-search-multi-word \
       zdharma-continuum/zinit-annex-readurl \
       zdharma-continuum/zinit-annex-bin-gem-node \
@@ -91,47 +89,47 @@ export PATH="$PATH:$HOME/bin"
 zinit depth'1' atclone'RBENV_ROOT="$PWD" bin/rbenv init - > zrbenv.zsh' \
       atinit'export RBENV_ROOT="$PWD"' atpull"%atclone" \
       as'command' pick'bin/rbenv' src"zrbenv.zsh" nocompile'!' \
-      light-mode lucid for \
+      light-mode wait lucid for \
       rbenv/rbenv
 
 zinit depth'1' atclone'mkdir -p "$RBENV_ROOT/plugins/"; ln -sf "$PWD" "$RBENV_ROOT/plugins/ruby-build"' \
       as'null' nocompile \
-      light-mode for \
+      light-mode wait lucid for \
       rbenv/ruby-build
 
 # Nodenv
 zinit depth'1' atclone'NODENV_ROOT="$PWD" bin/nodenv init - > znodenv.zsh' \
       atinit'export NODENV_ROOT="$PWD"' atpull"%atclone" \
       as'command' pick'bin/nodenv' src"znodenv.zsh" nocompile'!' \
-      light-mode lucid for \
+      light-mode wait lucid for \
       @nodenv/nodenv
 
 zinit depth'1' atclone'mkdir -p "$NODENV_ROOT/plugins/"; ln -sf "$PWD" "$NODENV_ROOT/plugins/node-build"' \
       as'null' nocompile \
-      light-mode for \
+      light-mode wait lucid for \
       @nodenv/node-build
 
 # kubeval
 zinit from'gh-r' as'program' \
-      light-mode for \
+      light-mode wait lucid for \
       instrumenta/kubeval
 
 # hyperfine (cli benchmarking)
 zinit from'gh-r' as'program' \
       mv'hyperfine* -> hyperfine' nocompile'!' \
       pick'hyperfine/hyperfine' \
-      light-mode for \
+      light-mode wait lucid for \
       @sharkdp/hyperfine
 
 # tfenv stuff
 zinit depth'1' atinit'export PATH="$PATH:$PWD"' \
       as'command' pick'bin/tfenv' nocompile'!' \
-      light-mode for \
+      light-mode wait lucid for \
       tfutils/tfenv
 
 # tgswitch
 zinit from'gh-r' as'program' \
-      light-mode for \
+      light-mode wait lucid for \
       @warrensbox/tgswitch
 
 # load-tgswitch() {
@@ -148,7 +146,7 @@ zinit from'gh-r' as'program' \
 zinit from'gh-r' \
       as'command' mv'bin/exa* -> bin/exa' \
       pick'bin/exa' \
-      light-mode for \
+      light-mode wait lucid for \
       ogham/exa
 
 # TODO: alias only if command exists
@@ -157,7 +155,7 @@ alias ls='exa'
 
 # jq
 zinit from'gh-r' as'program' mv'jq* -> jq' \
-      light-mode for \
+      light-mode wait lucid for \
       stedolan/jq
 
 # nnn stuff: TODO: migrate nnn to zinit
@@ -189,7 +187,7 @@ export PATH="$PATH:$HOME/.local/bin"
 # fzf TODO: Fix ungly backtracking
 zinit depth'1' atclone'./install --no-bash --no-fish --completion --no-key-bindings --no-update-rc' \
       atpull'./install --bin' as'program' pick'bin/fzf' src'../../../../../.fzf.zsh' \
-      light-mode for \
+      light-mode wait lucid for \
       junegunn/fzf
 
 # fzy (to compare with fzf)
@@ -209,7 +207,9 @@ zinit depth'1' atclone'./install --no-bash --no-fish --completion --no-key-bindi
 #       zdharma-continuum/null
 
 # sudo plugin -> allows to use ESC-ESC to prepend `sudo` or `sudoedit` to previous command
-zinit light-mode for OMZP::sudo
+zinit \
+      light-mode wait lucid for \
+      OMZP::sudo
 
 # keys, copied from: https://wiki.archlinux.org/index.php/Zsh#Key_bindings
 
@@ -267,11 +267,6 @@ if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
         add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
 fi
 
-autoload -Uz compinit
-compinit
-zinit cdreplay -q # <- execute compdefs provided by rest of plugins
-zinit cdlist # look at gathered compdefs
-
 # alias for mplayer
 
 alias mpv="mpv --hwdec=API --input-ipc-server=/tmp/mpv.socket"
@@ -309,48 +304,32 @@ if [ -f "/opt/local/bin/port" ]; then
 fi
 
 if command -v aws-vault 1>/dev/null 2>&1; then
-      function awe() {
-            prev_KUBECTL_CONTEXT=${KUBECTL_CONTEXT}
-            unset KUBECTL_CONTEXT
+      function ave() {
+            declare -A envs
+            envs=(
+                  [d]=develop
+                  [n]=neutral
+                  [s]=staging
+                  [live]=live
+            )
+            caseBranch=${(j:|:)${(k)envs}}
+            envList=${(j:,:)${(k)envs}}
+
             case "$1" in
-                  "--")
+                  --)
                         aws-vault exec default -- zsh -c "${*[2,-1]}"
                         exitCode=$?
                         ;;
-                  "d")
-                        export KUBECTL_CONTEXT='develop'
-                        kubectl config use-context ${KUBECTL_CONTEXT}
-                        aws-vault exec klar-develop -- zsh -c "${*[3,-1]}"
-                        exitCode=$?
-                        ;;
-                  "n")
-                        export KUBECTL_CONTEXT='neutral'
-                        kubectl config use-context ${KUBECTL_CONTEXT}
-                        aws-vault exec klar-neutral -- zsh -c "${*[3,-1]}"
-                        exitCode=$?
-                        ;;
-                  "s")
-                        export KUBECTL_CONTEXT='staging'
-                        kubectl config use-context ${KUBECTL_CONTEXT}
-                        aws-vault exec klar-staging -- zsh -c "${*[3,-1]}"
-                        exitCode=$?
-                        ;;
-                  "live")
-                        export KUBECTL_CONTEXT='live'
-                        safe_k9s_alias="alias k9s='k9s --readonly'"
-                        kubectl config use-context ${KUBECTL_CONTEXT}
-                        aws-vault exec klar-live -- zsh -c "${safe_k9s_alias}; ${*[3,-1]}"
+                  $~caseBranch)
+                        mapped_env="${envs[$1]}"
+                        aws-vault exec "klar-${mapped_env}" -- zsh -c "export KUBECTL_CONTEXT=${mapped_env} && . ${HOME}/.vault-shadows && ${*[3,-1]}"
                         exitCode=$?
                         ;;
                   *)
-                        echo "You have failed to specify what to do correctly."
-                        false
-                        exitCode=$?
+                        echo "First argument needs to be any environment from this [${envList}] list or '--' for default profile." >&2
+                        exitCode=1
                         ;;
             esac
-            unset KUBECTL_CONTEXT
-            unset K9S_CMD
-            kubectl config use-context develop 1>/dev/null 2>&1
             return $exitCode
       }
 fi
@@ -358,38 +337,35 @@ fi
 zinit from'gh-r' as'program' \
       nocompile'!' \
       pick'kustomize' \
-      light-mode for \
+      light-mode wait lucid for \
       @kubernetes-sigs/kustomize
 
 if !command -v zig 1>/dev/null 2>&1; then
       zinit depth'1' atclone'mkdir build; cd build && cmake -DZIG_PREFER_CLANG_CPP_DYLIB=true .. && make install' \
             atpull"%atclone" \
             as'command' pick'build/bin/zig' nocompile'!' \
-            light-mode for \
+            light-mode wait lucid for \
             @ziglang/zig
 fi
 
 zinit from'gh-r' as'program' mv"gomplate* -> gomplate" \
       nocompile'!' \
       pick'gomplate' \
-      light-mode for \
+      light-mode wait lucid for \
       @hairyhenderson/gomplate
 
 zinit from'gh-r' as'program' \
       nocompile'!' \
-      light-mode for \
+      light-mode wait lucid for \
       @homeport/dyff
 
 zinit depth'1' \
-      light-mode for \
+      light-mode wait lucid for \
       @asdf-vm/asdf
 
-if ! asdf plugin list | grep istioctl; then
-      asdf plugin-add istioctl
+if [ ! -d "${HOME}/.asdf/installs/istioctl/" ]; then
+   asdf plugin-add istioctl
 fi
-
-
-DOTFILES_PATH="${HOME}/.dotfiles/"
 
 alias qemu-nixos="qemu-system-x86_64 \
       -accel hvf \
@@ -399,3 +375,12 @@ alias qemu-nixos="qemu-system-x86_64 \
       -smp 4 \
       -hda ~/nixos/nixos.img \
 "
+
+# Stolen from here: https://github.com/zdharma-continuum/fast-syntax-highlighting#zinit
+zinit wait lucid for \
+ atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+    zdharma-continuum/fast-syntax-highlighting \
+ blockf \
+    zsh-users/zsh-completions \
+ atload"!_zsh_autosuggest_start" \
+    zsh-users/zsh-autosuggestions

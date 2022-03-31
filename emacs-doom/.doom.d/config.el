@@ -133,7 +133,7 @@ With a prefix argument, remove the effective date."
   :mode "\\.journal\\'"
   :config
   (map! :leader
-        :mode ledger
+        :map ledger-mode-map
         "m e" #'am/ledger-insert-effective-date
         "m t" (cmd! (ledger-toggle-current 'pending))
         "m s" #'ledger-sort-buffer)
@@ -151,6 +151,8 @@ With a prefix argument, remove the effective date."
 (use-package! org-super-agenda
   :after org-agenda
   :config
+  (map! :leader
+        "n A" (cmd! (org-agenda nil "a")))
   (org-super-agenda-mode)
   (setq org-super-agenda-groups
         '((:name "Next" :tag "next" :todo t)
@@ -182,7 +184,7 @@ With a prefix argument, remove the effective date."
    org-clock-persist 'history
    org-habit-show-habits-only-for-today nil
    org-agenda-show-future-repeats nil
-   org-agenda-custom-commands '(("a" "Super custom view"
+   org-agenda-custom-commands '(("a" "Super-agenda view"
                                  ((agenda "" ((org-agenda-span 'week)
                                               (org-super-agenda-groups
                                                '((:time-grid t)))))

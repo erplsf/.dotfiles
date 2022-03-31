@@ -308,7 +308,6 @@ if [ -f "/opt/local/bin/port" ]; then
     export PATH="$PATH:/opt/local/bin"
 fi
 
-# TODO: better aliases
 if command -v aws-vault 1>/dev/null 2>&1; then
       function awe() {
             prev_KUBECTL_CONTEXT=${KUBECTL_CONTEXT}
@@ -354,7 +353,7 @@ if command -v aws-vault 1>/dev/null 2>&1; then
             esac
             unset KUBECTL_CONTEXT
             unset K9S_CMD
-            kubectl config use-context develop >/dev/null 2>&1
+            kubectl config use-context develop 1>/dev/null 2>&1
             return $exitCode
       }
 fi

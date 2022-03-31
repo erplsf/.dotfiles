@@ -40,12 +40,16 @@
     device = "//10.0.2.2/dotfiles"; # samba share from host-macOS
     fsType = "cifs";
     options = [
+      "noauto"
       "nofail"
+      "user=guest"
       "uid=1000"
       "gid=100"
-      "user=guest"
-      "rw"
       "cache=none"
+      "x-systemd.automount"
+      "x-systemd.idle-timeout=60"
+      "x-systemd.device-timeout=5s"
+      "x-systemd.mount-timeout=5s"
     ];
   };
 

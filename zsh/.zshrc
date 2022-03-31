@@ -311,7 +311,9 @@ fi
 # TODO: better aliases
 if command -v aws-vault 1>/dev/null 2>&1; then
       function awe() {
-            prev_KUBECTL_CONTEXT=$KUBECTL_CONTEXT
+            prev_KUBECTL_CONTEXT=${KUBECTL_CONTEXT}
+            unset KUBECTL_CONTEXT
+            export K9S_CMD='--readonly'
             case "$1" in
                   "--")
                         aws-vault exec default -- zsh -c "${*[2,-1]}"
@@ -319,21 +321,28 @@ if command -v aws-vault 1>/dev/null 2>&1; then
                         ;;
                   "d")
                         export KUBECTL_CONTEXT='develop'
+                        export K9S_CMD='--write'
+                        kubectl config use-context ${KUBECTL_CONTEXT}
                         aws-vault exec klar-develop -- zsh -c "${*[3,-1]}"
                         exitCode=$?
                         ;;
                   "n")
                         export KUBECTL_CONTEXT='neutral'
+                        export K9S_CMD='--write'
+                        kubectl config use-context ${KUBECTL_CONTEXT}
                         aws-vault exec klar-neutral -- zsh -c "${*[3,-1]}"
                         exitCode=$?
                         ;;
                   "s")
                         export KUBECTL_CONTEXT='staging'
+                        export K9S_CMD='--write'
+                        kubectl config use-context ${KUBECTL_CONTEXT}
                         aws-vault exec klar-staging -- zsh -c "${*[3,-1]}"
                         exitCode=$?
                         ;;
                   "live")
                         export KUBECTL_CONTEXT='live'
+                        kubectl config use-context ${KUBECTL_CONTEXT}
                         aws-vault exec klar-live -- zsh -c "${*[3,-1]}"
                         exitCode=$?
                         ;;
@@ -343,7 +352,9 @@ if command -v aws-vault 1>/dev/null 2>&1; then
                         exitCode=$?
                         ;;
             esac
-            export KUBECTL_CONTEXT=$prev_KUBECTL_CONTEXT
+            unset KUBECTL_CONTEXT
+            unset K9S_CMD
+            kubectl config use-context develop >/dev/null 2>&1
             return $exitCode
       }
 fi
@@ -392,9 +403,3 @@ alias qemu-nixos="qemu-system-x86_64 \
       -smp 4 \
       -hda ~/nixos/nixos.img \
 "
-
-      # -netdev user,id=n0,net=10.0.2.0/24,dhcpstart=10.0.2.15,smb=${HOME}/.dotfiles \
-      # -device virtio-net-pci,netdev=n0 \
-
-# -net nic,model=virtio \
-# -net tap,script=${HOME}/nixos/tap-up,downscript=${HOME}/nixos/tap-down \

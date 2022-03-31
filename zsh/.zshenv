@@ -3,17 +3,16 @@ if [ -n "$DESKTOP_SESSION" ]; then
     export SSH_AUTH_SOCK
 fi
 
-alias k9s
-if command -v k9s 1>/dev/null 2>&1; then
-      alias k9s="k9s --context \"\${KUBECTL_CONTEXT}\""
-fi
+function set_aliases() {
+  alias k9s="k9s ${K9S_CMD}"
+}
 
-# alias kubectl
-if command -v kubectl 1>/dev/null 2>&1; then
-      alias kubectl="kubectl --context \"\${KUBECTL_CONTEXT}\""
-fi
+function unset_aliases() {
+  unalias k9s 2>/dev/null || true
+}
 
-# alias helm
-if command -v helm 1>/dev/null 2>&1; then
-      alias helm="kubectl config use-context \"\${KUBECTL_CONTEXT}\"; helm"
+if [ ! -z "${AWS_VAULT+x}" ]; then
+    set_aliases
+else
+    unset_aliases
 fi

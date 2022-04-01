@@ -304,7 +304,7 @@ if [ -f "/opt/local/bin/port" ]; then
 fi
 
 if command -v aws-vault 1>/dev/null 2>&1; then
-      function ave() {
+      function awe() {
             declare -A envs
             envs=(
                   [d]=develop

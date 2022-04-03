@@ -7,12 +7,13 @@
 
   description = "Config for my NixOS testing VM.";
 
-  outputs = { self, nixpkgs }: {
+  outputs = { self, nixpkgs, home-manager }: {
     nixosConfigurations = {
       qemu-vm = nixpkgs.lib.nixosSystem {
         system = "x86_64-linux";
         modules = [
           ./system/configuration.nix
+          ./home-manager/configuration.nix
         ];
       };
     };

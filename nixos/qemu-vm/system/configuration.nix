@@ -40,9 +40,9 @@
     device = "//10.0.2.2/dotfiles"; # samba share from host-macOS
     fsType = "cifs";
     options = [
+      "credentials=/etc/nixos/local-smb-secrets"
       "noauto"
       "nofail"
-      "user=guest"
       "uid=1000"
       "gid=100"
       "cache=none"

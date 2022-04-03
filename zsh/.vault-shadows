@@ -1,7 +1,12 @@
 #!/bin/sh
 
 if [ -z "${AWS_VAULT+x}" ]; then
-    echo 'Only run inside `aws-vault` scope!' >&2
+    echo 'Only run inside `aws-vault` scope!' 1>&2
+    exit 1
+fi
+
+if [ -z "${KUBECTL_CONTEXT+x}" ]; then
+    echo 'KUBECTL_CONTEXT env variable must be set!' 1>&2
     exit 1
 fi
 
@@ -17,3 +22,6 @@ function k9s() {
     command k9s --context ${KUBECTL_CONTEXT} --readonly $@
 }
 
+function istioctl() {
+    command istioctl --context ${KUBECTL_CONTEXT} $@
+}

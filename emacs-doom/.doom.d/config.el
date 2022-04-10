@@ -132,8 +132,10 @@ With a prefix argument, remove the effective date."
 (use-package! ledger-mode
   :mode "\\.journal\\'"
   :config
-  (map! :leader
+  (map! :after ledger-mode
+        :mode ledger-mode
         :map ledger-mode-map
+        :leader
         "m e" #'am/ledger-insert-effective-date
         "m t" (cmd! (ledger-toggle-current 'pending))
         "m s" #'ledger-sort-buffer)
@@ -164,7 +166,6 @@ With a prefix argument, remove the effective date."
   (setq
    org-directory "~/org"
    org-default-notes-file "~/org/notes.org"
-   am/org-refile-file "~/org/gtd/refile.org"
    org-agenda-files '("~/org/gtd")
    org-archive-location "~/org/gtd/archive/archive.org::* From %s"
    org-refile-use-outline-path 'file
@@ -192,26 +193,26 @@ With a prefix argument, remove the effective date."
                                                (org-agenda-block-separator "-")
                                                (org-super-agenda-groups
                                                 '(
+                                                  (:name "Inbox"
+                                                   :tag "inbox")
                                                   (:name "Next"
                                                    :tag "next")
-                                                  ;; (:name "Weekend"
-                                                  ;;  :tag "weekend")
+                                                  (:name "Weekend"
+                                                   :tag "weekend")
                                                   (:name "Work"
                                                    :tag "work")
                                                   (:name "Orders"
                                                    :tag "orders")
                                                   (:name "Vacation"
                                                    :tag "vacation")
-                                                  (:name "Refile"
-                                                   :tag "refile")
                                                   ;; :auto-tags t)
                                                   ;; (:name "Active films"
                                                   ;;        :todo ("ACTIVE" "TOWATCH"))
                                                   (:discard (:anything t))))))))))
   (use-package! doct
     :config
-    (setq org-capture-templates (doct '("Task" :keys "t"
-                                        :file am/org-refile-file
+    (setq org-capture-templates (doct '("Inbox" :keys "i"
+                                        :file "~/org/gtd/inbox.org"
                                         :template "* TODO %?")))))
 
 (use-package! org-edna

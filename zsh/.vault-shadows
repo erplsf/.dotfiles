@@ -11,7 +11,7 @@ if [ -z "${KUBECTL_CONTEXT+x}" ]; then
 fi
 
 function kubectl() {
-    command kubectl --context ${KUBECTL_CONTEXT} $@
+    command kubectl --context="${KUBECTL_CONTEXT}" $@
 }
 
 function helm() {

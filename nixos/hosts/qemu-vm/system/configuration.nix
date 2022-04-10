@@ -17,6 +17,8 @@
     ./hardware-configuration.nix
   ];
 
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   # Use the GRUB 2 boot loader.
   boot.loader.grub.enable = true;
   boot.loader.grub.version = 2;
@@ -114,6 +116,11 @@
   # };
 
   # List services that you want to enable:
+
+  # services.xserver = {
+  #   enable = true;
+  #   windowManager.herbstluftwm.enable = true;
+  # };
 
   # services.spice-vdagentd.enable = true; # for clipboard sharing in QEMU
 

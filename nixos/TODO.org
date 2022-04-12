@@ -1,0 +1,2 @@
+#+TITLE: NixOS Todos
+* TODO How to programatically choose and enable specific shell both in home-manager and system config (an change shell for the user)?

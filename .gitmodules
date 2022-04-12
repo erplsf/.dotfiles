@@ -1,0 +1,3 @@
+[submodule "nixos/hosts/square"]
+	path = nixos/hosts/square
+	url = git@github.com:erplsf/nixos-hosts-square.git

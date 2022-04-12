@@ -285,6 +285,10 @@ With a prefix argument, remove the effective date."
   (after! magit (progn (setq magit-prefer-remote-upstream 't)
                        (setq git-commit-style-convention-checks
                              (remove 'overlong-summary-line git-commit-style-convention-checks))))
+
+  (use-package! tts-editor
+      :commands (tts-editor/listen-start
+               tts-editor/listen-stop))
 )
 
 (if (eq system-type 'darwin)

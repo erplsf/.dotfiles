@@ -155,10 +155,7 @@ With a prefix argument, remove the effective date."
   :config
   (map! :leader
         "n A" (cmd! (org-agenda nil "a")))
-  (org-super-agenda-mode)
-  (setq org-super-agenda-groups
-        '((:name "Next" :tag "next" :todo t)
-          (:habit t))))
+  (org-super-agenda-mode))
 
 (after! org
   (add-to-list 'org-modules 'org-habit t)
@@ -185,35 +182,49 @@ With a prefix argument, remove the effective date."
    org-clock-persist 'history
    org-habit-show-habits-only-for-today nil
    org-agenda-show-future-repeats nil
-   org-agenda-custom-commands '(("a" "Super-agenda view"
-                                 ((agenda "" ((org-agenda-span 'week)
+   org-agenda-custom-commands '(("p" "Personal super-agenda"
+                                 (
+                                  (agenda "" ((org-agenda-span 'day)
                                               (org-super-agenda-groups
-                                               '((:time-grid t)))))
+                                               '((:name "Today"
+                                                  :time-grid t)
+                                                 (:name "Habits"
+                                                  :habit t)))))
+                                  ;; (agenda "" ((org-agenda-start-on-weekday nil)
+                                  ;;             (org-agenda-start-day "+1d")
+                                  ;;             (org-agenda-span 6)
+                                  ;;             (org-super-agenda-groups
+                                  ;;              '(:time-grid t))))
                                   (alltodo "" ((org-agenda-overriding-header "")
-                                               (org-agenda-block-separator "-")
+                                               (org-agenda-block-separator "---")
                                                (org-super-agenda-groups
                                                 '(
                                                   (:name "Inbox"
                                                    :tag "inbox")
+                                                  ;; (:name "Work"
+                                                  ;;  :tag "work")
                                                   (:name "Next"
                                                    :tag "next")
-                                                  (:name "Weekend"
-                                                   :tag "weekend")
-                                                  (:name "Work"
-                                                   :tag "work")
+                                                  ;; (:name "Weekend"
+                                                  ;;  :tag "weekend")
                                                   (:name "Orders"
                                                    :tag "orders")
-                                                  (:name "Vacation"
-                                                   :tag "vacation")
+                                                  ;; (:name "Vacation"
+                                                  ;;  :tag "vacation")
                                                   ;; :auto-tags t)
                                                   ;; (:name "Active films"
                                                   ;;        :todo ("ACTIVE" "TOWATCH"))
                                                   (:discard (:anything t))))))))))
   (use-package! doct
     :config
-    (setq org-capture-templates (doct '("Inbox" :keys "i"
-                                        :file "~/org/gtd/inbox.org"
-                                        :template "* TODO %?")))))
+    (setq org-capture-templates (doct '(
+                                        ("todo" :keys "t"
+                                         :file "~/org/gtd/inbox.org"
+                                         :template "* TODO %?")
+                                        ("work" :keys "w"
+                                         :file "~/org/gtd/inbox.org"
+                                         :template "* TODO %? :work:")
+                                        )))))
 
 (use-package! org-edna
   :config

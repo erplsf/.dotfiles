@@ -1,7 +1,0 @@
-*
-
-!.gitignore
-!init.el
-!.dir-locals.el
-
-!configs/

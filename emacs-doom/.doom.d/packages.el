@@ -13,6 +13,8 @@
 (package! org-super-agenda)
 (package! org-edna)
 (package! doct)
+;; (unpin! transient)
+;; (unpin! forge)
 
 (unless (am/phone-p)
   (package! jsonnet-mode)
@@ -31,7 +33,6 @@
   (package! pkgbuild-mode)
   (package! nasm-mode)
   (package! rg)
-  (package! forge)
   (package! exec-path-from-shell)
   (package! js2-refactor)
   (package! org-wild-notifier)
@@ -40,7 +41,8 @@
   (package! tts-editor
     :recipe (:host github :repo "dangersalad/emacs-tts-editor"))
   (package! magit-annex)
-  (package! git-annex))
+  (package! git-annex)
+  (package! gh-notify))
 
 ;; To install a package directly from a remote git repo, you must specify a
 ;; `:recipe'. You'll find documentation on what `:recipe' accepts here:

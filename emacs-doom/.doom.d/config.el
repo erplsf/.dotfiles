@@ -201,8 +201,8 @@ With a prefix argument, remove the effective date."
                                                 '(
                                                   (:name "Inbox"
                                                    :tag "inbox")
-                                                  ;; (:name "Work"
-                                                  ;;  :tag "work")
+                                                  (:name "Work"
+                                                   :tag "work")
                                                   (:name "Next"
                                                    :tag "next")
                                                   ;; (:name "Weekend"
@@ -264,9 +264,6 @@ With a prefix argument, remove the effective date."
     (setq lsp-java-format-settings-url "file://home/komrad/.leanix-java-formatting.xml")
     (setq lsp-java-format-settings-profile "LeanixFlavoredGoogleStyle")
     (setq lsp-java-save-actions-organize-imports t))
-
-  (use-package! forge
-    :after magit)
 
   (use-package company
     :config

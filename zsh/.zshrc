@@ -283,6 +283,7 @@ alias hl="hledger"
 alias hb="hl balance -B --pretty-tables --auto --monthly -b 'last quarter' -T budget"
 alias he="hl is -B --pretty-tables --monthly -b 'last quarter'"
 alias hr="hl roi -Y --inv investments --pnl 'unrealized' --value='then'"
+alias heh="he -b2018 -ethisyear -YA --depth 1" # expenses horizon
 
 # doom emacs
 export PATH="$PATH:$HOME/.emacs.d/bin"

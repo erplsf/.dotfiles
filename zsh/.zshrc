@@ -384,3 +384,6 @@ zinit wait lucid for \
     zsh-users/zsh-completions \
  atload"!_zsh_autosuggest_start" \
     zsh-users/zsh-autosuggestions
+
+# nixos specific alias
+alias nrs="sudo nixos-rebuild switch --flake \"$HOME/.dotfiles/.?submodules=1\""

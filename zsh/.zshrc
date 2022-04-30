@@ -363,7 +363,7 @@ zinit depth'1' \
       light-mode wait lucid for \
       @asdf-vm/asdf
 
-if [ ! -d "${HOME}/.asdf/installs/istioctl/" ]; then
+if [ ! -d "${HOME}/.asdf/plugins/istioctl/" ]; then
    asdf plugin-add istioctl
 fi
 

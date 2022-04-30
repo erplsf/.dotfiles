@@ -190,9 +190,10 @@ hc keybind $Mod-p spawn rofi-pass
 hc keybind $Mod-t spawn ~/.config/herbstluftwm/toogle_top.sh
 hc keybind $Mod-Right use_index +1 --skip-visible
 hc keybind $Mod-Left use_index -1 --skip-visible
+hc keybind $Mod-l spawn xautolock -locknow
 
 # padding for polybar
-hc pad 0 25 0 0 0
+hc pad 0 40 0 0 0
 
 # autostart stuff
 if hc silent new_attr bool my_not_first_autostart; then

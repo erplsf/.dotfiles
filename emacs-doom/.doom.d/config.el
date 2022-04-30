@@ -23,7 +23,7 @@
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 
 ;; TODO: add a method for checking and falling back if font doesn't exist
-(setq doom-font (font-spec :family "Jetbrains Mono" :size 18))
+(setq doom-font (font-spec :family "Jetbrains Mono" :size 24))
 
 ;; (setq doom-font (font-spec :family "Fira Code" :size 20))
 

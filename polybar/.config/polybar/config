@@ -59,7 +59,7 @@ font-0 = Input Mono:pixelsize=7
 font-1 = unifont:fontformat=truetype:size=7:antialias=false
 font-2 = MesloLGS NF:pixelsize=7
 
-modules-left = 
+modules-left =
 modules-center = 
 # modules-right = vpn repo_check org filesystem pulseaudio xkeyboard memory cpu battery date powermenu
 modules-right = pulseaudio xkeyboard memory cpu battery date powermenu

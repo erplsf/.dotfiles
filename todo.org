@@ -1,0 +1,3 @@
+#+title: ideas
+* TODO add tag (herbstluftwm desktop list) to polybar
+* TODO add window (herbstluftwm client list) to polybar

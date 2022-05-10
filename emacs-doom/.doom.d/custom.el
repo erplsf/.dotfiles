@@ -4,7 +4,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(safe-local-variable-values
-   '((rmsbolt-demangle . t)
+   '((org-log-done . time)
+     (rmsbolt-demangle . t)
      (rmsbolt-asm-format . "intel")
      (rmsbolt-disassemble)
      (rmsbolt-asm-format . ~)

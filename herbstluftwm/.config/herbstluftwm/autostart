@@ -200,7 +200,6 @@ if hc silent new_attr bool my_not_first_autostart; then
 	picom -b --config ~/.config/picom/picom.conf
 	polybar -r default &
 	redshift -l 53:9 -b 1:0.75 &
-	hamsket &
 	qxkb &
 	dunst &
 	alacritty &

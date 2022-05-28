@@ -402,3 +402,5 @@ export SDKMAN_DIR="$HOME/.sdkman"
 zinit from'gh-r' as'program' \
       light-mode wait lucid for \
       @craftypath/nextver
+
+if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then . "$HOME/.nix-profile/etc/profile.d/nix.sh"; fi # added by Nix installer

@@ -184,7 +184,7 @@ With a prefix argument, remove the effective date."
    org-agenda-show-future-repeats nil
    org-agenda-custom-commands '(("p" "Personal super-agenda"
                                  (
-                                  (agenda "" ((org-agenda-span 'day)
+                                  (agenda "" ((org-agenda-span 3)
                                               (org-super-agenda-groups
                                                '((:name "Today"
                                                   :time-grid t)
@@ -260,9 +260,9 @@ With a prefix argument, remove the effective date."
 
   (use-package! lsp-java
     :init
-    (setq lsp-java-java-path "/usr/lib/jvm/java-11-openjdk/bin/java")
-    (setq lsp-java-format-settings-url "file://home/komrad/.leanix-java-formatting.xml")
-    (setq lsp-java-format-settings-profile "LeanixFlavoredGoogleStyle")
+    ;; (setq lsp-java-java-path "/usr/lib/jvm/java-11-openjdk/bin/java")
+    ;; (setq lsp-java-format-settings-url "file://home/komrad/.leanix-java-formatting.xml")
+    ;; (setq lsp-java-format-settings-profile "LeanixFlavoredGoogleStyle")
     (setq lsp-java-save-actions-organize-imports t))
 
   (use-package company

@@ -269,7 +269,11 @@ fi
 
 # alias for mplayer
 
-alias mpv="mpv --hwdec=API --input-ipc-server=/tmp/mpv.socket"
+if [ -f "$HOME/mpv/mpv.app/Contents/MacOS/mpv" ]; then
+      alias mpv="$HOME/mpv/mpv.app/Contents/MacOS/mpv --hwdec=API --input-ipc-server=/tmp/mpv.socket"
+else
+      alias mpv="mpv --hwdec=API --input-ipc-server=/tmp/mpv.socket"
+fi
 
 # alias for mkdir
 
@@ -323,7 +327,7 @@ if command -v aws-vault 1>/dev/null 2>&1; then
                         ;;
                   $~caseBranch)
                         mapped_env="${envs[$1]}"
-                        aws-vault exec "klar-${mapped_env}" -- zsh -c "export KUBECTL_CONTEXT=${mapped_env} && . ${HOME}/.vault-shadows && ${*[3,-1]}"
+                        aws-vault exec "klar-${mapped_env}" -- zsh -c "export KUBE_CONFIG_PATH=$HOME/.kube/config && export KUBECTL_CONTEXT=${mapped_env} && . ${HOME}/.vault-shadows && ${*[3,-1]}"
                         exitCode=$?
                         ;;
                   *)
@@ -385,3 +389,16 @@ zinit wait lucid for \
     zsh-users/zsh-completions \
  atload"!_zsh_autosuggest_start" \
     zsh-users/zsh-autosuggestions
+
+function tcl() {
+      fd -t d --hidden '.terragrunt|.terraform' | xargs rm -r
+      fd -t f --hidden '.terraform.lock.hcl' | xargs rm
+}
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+zinit from'gh-r' as'program' \
+      light-mode wait lucid for \
+      @craftypath/nextver

@@ -4,7 +4,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(safe-local-variable-values
-   '((rmsbolt-demangle . t)
+   '((org-log-done . time)
+     (rmsbolt-demangle . t)
      (rmsbolt-asm-format . "intel")
      (rmsbolt-disassemble)
      (rmsbolt-asm-format . ~)
@@ -17,3 +18,9 @@
       ("TOSEND" . "salmon")
       ("SENT" . "olive drab")
       ("RECEIVED" . "chocolate")))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

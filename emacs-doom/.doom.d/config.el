@@ -300,6 +300,9 @@ With a prefix argument, remove the effective date."
   (use-package! tts-editor
       :commands (tts-editor/listen-start
                tts-editor/listen-stop))
+
+  (add-hook! python-mode
+    (setq lsp-python-ms-executable (executable-find "python-language-server")))
 )
 
 (if (eq system-type 'darwin)

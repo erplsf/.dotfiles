@@ -67,8 +67,11 @@ hc keybind $Mod-Control-Up resize up +$resizestep
 hc keybind $Mod-Control-Right resize right +$resizestep
 
 # media
-hc keybind 0x1008ff03 spawn light -U 10
-hc keybind 0x1008ff02 spawn light -A 10
+hc keybind 0x1008ff03 spawn light -U 10 # brightness down
+hc keybind 0x1008ff02 spawn light -A 10 # brightness up
+hc keybind 0x1008ff12 spawn pamixer -t # toggle mute
+hc keybind 0x1008ff11 spawn pamixer -d 10 # sound down
+hc keybind 0x1008ff13 spawn pamixer -i 10 # sound up
 
 # default layout
 hc set default_frame_layout max
@@ -188,7 +191,7 @@ hc unlock
 # custom stuff
 
 # keybinds
-hc keybind $Mod-q spawn rofi -show combi
+hc keybind $Mod-q spawn rofi -show combi -show drun
 hc keybind $Mod-c spawn rofi -show calc -modi calc -no-show-match -no-sort
 hc keybind $Mod-p spawn rofi-pass
 hc keybind $Mod-t spawn ~/.config/herbstluftwm/toogle_top.sh

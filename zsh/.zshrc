@@ -294,8 +294,6 @@ alias hc="herbstclient"
 # TODO: alias only if command exists
 alias vim="nvim"
 
-export PATH="$HOME/.poetry/bin:$PATH"
-
 # alias editor
 alias edit="$EDITOR"
 
@@ -385,5 +383,10 @@ zinit wait lucid for \
  atload"!_zsh_autosuggest_start" \
     zsh-users/zsh-autosuggestions
 
-# nixos specific alias
-alias nrs="sudo nixos-rebuild switch --flake \"$HOME/.dotfiles/.?submodules=1\""
+# nixos specific aliases
+alias nsr="sudo nixos-rebuild switch --flake \"$HOME/.dotfiles/.?submodules=1\""
+alias nsu="nix flake update ~/.dotfiles"
+
+if command -v direnv 1>/dev/null 2>&1; then
+      eval "$(direnv hook zsh)"
+fi

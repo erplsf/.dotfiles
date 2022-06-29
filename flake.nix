@@ -9,12 +9,10 @@
 
   description = "Config for my NixOS testing VM.";
 
-  outputs = inputs @ { self, nixpkgs, home-manager, ... }:
+  outputs = inputs@{ self, nixpkgs, home-manager, ... }:
     let
       basePath = ./nixos;
       lib = nixpkgs.lib;
       mLib = import (basePath + /lib) { inherit inputs lib; };
-    in {
-      nixosConfigurations = mLib.systemConfigs (basePath + /hosts);
-    };
+    in { nixosConfigurations = mLib.systemConfigs (basePath + /hosts); };
 }

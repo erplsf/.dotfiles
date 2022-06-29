@@ -16,6 +16,10 @@ fi
 # Load it
 source "${ZINIT_HOME}/zinit.zsh"
 
+# are we on NixOS?
+grep -q 'NAME=NixOS' /etc/os-release
+NIXOS=$?
+
 # Regular plugins loaded without investigating.
 zinit depth'1' \
       light-mode wait lucid for \
@@ -121,17 +125,6 @@ zinit from'gh-r' as'program' \
       light-mode wait lucid for \
       @sharkdp/hyperfine
 
-# tfenv stuff
-zinit depth'1' atinit'export PATH="$PATH:$PWD"' \
-      as'command' pick'bin/tfenv' nocompile'!' \
-      light-mode wait lucid for \
-      tfutils/tfenv
-
-# tgswitch
-zinit from'gh-r' as'program' \
-      light-mode wait lucid for \
-      @warrensbox/tgswitch
-
 # load-tgswitch() {
 #   local tgswitchrc_path=".tgswitchrc"
 
@@ -153,10 +146,20 @@ zinit from'gh-r' \
 alias l='exa -l'
 alias ls='exa'
 
-# jq
+if [ $NIXOS -ne 0 ]; then
+zinit depth'1' atinit'export PATH="$PATH:$PWD"' \
+      as'command' pick'bin/tfenv' nocompile'!' \
+      light-mode wait lucid for \
+      tfutils/tfenv
+
 zinit from'gh-r' as'program' mv'jq* -> jq' \
       light-mode wait lucid for \
       stedolan/jq
+
+zinit from'gh-r' as'program' \
+      light-mode wait lucid for \
+      @warrensbox/tgswitch
+fi
 
 # nnn stuff: TODO: migrate nnn to zinit
 
@@ -301,6 +304,9 @@ if [ -f "/opt/local/bin/port" ]; then
     export PATH="$PATH:/opt/local/bin"
 fi
 
+
+alias aws-vault='aws-vault --backend pass'
+
 if command -v aws-vault 1>/dev/null 2>&1; then
       function awe() {
             declare -A envs
@@ -390,3 +396,5 @@ alias nsu="nix flake update ~/.dotfiles"
 if command -v direnv 1>/dev/null 2>&1; then
       eval "$(direnv hook zsh)"
 fi
+
+alias open="xdg-open"

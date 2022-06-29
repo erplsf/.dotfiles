@@ -183,8 +183,7 @@ With a prefix argument, remove the effective date."
    org-habit-show-habits-only-for-today nil
    org-agenda-show-future-repeats nil
    org-agenda-custom-commands '(("p" "Personal super-agenda"
-                                 (
-                                  (agenda "" ((org-agenda-span 'day)
+                                 ((agenda "" ((org-agenda-span 'day)
                                               (org-super-agenda-groups
                                                '((:name "Today"
                                                   :time-grid t)
@@ -195,7 +194,7 @@ With a prefix argument, remove the effective date."
                                   ;;             (org-agenda-span 6)
                                   ;;             (org-super-agenda-groups
                                   ;;              '(:time-grid t))))
-                                  (alltodo "" ((org-agenda-overriding-header "")
+                                  (todo "" ((org-agenda-overriding-header "")
                                                (org-agenda-block-separator "---")
                                                (org-super-agenda-groups
                                                 '(
@@ -214,7 +213,17 @@ With a prefix argument, remove the effective date."
                                                   ;; :auto-tags t)
                                                   ;; (:name "Active films"
                                                   ;;        :todo ("ACTIVE" "TOWATCH"))
-                                                  (:discard (:anything t))))))))))
+                                                  (:discard (:anything t))))))))
+                                ("w" "Work super-agenda"
+                                 ((alltodo "" ((org-agenda-overriding-header "")
+                                               (org-agenda-block-separator "---")
+                                               (org-super-agenda-groups
+                                                '(
+                                                  (:name "Work"
+                                                   :tag "work")
+                                                  (:discard (:anything t))))))))
+                                ))
+
   (use-package! doct
     :config
     (setq org-capture-templates (doct '(
@@ -232,7 +241,7 @@ With a prefix argument, remove the effective date."
 
 (use-package! projectile
   :config
-  (setq projectile-project-search-path '("~/code/"))
+  (setq projectile-project-search-path '(("~/code" . 2)))
   (setq projectile-git-submodule-command nil))
 
 (unless (am/phone-p)

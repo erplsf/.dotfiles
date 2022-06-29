@@ -26,6 +26,7 @@ primary = #ffb52a
 secondary = #e60053
 
 [bar/default]
+monitor = ${env:MONITOR:}
 enable-ipc = true
 
 ;monitor = ${env:MONITOR:HDMI-1}

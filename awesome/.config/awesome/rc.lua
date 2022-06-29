@@ -14,6 +14,8 @@ local hotkeys_popup = require("awful.hotkeys_popup").widget
 -- when client with a matching name is opened:
 require("awful.hotkeys_popup.keys")
 
+local xrandr = require("xrandr")
+
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
 -- another config (This code will only ever execute for the fallback config)
@@ -342,7 +344,9 @@ globalkeys = gears.table.join(
 
     -- Custom keys
     awful.key({ modkey}, "l" , function() awful.spawn("physlock -p 'no cake for you'") end,
-              {description = "Lock the screen", group = "system"})
+              {description = "Lock the screen", group = "system"}),
+    awful.key({ modkey, "Shift" }, "r" , function() xrandr.xrandr() end,
+              {description = "Xrandr helper", group = "system"})
 )
 
 clientkeys = gears.table.join(

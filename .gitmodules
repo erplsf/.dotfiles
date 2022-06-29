@@ -1,3 +1,3 @@
 [submodule "nixos/hosts/circle"]
 	path = nixos/hosts/circle
-	url = git@github.com:erplsf/nixos-hosts-circle.git
+	url = /home/dot/.dotfiles/nixos/hosts/circle

@@ -23,7 +23,7 @@
 ;;       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 
 ;; TODO: add a method for checking and falling back if font doesn't exist
-(setq doom-font (font-spec :family "Jetbrains Mono" :size 18))
+(setq doom-font (font-spec :family "Jetbrains Mono" :size 24))
 
 ;; (setq doom-font (font-spec :family "Fira Code" :size 20))
 
@@ -183,8 +183,7 @@ With a prefix argument, remove the effective date."
    org-habit-show-habits-only-for-today nil
    org-agenda-show-future-repeats nil
    org-agenda-custom-commands '(("p" "Personal super-agenda"
-                                 (
-                                  (agenda "" ((org-agenda-span 3)
+                                 ((agenda "" ((org-agenda-span 'day)
                                               (org-super-agenda-groups
                                                '((:name "Today"
                                                   :time-grid t)
@@ -195,7 +194,7 @@ With a prefix argument, remove the effective date."
                                   ;;             (org-agenda-span 6)
                                   ;;             (org-super-agenda-groups
                                   ;;              '(:time-grid t))))
-                                  (alltodo "" ((org-agenda-overriding-header "")
+                                  (todo "" ((org-agenda-overriding-header "")
                                                (org-agenda-block-separator "---")
                                                (org-super-agenda-groups
                                                 '(
@@ -214,7 +213,17 @@ With a prefix argument, remove the effective date."
                                                   ;; :auto-tags t)
                                                   ;; (:name "Active films"
                                                   ;;        :todo ("ACTIVE" "TOWATCH"))
-                                                  (:discard (:anything t))))))))))
+                                                  (:discard (:anything t))))))))
+                                ("w" "Work super-agenda"
+                                 ((alltodo "" ((org-agenda-overriding-header "")
+                                               (org-agenda-block-separator "---")
+                                               (org-super-agenda-groups
+                                                '(
+                                                  (:name "Work"
+                                                   :tag "work")
+                                                  (:discard (:anything t))))))))
+                                ))
+
   (use-package! doct
     :config
     (setq org-capture-templates (doct '(
@@ -232,7 +241,7 @@ With a prefix argument, remove the effective date."
 
 (use-package! projectile
   :config
-  (setq projectile-project-search-path '("~/code/"))
+  (setq projectile-project-search-path '(("~/code" . 2)))
   (setq projectile-git-submodule-command nil))
 
 (unless (am/phone-p)
@@ -297,6 +306,9 @@ With a prefix argument, remove the effective date."
   (use-package! tts-editor
       :commands (tts-editor/listen-start
                tts-editor/listen-stop))
+
+  (add-hook! python-mode
+    (setq lsp-python-ms-executable (executable-find "python-language-server")))
 )
 
 (if (eq system-type 'darwin)

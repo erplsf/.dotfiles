@@ -25,28 +25,38 @@ hc keybind $Mod-Shift-c close
 hc keybind $Mod-Return spawn ${TERMINAL:-alacritty} # use your $TERMINAL with alacritty as fallback
 hc keybind $Mod-e spawn emacsclient --create-frame --no-wait
 hc keybind $Mod-w spawn emacsclient -n -e '(yequake-toggle "org-capture")'
-hc keybind $Mod-m spawn sudo nvidia-settings
+hc keybind $Mod-m spawn nvidia-settings
 
 # basic movement
 # focusing clients
-hc keybind $Mod-Left focus left
-hc keybind $Mod-Down focus down
-# hc keybind $Mod-Up    focus up
-# hc keybind $Mod-Right focus right
+hc keybind $Mod-Left  focus left
+hc keybind $Mod-Down  focus down
+hc keybind $Mod-Up    focus up
+hc keybind $Mod-Right focus right
 hc keybind $Mod-h focus left
 hc keybind $Mod-j focus down
 hc keybind $Mod-k focus up
 hc keybind $Mod-l focus right
 
+# moving clients in multi-monitor setup
+hc keybind $Mod-Shift-Left or / shift left / \
+    chain , lock , shift_to_monitor -l , focus_monitor -l , unlock
+hc keybind $Mod-Shift-Down or / shift down / \
+    chain , lock , shift_to_monitor -d , focus_monitor -d , unlock
+hc keybind $Mod-Shift-Up or / shift up / \
+    chain , lock , shift_to_monitor -u , focus_monitor -u , unlock
+hc keybind $Mod-Shift-Right or / shift right / \
+    chain , lock , shift_to_monitor -r , focus_monitor -r , unlock
+
 # moving clients
-hc keybind $Mod-Shift-Left shift left
-hc keybind $Mod-Shift-Down shift down
-hc keybind $Mod-Shift-Up shift up
-hc keybind $Mod-Shift-Right shift right
-hc keybind $Mod-Shift-h shift left
-hc keybind $Mod-Shift-j shift down
-hc keybind $Mod-Shift-k shift up
-hc keybind $Mod-Shift-l shift right
+# hc keybind $Mod-Shift-Left shift left
+# hc keybind $Mod-Shift-Down shift down
+# hc keybind $Mod-Shift-Up shift up
+# hc keybind $Mod-Shift-Right shift right
+# hc keybind $Mod-Shift-h shift left
+# hc keybind $Mod-Shift-j shift down
+# hc keybind $Mod-Shift-k shift up
+# hc keybind $Mod-Shift-l shift right
 
 # splitting frames
 # create an empty frame at the specified direction
@@ -66,27 +76,76 @@ hc keybind $Mod-Control-Down resize down +$resizestep
 hc keybind $Mod-Control-Up resize up +$resizestep
 hc keybind $Mod-Control-Right resize right +$resizestep
 
+# media
+hc keybind 0x1008ff03 spawn light -U 10 # brightness down
+hc keybind 0x1008ff02 spawn light -A 10 # brightness up
+hc keybind 0x1008ff12 spawn pamixer -t # toggle mute
+hc keybind 0x1008ff11 spawn pamixer -d 10 # sound down
+hc keybind 0x1008ff13 spawn pamixer -i 10 # sound up
+hc keybind $Mod-p spawn playerctl play-pause
+
 # default layout
 hc set default_frame_layout max
 hc set_layout max
 
 # tags
-tag_names=({1..9})
-tag_keys=({1..9} 0)
+mon0_names=( 0_{1..9} ) # tag names for monitor 1
+mon1_names=( 1_{1..9} ) # tag names for monitor 2
+mon2_names=( 2_{1..9} ) # tag names for monitor 3
+fallback_names=( {1..9} ) # tag names for all other monitors
+tag_keys=( {1..9} 0 )
 
-hc rename default "${tag_names[0]}" || true
-for i in ${!tag_names[@]}; do
-	hc add "${tag_names[$i]}"
-	key="${tag_keys[$i]}"
-	if ! [ -z "$key" ]; then
-		hc keybind "$Mod-$key" use_index "$i"
-		hc keybind "$Mod-Shift-$key" move_index "$i"
-	fi
+hc rename default "${mon0_names[0]}" || true
+for tag in "${mon0_names[@]}" "${mon1_names[@]}" "${mon2_names[@]}" "${fallback_names[@]}" ; do
+    hc try silent add "$tag"
+done
+
+for i in ${!tag_keys[@]} ; do
+    key="${tag_keys[$i]}"
+    # the keybinding works as follows: the or executes the commands separated by
+    # CASE and stops executing them after the first of those succeeds.
+    # the first command is: check that we are on monitor 3 and can switch to tag "${mon1_names[$i]}"
+    # if only one of these two steps fail, try the second one (and so one).
+    # The setup for two monitors is as follows:
+    hc keybind "$Mod-$key" \
+        or CASE and . compare monitors.focus.index = 0 . use "${mon0_names[$i]}" \
+           CASE and . compare monitors.focus.index = 1 . use "${mon1_names[$i]}" \
+           CASE and . compare monitors.focus.index = 2 . use "${mon2_names[$i]}" \
+           CASE use "${fallback_names[$i]}"
+    hc keybind "$Mod-Shift-$key" \
+        or CASE and . compare monitors.focus.index = 0 . move "${mon0_names[$i]}" \
+           CASE and . compare monitors.focus.index = 1 . move "${mon1_names[$i]}" \
+           CASE and . compare monitors.focus.index = 2 . move "${mon2_names[$i]}" \
+           CASE move "${fallback_names[$i]}"
 done
 
 # cycle through tags
-hc keybind $Mod-period use_index +1 --skip-visible
-hc keybind $Mod-comma use_index -1 --skip-visible
+# add additional information in order to cycle only through a monitor's tags
+# and not through all tags
+define-tag-cycle() {
+    local n=$#
+    local tags=( "$@" )
+    for i in "${!tags[@]}" ; do
+        local t="${tags[$i]}"
+        hc chain , new_attr string tags.by-name."$t".my_previous_tag \
+                 , set_attr tags.by-name."$t".my_previous_tag "${tags[$(((i - 1 + n) % n))]}" \
+                 , new_attr string tags.by-name."$t".my_next_tag \
+                 , set_attr tags.by-name."$t".my_next_tag "${tags[$(((i + 1) % n))]}"
+    done
+}
+
+define-tag-cycle "${mon0_names[@]}"
+define-tag-cycle "${mon1_names[@]}"
+define-tag-cycle "${mon2_names[@]}"
+define-tag-cycle "${fallback_names[@]}"
+
+# cycle through tags
+# check whether the current tag as a custom "next tag" configured
+# if yes, jump to that one, otherwise fall back to ordinary use_index +1
+hc keybind $Mod-period or , substitute NEXT tags.focus.my_next_tag use NEXT  \
+                          , use_index +1 --skip-visible
+hc keybind $Mod-comma  or , substitute PREV tags.focus.my_previous_tag use PREV  \
+                          , use_index +1 --skip-visible
 
 # layouting
 hc keybind $Mod-r remove
@@ -114,54 +173,71 @@ hc keybind $Mod-Shift-Tab cycle_all -1
 # hc keybind $Mod-c cycle NOTE: See line 186
 hc keybind $Mod-i jumpto urgent
 
+# multi-monitor
+hc set swap_monitors_to_get_tag 0
+
 # theme
 hc attr theme.tiling.reset 1
 hc attr theme.floating.reset 1
-hc set frame_border_active_color '#222222'
-hc set frame_border_normal_color '#101010'
-hc set frame_bg_normal_color '#565656'
-hc set frame_bg_active_color '#345F0C'
+hc set frame_border_active_color '#222222cc'
+hc set frame_border_normal_color '#101010cc'
+hc set frame_bg_normal_color '#565656aa'
+hc set frame_bg_active_color '#345F0Caa'
 hc set frame_border_width 1
-hc set always_show_frame 1
-hc set frame_bg_transparent 1
-hc set frame_transparent_width 0
-hc set frame_gap 0
+hc set always_show_frame on
+hc set frame_bg_transparent on
+hc set frame_transparent_width 5
+hc set frame_gap 4
 
-# hc attr theme.active.color '#9fbc00'
-hc attr theme.active.color '#bca100'
-hc attr theme.normal.color '#454545'
-hc attr theme.urgent.color orange
+hc attr theme.title_height 15
+hc attr theme.title_when always
+# hc attr theme.title_font 'Dejavu Sans:pixelsize=18'  # example using Xft
+hc attr theme.title_font '-*-fixed-medium-r-*-*-18-*-*-*-*-*-*-*'
+hc attr theme.title_depth 3  # space below the title's baseline
+hc attr theme.active.color '#345F0Cef'
+hc attr theme.title_color '#ffffff'
+hc attr theme.normal.color '#323232dd'
+hc attr theme.urgent.color '#7811A1dd'
+hc attr theme.tab_color '#1F1F1Fdd'
+hc attr theme.active.tab_color '#2B4F0Add'
+hc attr theme.active.tab_outer_color '#6C8257dd'
+hc attr theme.active.tab_title_color '#ababab'
+hc attr theme.normal.title_color '#898989'
 hc attr theme.inner_width 1
 hc attr theme.inner_color black
-hc attr theme.border_width 1
-hc attr theme.floating.border_width 1
+hc attr theme.border_width 3
+hc attr theme.floating.border_width 4
 hc attr theme.floating.outer_width 1
 hc attr theme.floating.outer_color black
-hc attr theme.active.inner_color '#3E4A00'
-hc attr theme.active.outer_color '#3E4A00'
+hc attr theme.active.inner_color '#789161'
+hc attr theme.urgent.inner_color '#9A65B0'
+hc attr theme.normal.inner_color '#606060'
+# copy inner color to outer_color
+for state in active urgent normal ; do
+    hc substitute C theme.${state}.inner_color \
+        attr theme.${state}.outer_color C
+done
+hc attr theme.tiling.outer_width 1
 hc attr theme.background_color '#141414'
 
 hc set window_gap 0
 hc set frame_padding 0
-hc set smart_window_surroundings 0
-hc set smart_frame_surroundings 1
+hc set smart_window_surroundings off
+hc set smart_frame_surroundings on
 hc set mouse_recenter_gap 0
 
 # rules
 hc unrule -F
 #hc rule class=XTerm tag=3 # move all xterms to tag 3
 hc rule focus=on # normally focus new clients
+hc rule floatplacement=smart
 #hc rule focus=off # normally do not focus new clients
 # give focus to most common terminals
 #hc rule class~'(.*[Rr]xvt.*|.*[Tt]erm|Konsole)' focus=on
-hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' pseudotile=on
+hc rule windowtype~'_NET_WM_WINDOW_TYPE_(DIALOG|UTILITY|SPLASH)' floating=on
 hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
-
-# Custom rules
-# Send Hamsket to tag 4
-hc rule label=hamsket class='Hamsket' tag=4
-hc rule label=alacritty class='Alacritty' tag=3
+hc rule fixedsize floating=on
 
 hc set tree_style '╾│ ├└╼─┐'
 
@@ -184,15 +260,19 @@ hc unlock
 # custom stuff
 
 # keybinds
-hc keybind $Mod-q spawn rofi -show combi
+hc keybind $Mod-q spawn rofi -show combi -show drun -window-command 'dunstify "wmctrl -i -a {window}"'
 hc keybind $Mod-c spawn rofi -show calc -modi calc -no-show-match -no-sort
-hc keybind $Mod-p spawn rofi-pass
+# hc keybind $Mod-p spawn rofi-pass
 hc keybind $Mod-t spawn ~/.config/herbstluftwm/toogle_top.sh
-hc keybind $Mod-Right use_index +1 --skip-visible
-hc keybind $Mod-Left use_index -1 --skip-visible
+# hc keybind $Mod-Right use_index +1 --skip-visible
+# hc keybind $Mod-Left use_index -1 --skip-visible
+hc keybind $Mod-l spawn xautolock -locknow
+hc keybind $Mod-Shift-s spawn scrot -s '%F_%T.png' -e 'mv $f ~/screenshots/'
 
-# padding for polybar
-hc pad 0 25 0 0 0
+# padding for polybar on all monitors
+hc pad 0 40 0 0 0
+hc pad 1 40 0 0 0
+hc pad 2 40 0 0 0
 
 # autostart stuff
 if hc silent new_attr bool my_not_first_autostart; then

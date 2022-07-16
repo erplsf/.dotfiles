@@ -16,6 +16,10 @@ fi
 # Load it
 source "${ZINIT_HOME}/zinit.zsh"
 
+# are we on NixOS?
+grep -q 'NAME=NixOS' /etc/os-release
+NIXOS=$?
+
 # Regular plugins loaded without investigating.
 zinit depth'1' \
       light-mode wait lucid for \
@@ -121,17 +125,6 @@ zinit from'gh-r' as'program' \
       light-mode wait lucid for \
       @sharkdp/hyperfine
 
-# tfenv stuff
-zinit depth'1' atinit'export PATH="$PATH:$PWD"' \
-      as'command' pick'bin/tfenv' nocompile'!' \
-      light-mode wait lucid for \
-      tfutils/tfenv
-
-# tgswitch
-zinit from'gh-r' as'program' \
-      light-mode wait lucid for \
-      @warrensbox/tgswitch
-
 # load-tgswitch() {
 #   local tgswitchrc_path=".tgswitchrc"
 
@@ -153,10 +146,20 @@ zinit from'gh-r' \
 alias l='exa -l'
 alias ls='exa'
 
-# jq
+if [ $NIXOS -ne 0 ]; then
+zinit depth'1' atinit'export PATH="$PATH:$PWD"' \
+      as'command' pick'bin/tfenv' nocompile'!' \
+      light-mode wait lucid for \
+      tfutils/tfenv
+
 zinit from'gh-r' as'program' mv'jq* -> jq' \
       light-mode wait lucid for \
       stedolan/jq
+
+zinit from'gh-r' as'program' \
+      light-mode wait lucid for \
+      @warrensbox/tgswitch
+fi
 
 # nnn stuff: TODO: migrate nnn to zinit
 
@@ -299,14 +302,15 @@ alias hc="herbstclient"
 # TODO: alias only if command exists
 alias vim="nvim"
 
-export PATH="$HOME/.poetry/bin:$PATH"
-
 # alias editor
 alias edit="$EDITOR"
 
 if [ -f "/opt/local/bin/port" ]; then
     export PATH="$PATH:/opt/local/bin"
 fi
+
+
+alias aws-vault='aws-vault --backend pass'
 
 if command -v aws-vault 1>/dev/null 2>&1; then
       function awe() {
@@ -368,7 +372,7 @@ zinit depth'1' \
       light-mode wait lucid for \
       @asdf-vm/asdf
 
-if [ ! -d "${HOME}/.asdf/installs/istioctl/" ]; then
+if [ ! -d "${HOME}/.asdf/plugins/istioctl/" ]; then
    asdf plugin-add istioctl
 fi
 
@@ -403,4 +407,16 @@ zinit from'gh-r' as'program' \
       light-mode wait lucid for \
       @craftypath/nextver
 
-if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then . "$HOME/.nix-profile/etc/profile.d/nix.sh"; fi # added by Nix installer
+if [ $NIXOS -ne 0 ]; then
+      if [ -e "$HOME/.nix-profile/etc/profile.d/nix.sh" ]; then . "$HOME/.nix-profile/etc/profile.d/nix.sh"; fi # added by Nix installer
+fi
+
+# nixos specific aliases
+alias nsr="sudo nixos-rebuild switch --flake \"$HOME/.dotfiles/.?submodules=1\""
+alias nsu="nix flake update ~/.dotfiles"
+
+if command -v direnv 1>/dev/null 2>&1; then
+      eval "$(direnv hook zsh)"
+fi
+
+alias open="xdg-open"

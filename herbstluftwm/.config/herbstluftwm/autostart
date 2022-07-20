@@ -83,6 +83,7 @@ hc keybind 0x1008ff12 spawn pamixer -t # toggle mute
 hc keybind 0x1008ff11 spawn pamixer -d 10 # sound down
 hc keybind 0x1008ff13 spawn pamixer -i 10 # sound up
 hc keybind $Mod-p spawn playerctl play-pause
+hc keybind $Mod-k spawn xlock
 
 # default layout
 hc set default_frame_layout max

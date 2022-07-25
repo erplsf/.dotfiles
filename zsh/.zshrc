@@ -420,3 +420,7 @@ if command -v direnv 1>/dev/null 2>&1; then
 fi
 
 alias open="xdg-open"
+
+zinit from'gh-r' as'program' \
+      light-mode wait lucid for \
+      @gruntwork-io/cloud-nuke

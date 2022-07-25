@@ -5,6 +5,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    polymc.url = "github:PolyMC/PolyMC";
   };
 
   description = "Config for my NixOS testing VM.";

@@ -80,8 +80,8 @@ hc keybind $Mod-Control-Right resize right +$resizestep
 hc keybind 0x1008ff03 spawn light -U 10 # brightness down
 hc keybind 0x1008ff02 spawn light -A 10 # brightness up
 hc keybind 0x1008ff12 spawn pamixer -t # toggle mute
-hc keybind 0x1008ff11 spawn pamixer -d 10 # sound down
-hc keybind 0x1008ff13 spawn pamixer -i 10 # sound up
+hc keybind 0x1008ff11 spawn pamixer -d 5 # sound down
+hc keybind 0x1008ff13 spawn pamixer -i 5 # sound up
 hc keybind $Mod-p spawn playerctl play-pause
 hc keybind $Mod-k spawn xlock
 

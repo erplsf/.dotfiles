@@ -92,11 +92,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1658728660,
-        "narHash": "sha256-Y4qnINXS7XefxYXnotEoXpXTgmvEtaKEC4yaHXUL+NQ=",
+        "lastModified": 1658862485,
+        "narHash": "sha256-y5uq4CfufFaoAtWDvqezZm//7jr2BjcRnmFCifrIj3E=",
         "owner": "PolyMC",
         "repo": "PolyMC",
-        "rev": "65a945f968459786bc235d37bf1302d03ccd07d6",
+        "rev": "336f1f4f5067cf45bc34031f376baafef9934e45",
         "type": "github"
       },
       "original": {

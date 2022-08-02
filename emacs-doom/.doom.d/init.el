@@ -171,7 +171,7 @@
        ;;terra             ; Earth and Moon in alignment for performance.
        ;;web               ; the tubes
        ;;yaml              ; JSON, but readable
-       ;;(zig +lsp)        ; add funny comment here
+       (zig +lsp)          ; add funny comment here
 
        :email
        ;;(mu4e +gmail)

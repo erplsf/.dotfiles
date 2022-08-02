@@ -424,3 +424,9 @@ alias open="xdg-open"
 zinit from'gh-r' as'program' \
       light-mode wait lucid for \
       @gruntwork-io/cloud-nuke
+
+zinit from'gh-r' as'program' \
+      light-mode wait lucid for \
+      mv'kubergrunt* -> kubergrunt' \
+      ver'v0.9.0' \
+      @gruntwork-io/kubergrunt

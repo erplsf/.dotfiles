@@ -309,6 +309,9 @@ With a prefix argument, remove the effective date."
 
   (add-hook! python-mode
     (setq lsp-python-ms-executable (executable-find "python-language-server")))
+
+  (add-hook! zig-mode
+    (setq lsp-zig-zls-executable (executable-find "zls")))
 )
 
 (if (eq system-type 'darwin)

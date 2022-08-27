@@ -30,7 +30,7 @@
 ;; There are two ways to load a theme. Both assume the theme is installed and
 ;; available. You can either set `doom-theme' or manually load a theme with the
 ;; `load-theme' function. This is the default:
-(setq doom-theme 'doom-tomorrow-night)
+(setq doom-theme 'doom-homage-black)
 
 ;; If you use `org' and don't want your org files in the default location below,
 ;; change `org-directory'. It must be set before org loads!
@@ -200,8 +200,8 @@ With a prefix argument, remove the effective date."
                                                 '(
                                                   (:name "Inbox"
                                                    :tag "inbox")
-                                                  (:name "Work"
-                                                   :tag "work")
+                                                  ;; (:name "Work"
+                                                  ;;  :tag "work")
                                                   (:name "Next"
                                                    :tag "next")
                                                   ;; (:name "Weekend"

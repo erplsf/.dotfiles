@@ -267,7 +267,7 @@ hc keybind $Mod-c spawn rofi -show calc -modi calc -no-show-match -no-sort
 hc keybind $Mod-t spawn ~/.config/herbstluftwm/toogle_top.sh
 # hc keybind $Mod-Right use_index +1 --skip-visible
 # hc keybind $Mod-Left use_index -1 --skip-visible
-hc keybind $Mod-l spawn xautolock -locknow
+hc keybind $Mod-l spawn xlock
 hc keybind $Mod-Shift-s spawn scrot -s '%F_%T.png' -e 'mv $f ~/screenshots/'
 
 # padding for polybar on all monitors

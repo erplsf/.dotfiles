@@ -270,12 +270,17 @@ if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
         add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
 fi
 
-# alias for mplayer
+# alias for mpv
 
 if [ -f "$HOME/mpv/mpv.app/Contents/MacOS/mpv" ]; then
       alias mpv="$HOME/mpv/mpv.app/Contents/MacOS/mpv --hwdec=API --input-ipc-server=/tmp/mpv.socket"
 else
-      alias mpv="mpv --hwdec=API --input-ipc-server=/tmp/mpv.socket"
+      function mpv() {
+            R=${RANDOM}
+            command mpv --pause --hwdec=API --input-ipc-server=/tmp/${R}.mpv.socket $1
+            rm /tmp/${R}.mpv.socket
+      }
+      # alias mpv="export R=\${RANDOM} && mpv --hwdec=API --input-ipc-server=/tmp/\${R}.mpv.socket && rm /tmp/\${R}.mpv.socket"
 fi
 
 # alias for mkdir
@@ -395,8 +400,8 @@ zinit wait lucid for \
     zsh-users/zsh-autosuggestions
 
 function tcl() {
-      fd -t d --hidden '.terragrunt|.terraform' | xargs rm -r
-      fd -t f --hidden '.terraform.lock.hcl' | xargs rm
+      fd -t d --hidden --no-ignore '.terragrunt|.terraform' | xargs rm -r
+      fd -t f --hidden --no-ignore '.terraform.lock.hcl' | xargs rm
 }
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!

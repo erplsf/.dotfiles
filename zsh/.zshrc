@@ -277,7 +277,7 @@ if [ -f "$HOME/mpv/mpv.app/Contents/MacOS/mpv" ]; then
 else
       function mpv() {
             R=${RANDOM}
-            command mpv --pause --hwdec=API --input-ipc-server=/tmp/${R}.mpv.socket $1
+            command mpv --pause --hwdec=API --save-position-on-quit --input-ipc-server=/tmp/${R}.mpv.socket $1
             rm /tmp/${R}.mpv.socket
       }
       # alias mpv="export R=\${RANDOM} && mpv --hwdec=API --input-ipc-server=/tmp/\${R}.mpv.socket && rm /tmp/\${R}.mpv.socket"

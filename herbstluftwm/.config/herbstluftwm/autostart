@@ -85,6 +85,13 @@ hc keybind 0x1008ff13 spawn pamixer -i 5 # sound up
 hc keybind $Mod-p spawn playerctl play-pause
 hc keybind $Mod-k spawn xlock
 
+# mpvmc
+hc keybind $Mod-Shift-p spawn ~/bin/mpvmc.sh '{"command": ["cycle", "pause"], "async": true}'
+hc keybind $Mod-Shift-i spawn ~/bin/mpvmc.sh '{"command": ["seek", "-10"], "async": true}'
+hc keybind $Mod-Shift-o spawn ~/bin/mpvmc.sh '{"command": ["seek", "10"], "async": true}'
+hc keybind $Mod-Shift-u spawn ~/bin/mpvmc.sh '{"command": ["add", "volume", "10"], "async": true}'
+hc keybind $Mod-Shift-y spawn ~/bin/mpvmc.sh '{"command": ["add", "volume", "-10"], "async": true}'
+
 # default layout
 hc set default_frame_layout max
 hc set_layout max

@@ -322,6 +322,7 @@ if command -v aws-vault 1>/dev/null 2>&1; then
             declare -A envs
             envs=(
                   [d]=develop
+                  [ds]=develop-security
                   [n]=neutral
                   [s]=staging
                   [live]=live
@@ -400,8 +401,8 @@ zinit wait lucid for \
     zsh-users/zsh-autosuggestions
 
 function tcl() {
-      fd -t d --hidden --no-ignore '.terragrunt|.terraform' | xargs rm -r
-      fd -t f --hidden --no-ignore '.terraform.lock.hcl' | xargs rm
+      fd -t d --hidden --no-ignore '.terragrunt|.terraform' | xargs rm -rf
+      fd -t f --hidden --no-ignore '.terraform.lock.hcl' | xargs rm -f
 }
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!

@@ -6,6 +6,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     polymc.url = "github:PolyMC/PolyMC";
+    emacs.url = "github:nix-community/emacs-overlay";
   };
 
   description = "Config for my NixOS testing VM.";

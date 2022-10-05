@@ -146,12 +146,12 @@ zinit from'gh-r' \
 alias l='exa -l'
 alias ls='exa'
 
-if [ $NIXOS -ne 0 ]; then
 zinit depth'1' atinit'export PATH="$PATH:$PWD"' \
       as'command' pick'bin/tfenv' nocompile'!' \
       light-mode wait lucid for \
       tfutils/tfenv
 
+if [ $NIXOS -ne 0 ]; then
 zinit from'gh-r' as'program' mv'jq* -> jq' \
       light-mode wait lucid for \
       stedolan/jq
@@ -314,7 +314,7 @@ if [ -f "/opt/local/bin/port" ]; then
     export PATH="$PATH:/opt/local/bin"
 fi
 
-
+export AWS_VAULT_PASS_PASSWORD_STORE_DIR="~/.aws-password-store"
 alias aws-vault='aws-vault --backend pass'
 
 if command -v aws-vault 1>/dev/null 2>&1; then

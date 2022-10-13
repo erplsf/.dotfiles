@@ -322,9 +322,13 @@ if command -v aws-vault 1>/dev/null 2>&1; then
             declare -A envs
             envs=(
                   [d]=develop
+                  [develop]=develop
                   [ds]=develop-security
+                  [develop-security]=develop-security
                   [n]=neutral
+                  [neutral]=neutral
                   [s]=staging
+                  [staging]=staging
                   [live]=live
             )
             caseBranch=${(j:|:)${(k)envs}}

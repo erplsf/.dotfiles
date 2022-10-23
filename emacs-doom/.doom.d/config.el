@@ -220,7 +220,7 @@ With a prefix argument, remove the effective date."
                                                (org-super-agenda-groups
                                                 '(
                                                   (:name "Work"
-                                                   :tag "work")
+                                                   :and (:tag "work" :not (:tag "someday")))
                                                   (:discard (:anything t))))))))
                                 ))
 
@@ -260,9 +260,9 @@ With a prefix argument, remove the effective date."
     (yequake-frames
      '(("org-capture"
         (buffer-fns . (yequake-org-capture))
-        (width . 0.75)
+        (width . 0.25)
         (height . 0.5)
-        (alpha . 0.95)
+        ;; (alpha . 0.95)
         (frame-parameters . ((undecorated . t)
                              (skip-taskbar . t)
                              (sticky . t)))))))

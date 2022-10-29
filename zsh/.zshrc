@@ -292,9 +292,10 @@ alias md="mkdir -p"
 export PATH="$PATH:$HOME/ledger/bin"
 
 alias hl="hledger"
-alias hb="hl balance -B --pretty-tables --auto --monthly -b 'last quarter' -T budget"
-alias he="hl is -B --pretty-tables --monthly -b 'last quarter'"
-alias hr="hl roi -Y --inv investments --pnl 'unrealized' --value='then'"
+alias hb="hl balance -BV --pretty-tables --auto --monthly -b 'last quarter' -T budget"  # show amount left/spent in budgets on a monthly basus
+alias hbt="hl --auto bal budget -BV" # show total amount left/overspent in budgets
+alias he="hl is -B --pretty-tables --monthly -b 'last quarter'" # show expenses over last quarter
+alias hr="hl roi -Y --inv investments --pnl 'unrealized' --value='then'" # show returns TODO: fix/improve it
 alias heh="he -b2018 -ethisyear -YA --depth 1" # expenses horizon
 
 # doom emacs
@@ -302,7 +303,6 @@ export PATH="$PATH:$HOME/.emacs.d/bin"
 
 # alias herbsluftwm
 alias hc="herbstclient"
-
 
 # TODO: alias only if command exists
 alias vim="nvim"

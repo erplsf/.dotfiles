@@ -297,6 +297,7 @@ alias hbt="hl --auto bal budget -BV" # show total amount left/overspent in budge
 alias he="hl is -B --pretty-tables --monthly -b 'last quarter'" # show expenses over last quarter
 alias hr="hl roi -Y --inv investments --pnl 'unrealized' --value='then'" # show returns TODO: fix/improve it
 alias heh="he -b2018 -ethisyear -YA --depth 1" # expenses horizon
+alias hpr="hl reg -P equity:Returns" # to track pending returns
 
 # doom emacs
 export PATH="$PATH:$HOME/.emacs.d/bin"

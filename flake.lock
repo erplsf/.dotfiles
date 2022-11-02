@@ -115,11 +115,11 @@
         "tomlplusplus": "tomlplusplus"
       },
       "locked": {
-        "lastModified": 1666088046,
-        "narHash": "sha256-TmYCV+MCh4JN9wUHQdwOnuBMP0kIFZBhupbyVT5yTKk=",
+        "lastModified": 1666933331,
+        "narHash": "sha256-axgRQfpsS3b0YkjvpEGyl2dMRtkVkNihALYvFWTtBn0=",
         "owner": "PolyMC",
         "repo": "PolyMC",
-        "rev": "ebbc1f67e02e62b8024280232cfb936468afd395",
+        "rev": "21db985b54e77226588575157c413ad96e1fad0c",
         "type": "github"
       },
       "original": {

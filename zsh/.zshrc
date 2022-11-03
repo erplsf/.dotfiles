@@ -441,3 +441,7 @@ zinit from'gh-r' as'program' \
       mv'kubergrunt* -> kubergrunt' \
       ver'v0.9.0' \
       @gruntwork-io/kubergrunt
+
+zinit from'gh-r' as'program' \
+      light-mode wait lucid for \
+      @openfaas/faas-cli

@@ -352,6 +352,23 @@ if command -v aws-vault 1>/dev/null 2>&1; then
             esac
             return $exitCode
       }
+
+      function awe-encrypt() {
+            # set -x
+            env="$1"
+            plaintext="$2"
+            b64="$(printf '%s' "$plaintext" | base64 -)"
+            awe "$env" -- aws kms encrypt --region us-east-2 --key-id alias/credentials-encrypt --plaintext "\"$b64\"" --output text --query CiphertextBlob
+            # set -x
+      }
+
+      function awe-decrypt() {
+            # set -x
+            env="$1"
+            ciphertext="$2"
+            awe "$env" -- aws kms decrypt --region us-east-2 --key-id alias/credentials-encrypt --ciphertext-blob "\"$ciphertext\"" --output text --query Plaintext | base64 --decode
+            # set +x
+      }
 fi
 
 zinit from'gh-r' as'program' \

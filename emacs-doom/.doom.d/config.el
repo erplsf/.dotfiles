@@ -312,6 +312,13 @@ With a prefix argument, remove the effective date."
 
   (add-hook! zig-mode
     (setq lsp-zig-zls-executable (executable-find "zls")))
+
+  (add-hook! '(typescript-mode-local-vars-hook
+               css-mode-hook
+               json-mode-local-vars-hook)
+    (setq lsp-eslint-node (executable-find "node")))
+
+  ;; set lsp-eslint-server-command
 )
 
 (if (eq system-type 'darwin)

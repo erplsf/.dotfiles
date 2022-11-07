@@ -1,21 +1,5 @@
 {
   "nodes": {
-    "circle": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1667843965,
-        "narHash": "sha256-XlTydffNQGcF5suH+yKTRtnrXBOOGMevSpgP69FG9xg=",
-        "ref": "refs/heads/master",
-        "rev": "a49ae99c8fa70ae482bbdcdb2f450938d53138a2",
-        "revCount": 67,
-        "type": "git",
-        "url": "file:nixos/hosts/circle"
-      },
-      "original": {
-        "type": "git",
-        "url": "file:nixos/hosts/circle"
-      }
-    },
     "emacs": {
       "inputs": {
         "flake-utils": "flake-utils",
@@ -146,7 +130,6 @@
     },
     "root": {
       "inputs": {
-        "circle": "circle",
         "emacs": "emacs",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",

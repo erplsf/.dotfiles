@@ -13,10 +13,6 @@
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    circle = {
-      url = "git+file:nixos/hosts/circle";
-      flake = false;
-    };
   };
 
   description = "Config for my NixOS testing VM.";

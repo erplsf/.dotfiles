@@ -440,7 +440,7 @@ if [ $NIXOS -ne 0 ]; then
 fi
 
 # nixos specific aliases
-alias nsr="sudo nixos-rebuild switch --flake \"$HOME/.dotfiles/.?submodules=1\""
+alias nsr="sudo nixos-rebuild switch --impure --flake \"$HOME/.dotfiles/.?submodules=1\""
 alias nsu="nix flake update ~/.dotfiles"
 
 if command -v direnv 1>/dev/null 2>&1; then

@@ -1,3 +1,0 @@
-[submodule "nixos/hosts/circle"]
-	path = nixos/hosts/circle
-	url = /home/dot/.dotfiles/nixos/hosts/circle

@@ -5,8 +5,8 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    polymc = {
-      url = "github:PolyMC/PolyMC";
+    prismlauncher = {
+      url = "github:prismlauncher/prismlauncher";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     emacs = {

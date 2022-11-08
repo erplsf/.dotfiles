@@ -78,13 +78,13 @@
       "locked": {
         "lastModified": 1650031308,
         "narHash": "sha256-TvVOjkUobYJD9itQYueELJX3wmecvEdCbJ0FinW2mL4=",
-        "owner": "PolyMC",
+        "owner": "PrismLauncher",
         "repo": "libnbtplusplus",
         "rev": "2203af7eeb48c45398139b583615134efd8d407f",
         "type": "github"
       },
       "original": {
-        "owner": "PolyMC",
+        "owner": "PrismLauncher",
         "repo": "libnbtplusplus",
         "type": "github"
       }
@@ -105,7 +105,7 @@
         "type": "github"
       }
     },
-    "polymc": {
+    "prismlauncher": {
       "inputs": {
         "flake-compat": "flake-compat",
         "libnbtplusplus": "libnbtplusplus",
@@ -115,16 +115,16 @@
         "tomlplusplus": "tomlplusplus"
       },
       "locked": {
-        "lastModified": 1666933331,
-        "narHash": "sha256-axgRQfpsS3b0YkjvpEGyl2dMRtkVkNihALYvFWTtBn0=",
-        "owner": "PolyMC",
-        "repo": "PolyMC",
-        "rev": "21db985b54e77226588575157c413ad96e1fad0c",
+        "lastModified": 1667908519,
+        "narHash": "sha256-xvuovUCqaf7iBHN4UJdxVOQsshPVlpt5fQspTRe9x/A=",
+        "owner": "prismlauncher",
+        "repo": "prismlauncher",
+        "rev": "787c5a515faa0913e384623cef8b0946ab04812a",
         "type": "github"
       },
       "original": {
-        "owner": "PolyMC",
-        "repo": "PolyMC",
+        "owner": "prismlauncher",
+        "repo": "prismlauncher",
         "type": "github"
       }
     },
@@ -133,17 +133,17 @@
         "emacs": "emacs",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs",
-        "polymc": "polymc"
+        "prismlauncher": "prismlauncher"
       }
     },
     "tomlplusplus": {
       "flake": false,
       "locked": {
-        "lastModified": 1664034574,
-        "narHash": "sha256-EFMAl6tsTvkgK0DWC/pZfOIq06b2e5SnxJa1ngGRIQA=",
+        "lastModified": 1666091090,
+        "narHash": "sha256-djpMCFPvkJcfynV8WnsYdtwLq+J7jpV1iM4C6TojiyM=",
         "owner": "marzer",
         "repo": "tomlplusplus",
-        "rev": "8aa5c8b2a4ff2c440d4630addf64fa4f62146170",
+        "rev": "1e4a3833d013aee08f58c5b31c69f709afc69f73",
         "type": "github"
       },
       "original": {

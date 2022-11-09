@@ -77,18 +77,18 @@
   "The maximal length of the buffer name in modeline.")
 
 (defun am/doom-modeline-segment--buffer-info ()
-"Almost the same as `doom-modeline-segment--buffer-info',
+  "Almost the same as `doom-modeline-segment--buffer-info',
 but it truncates the buffer name within `am/buffer-name-max'."
-(concat
-  (s-truncate
+  (concat
+   (s-truncate
     am/buffer-name-max
     (format-mode-line (doom-modeline-segment--buffer-info))
     "...")))
 
 (defun am/doom-modeline-segment--org-clock ()
   "Displays org-mode-clock"
-      (if (and (org-clocking-p) (doom-modeline--active))
-    org-mode-line-string))
+  (if (and (org-clocking-p) (doom-modeline--active))
+      org-mode-line-string))
 
 (after! doom-modeline
   (add-to-list 'doom-modeline-fn-alist (cons 'am/buffer-info 'am/doom-modeline-segment--buffer-info))
@@ -195,25 +195,25 @@ With a prefix argument, remove the effective date."
                                   ;;             (org-super-agenda-groups
                                   ;;              '(:time-grid t))))
                                   (todo "" ((org-agenda-overriding-header "")
-                                               (org-agenda-block-separator "---")
-                                               (org-super-agenda-groups
-                                                '(
-                                                  (:name "Inbox"
-                                                   :tag "inbox")
-                                                  ;; (:name "Work"
-                                                  ;;  :tag "work")
-                                                  (:name "Next"
-                                                   :tag "next")
-                                                  ;; (:name "Weekend"
-                                                  ;;  :tag "weekend")
-                                                  (:name "Orders"
-                                                   :tag "orders")
-                                                  ;; (:name "Vacation"
-                                                  ;;  :tag "vacation")
-                                                  ;; :auto-tags t)
-                                                  ;; (:name "Active films"
-                                                  ;;        :todo ("ACTIVE" "TOWATCH"))
-                                                  (:discard (:anything t))))))))
+                                            (org-agenda-block-separator "---")
+                                            (org-super-agenda-groups
+                                             '(
+                                               (:name "Inbox"
+                                                :tag "inbox")
+                                               ;; (:name "Work"
+                                               ;;  :tag "work")
+                                               (:name "Next"
+                                                :tag "next")
+                                               ;; (:name "Weekend"
+                                               ;;  :tag "weekend")
+                                               (:name "Orders"
+                                                :tag "orders")
+                                               ;; (:name "Vacation"
+                                               ;;  :tag "vacation")
+                                               ;; :auto-tags t)
+                                               ;; (:name "Active films"
+                                               ;;        :todo ("ACTIVE" "TOWATCH"))
+                                               (:discard (:anything t))))))))
                                 ("w" "Work super-agenda"
                                  ((alltodo "" ((org-agenda-overriding-header "")
                                                (org-agenda-block-separator "---")
@@ -287,15 +287,14 @@ With a prefix argument, remove the effective date."
     (flycheck-mode . flycheck-clang-tidy-setup))
 
   (setq lsp-clients-clangd-args '("-j=3"
-                                "--background-index"
-                                "--clang-tidy"
-                                "--completion-style=detailed"
-                                "--header-insertion=never"
-                                "--header-insertion-decorators=0"))
+                                  "--background-index"
+                                  "--clang-tidy"
+                                  "--completion-style=detailed"
+                                  "--header-insertion=never"
+                                  "--header-insertion-decorators=0"))
 
   (after! lsp-clangd (set-lsp-priority! 'clangd 2))
 
-  (setq lsp-zig-zls-executable "~/zls/zig-out/bin/zls")
   (setq +format-with-lsp nil)
   (setq c-basic-offset 2)
 
@@ -304,22 +303,22 @@ With a prefix argument, remove the effective date."
                              (remove 'overlong-summary-line git-commit-style-convention-checks))))
 
   (use-package! tts-editor
-      :commands (tts-editor/listen-start
+    :commands (tts-editor/listen-start
                tts-editor/listen-stop))
 
   (add-hook! python-mode
     (setq lsp-python-ms-executable (executable-find "python-language-server")))
 
-  (add-hook! zig-mode
-    (setq lsp-zig-zls-executable (executable-find "zls")))
+  (setq-hook! 'zig-mode-hook lsp-zig-zls-executable (executable-find "zls")
+              zig-format-on-save nil
+              +format-with-lsp 't)
 
   (add-hook! '(typescript-mode-local-vars-hook
                css-mode-hook
                json-mode-local-vars-hook)
-    (setq lsp-eslint-node (executable-find "node")))
+    (setq lsp-eslint-node (executable-find "node"))))
 
-  ;; set lsp-eslint-server-command
-)
+;; set lsp-eslint-server-command
 
 (if (eq system-type 'darwin)
     (mac-auto-operator-composition-mode))

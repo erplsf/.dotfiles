@@ -1,7 +1,6 @@
-# NOTE: Evaluate later
-# # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-# # Initialization code that may require console input (password prompts, [y/n]
-# # confirmations, etc.) must go above this block; everything else may go below.
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
 # if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
 #   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 # fi
@@ -23,7 +22,6 @@ NIXOS=$?
 # Regular plugins loaded without investigating.
 zinit depth'1' \
       light-mode wait lucid for \
-      zdharma-continuum/history-search-multi-word \
       zdharma-continuum/zinit-annex-readurl \
       zdharma-continuum/zinit-annex-bin-gem-node \
       zdharma-continuum/zinit-annex-patch-dl \
@@ -298,6 +296,7 @@ alias he="hl is -B --pretty-tables --monthly -b 'last quarter'" # show expenses 
 alias hr="hl roi -Y --inv investments --pnl 'unrealized' --value='then'" # show returns TODO: fix/improve it
 alias heh="he -b2018 -ethisyear -YA --depth 1" # expenses horizon
 alias hpr="hl reg -P equity:Returns" # to track pending returns
+alias hbm="hl -f ~/ledger/milk.journal bal milk --no-total | sort -nr" # list milks
 
 # doom emacs
 export PATH="$PATH:$HOME/.emacs.d/bin"
@@ -313,62 +312,6 @@ alias edit="$EDITOR"
 
 if [ -f "/opt/local/bin/port" ]; then
     export PATH="$PATH:/opt/local/bin"
-fi
-
-export AWS_VAULT_PASS_PASSWORD_STORE_DIR="~/.aws-password-store"
-alias aws-vault='aws-vault --backend pass'
-
-if command -v aws-vault 1>/dev/null 2>&1; then
-      function awe() {
-            declare -A envs
-            envs=(
-                  [d]=develop
-                  [develop]=develop
-                  [ds]=develop-security
-                  [develop-security]=develop-security
-                  [n]=neutral
-                  [neutral]=neutral
-                  [s]=staging
-                  [staging]=staging
-                  [live]=live
-            )
-            caseBranch=${(j:|:)${(k)envs}}
-            envList=${(j:,:)${(k)envs}}
-
-            case "$1" in
-                  --)
-                        aws-vault exec default -- zsh -c "${*[2,-1]}"
-                        exitCode=$?
-                        ;;
-                  $~caseBranch)
-                        mapped_env="${envs[$1]}"
-                        aws-vault exec "klar-${mapped_env}" -- zsh -c "export KUBE_CONFIG_PATH=$HOME/.kube/config && export KUBECTL_CONTEXT=${mapped_env} && . ${HOME}/.vault-shadows && ${*[3,-1]}"
-                        exitCode=$?
-                        ;;
-                  *)
-                        echo "First argument needs to be any environment from this [${envList}] list or '--' for default profile." >&2
-                        exitCode=1
-                        ;;
-            esac
-            return $exitCode
-      }
-
-      function awe-encrypt() {
-            # set -x
-            env="$1"
-            plaintext="$2"
-            b64="$(printf '%s' "$plaintext" | base64 -)"
-            awe "$env" -- aws kms encrypt --region us-east-2 --key-id alias/credentials-encrypt --plaintext "\"$b64\"" --output text --query CiphertextBlob
-            # set -x
-      }
-
-      function awe-decrypt() {
-            # set -x
-            env="$1"
-            ciphertext="$2"
-            awe "$env" -- aws kms decrypt --region us-east-2 --key-id alias/credentials-encrypt --ciphertext-blob "\"$ciphertext\"" --output text --query Plaintext | base64 --decode
-            # set +x
-      }
 fi
 
 zinit from'gh-r' as'program' \
@@ -462,3 +405,25 @@ zinit from'gh-r' as'program' \
 zinit from'gh-r' as'program' \
       light-mode wait lucid for \
       @openfaas/faas-cli
+
+# terraform/terragrunt stuff
+export TERRAGRUNT_DOWNLOAD="$HOME/.cache/terragrunt"
+export TF_PLUGIN_CACHE_DIR="$HOME/.cache/terraform"
+
+if [ ! -d "$TERRAGRUNT_DOWNLOAD" ]; then
+      mkdir -p "$TERRAGRUNT_DOWNLOAD"
+fi
+
+if [ ! -d "$TF_PLUGIN_CACHE_DIR" ]; then
+      mkdir -p "$TF_PLUGIN_CACHE_DIR"
+fi
+
+export AWS_VAULT_PASS_PASSWORD_STORE_DIR="~/.aws-password-store"
+export AWS_VAULT_BACKEND='pass'
+
+
+# bd: go back to specific directory quickly
+zinit light-mode wait lucid for @Tarrasch/zsh-bd
+
+# atuin: magical shell history
+zinit light-mode wait lucid for @ellie/atuin

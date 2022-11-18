@@ -206,6 +206,8 @@ With a prefix argument, remove the effective date."
                                                 :tag "next")
                                                ;; (:name "Weekend"
                                                ;;  :tag "weekend")
+                                               (:name "Work"
+                                                :and (:tag "work" :not (:tag "someday")))
                                                (:name "Orders"
                                                 :tag "orders")
                                                ;; (:name "Vacation"

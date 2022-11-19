@@ -269,17 +269,11 @@ if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
 fi
 
 # alias for mpv
-
-if [ -f "$HOME/mpv/mpv.app/Contents/MacOS/mpv" ]; then
-      alias mpv="$HOME/mpv/mpv.app/Contents/MacOS/mpv --hwdec=API --input-ipc-server=/tmp/mpv.socket"
-else
-      function mpv() {
-            R=${RANDOM}
-            command mpv --pause --hwdec=API --save-position-on-quit --input-ipc-server=/tmp/${R}.mpv.socket $@
-            rm /tmp/${R}.mpv.socket
-      }
-      # alias mpv="export R=\${RANDOM} && mpv --hwdec=API --input-ipc-server=/tmp/\${R}.mpv.socket && rm /tmp/\${R}.mpv.socket"
-fi
+function mpv() {
+      R=${RANDOM}
+      command mpv --ao=pulse --pause --hwdec=API --save-position-on-quit --input-ipc-server=/tmp/${R}.mpv.socket $@
+      rm /tmp/${R}.mpv.socket
+}
 
 # alias for mkdir
 

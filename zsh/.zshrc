@@ -418,9 +418,12 @@ if [ ! -d "$TF_PLUGIN_CACHE_DIR" ]; then
       mkdir -p "$TF_PLUGIN_CACHE_DIR"
 fi
 
-export AWS_VAULT_PASS_PASSWORD_STORE_DIR="~/.aws-password-store"
+export AWS_VAULT_PASS_PASSWORD_STORE_DIR="$HOME/.aws-password-store"
 export AWS_VAULT_BACKEND='pass'
 
+source "$HOME/code/work/shell-helpers/shell-helpers.plugin.zsh"
+# zinit ice proto'git'
+# zinit load klar-mx/shell-helpers
 
 # bd: go back to specific directory quickly
 zinit light-mode wait lucid for @Tarrasch/zsh-bd

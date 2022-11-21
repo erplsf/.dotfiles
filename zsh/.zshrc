@@ -271,7 +271,7 @@ fi
 # alias for mpv
 function mpv() {
       R=${RANDOM}
-      command mpv --ao=pulse --pause --hwdec=API --save-position-on-quit --input-ipc-server=/tmp/${R}.mpv.socket $@
+      command mpv --ao=pulse --pause --save-position-on-quit --input-ipc-server=/tmp/${R}.mpv.socket $@
       rm /tmp/${R}.mpv.socket
 }
 

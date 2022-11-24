@@ -401,16 +401,16 @@ zinit from'gh-r' as'program' \
       @openfaas/faas-cli
 
 # terraform/terragrunt stuff
-export TERRAGRUNT_DOWNLOAD="$HOME/.cache/terragrunt"
-export TF_PLUGIN_CACHE_DIR="$HOME/.cache/terraform"
+# export TERRAGRUNT_DOWNLOAD="$HOME/.cache/terragrunt"
+# export TF_PLUGIN_CACHE_DIR="$HOME/.cache/terraform"
 
-if [ ! -d "$TERRAGRUNT_DOWNLOAD" ]; then
-      mkdir -p "$TERRAGRUNT_DOWNLOAD"
-fi
+# if [ ! -d "$TERRAGRUNT_DOWNLOAD" ]; then
+#       mkdir -p "$TERRAGRUNT_DOWNLOAD"
+# fi
 
-if [ ! -d "$TF_PLUGIN_CACHE_DIR" ]; then
-      mkdir -p "$TF_PLUGIN_CACHE_DIR"
-fi
+# if [ ! -d "$TF_PLUGIN_CACHE_DIR" ]; then
+#       mkdir -p "$TF_PLUGIN_CACHE_DIR"
+# fi
 
 export AWS_VAULT_PASS_PASSWORD_STORE_DIR="$HOME/.aws-password-store"
 export AWS_VAULT_BACKEND='pass'

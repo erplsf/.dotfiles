@@ -13,6 +13,10 @@
       url = "github:nix-community/emacs-overlay";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    eks-node-viewer = {
+      url = "github:erplsf/eks-node-viewer";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   description = "Config for my NixOS testing VM.";

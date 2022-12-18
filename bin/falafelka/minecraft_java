@@ -1,0 +1,3 @@
+#!/bin/bash
+
+vblank_mode=0 /home/komrad/.config/gdlauncher_next/java/8u242-b08/bin/java "$@"

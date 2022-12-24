@@ -25,7 +25,7 @@ hc keybind $Mod-Shift-c close
 hc keybind $Mod-Return spawn ${TERMINAL:-alacritty} # use your $TERMINAL with alacritty as fallback
 hc keybind $Mod-e spawn emacsclient --create-frame --no-wait
 hc keybind $Mod-w spawn emacsclient -n -e '(yequake-toggle "org-capture")'
-hc keybind $Mod-m spawn nvidia-settings
+# hc keybind $Mod-m spawn nvidia-settings
 
 # basic movement
 # focusing clients

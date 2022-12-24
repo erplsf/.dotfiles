@@ -44,6 +44,9 @@
   (package! git-annex)
   (package! gh-notify)
   (package! emacsql-sqlite :built-in 'prefer)
+  (unpin! org-roam)
+  (package! org-roam-ui)
+  (package! org-ql)
   )
 
 ;; To install a package directly from a remote git repo, you must specify a

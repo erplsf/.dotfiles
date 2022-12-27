@@ -17,6 +17,10 @@
       url = "github:erplsf/eks-node-viewer";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    aws-sso-cli = {
+      url = "github:erplsf/aws-sso-cli";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   description = "Config for my NixOS testing VM.";

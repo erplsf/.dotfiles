@@ -417,7 +417,7 @@ export AWS_VAULT_BACKEND='pass'
 
 export AWS_SSO_PASS_PASSWORD_STORE_DIR="$HOME/.aws-password-store"
 export AWS_SSO_BACKEND='pass'
-
+export AWE_SSO_ROLE="SRE"
 source "$HOME/code/work/shell-helpers/shell-helpers.plugin.zsh"
 # zinit ice proto'git'
 # zinit load klar-mx/shell-helpers

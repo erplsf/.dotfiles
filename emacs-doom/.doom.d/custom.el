@@ -5,7 +5,10 @@
  ;; If there is more than one, they won't work right.
  '(evil-shift-width 2)
  '(safe-local-variable-values
-   '((+format-with-lsp quote t)
+   '((org-todo-keyword-faces
+      ("ACTIVE" . "orange")
+      ("READY" . "pink"))
+     (+format-with-lsp quote t)
      (org-log-done . time)
      (rmsbolt-demangle . t)
      (rmsbolt-asm-format . "intel")
@@ -20,7 +23,8 @@
       ("TOSEND" . "salmon")
       ("SENT" . "olive drab")
       ("RECEIVED" . "chocolate"))
-     (lsp-eslint-server-command . `("vscode-eslint-language-server" "--stdio")))))
+     (lsp-eslint-server-command \`
+      ("vscode-eslint-language-server" "--stdio")))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

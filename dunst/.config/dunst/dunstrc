@@ -313,6 +313,13 @@
     # Icon for notifications with critical urgency, uncomment to enable
     #icon = /path/to/icon
 
+
+[slack]
+    appname = "Slack"
+    background = "#626082"
+    foreground = "#ebebeb"
+    timeout = 5
+
 # Every section that isn't one of the above is interpreted as a rules to
 # override settings for certain messages.
 #

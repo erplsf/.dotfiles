@@ -247,6 +247,8 @@ hc rule windowtype='_NET_WM_WINDOW_TYPE_DIALOG' focus=on
 hc rule windowtype~'_NET_WM_WINDOW_TYPE_(NOTIFICATION|DOCK|DESKTOP)' manage=off
 hc rule fixedsize floating=on
 
+hc rule class='Pinentry' floating=on floatplacement=center
+
 hc rule class='Emacs' instance='org-capture' floating=on floatplacement=center
 
 hc set tree_style '╾│ ├└╼─┐'

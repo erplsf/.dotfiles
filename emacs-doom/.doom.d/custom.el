@@ -7,6 +7,9 @@
  '(safe-local-variable-values
    '((org-todo-keyword-faces
       ("ACTIVE" . "orange")
+      ("BLOCKED" . "red"))
+     (org-todo-keyword-faces
+      ("ACTIVE" . "orange")
       ("READY" . "pink"))
      (+format-with-lsp quote t)
      (org-log-done . time)

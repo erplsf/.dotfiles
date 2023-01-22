@@ -274,7 +274,7 @@ hc unlock
 # keybinds
 hc keybind $Mod-q spawn rofi -show combi -show drun -window-command 'dunstify "wmctrl -i -a {window}"'
 hc keybind $Mod-c spawn rofi -show calc -modi calc -no-show-match -no-sort
-hc keybind $Mod-z spawn rofi -show pass -modi pass
+hc keybind $Mod-z spawn rofi-pass
 # hc keybind $Mod-p spawn rofi-pass
 hc keybind $Mod-t spawn ~/.config/herbstluftwm/toogle_top.sh
 # hc keybind $Mod-Right use_index +1 --skip-visible

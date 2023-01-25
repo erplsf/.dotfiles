@@ -427,3 +427,6 @@ zinit light-mode wait lucid for @Tarrasch/zsh-bd
 
 # atuin: magical shell history
 zinit light-mode wait lucid for @ellie/atuin
+
+# we never want to wrap the output
+alias base64="base64 -w0"

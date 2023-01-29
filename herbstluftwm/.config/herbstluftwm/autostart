@@ -281,6 +281,7 @@ hc keybind $Mod-t spawn ~/.config/herbstluftwm/toogle_top.sh
 # hc keybind $Mod-Left use_index -1 --skip-visible
 hc keybind $Mod-l spawn xlock
 hc keybind $Mod-Shift-s spawn scrot -s '%F_%T.png' -e 'mv $f ~/screenshots/'
+hc keybind $Mod-Ctrl-r spawn autorandr --change
 
 # padding for polybar on all monitors
 hc pad 0 40 0 0 0

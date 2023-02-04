@@ -6,8 +6,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     prismlauncher = {
-      url = "github:prismlauncher/prismlauncher";
-      rev = "a5c8b166fe70c430548196f0883ca1aaff816c23";
+      url =
+        "github:prismlauncher/prismlauncher/a5c8b166fe70c430548196f0883ca1aaff816c23";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     emacs = {

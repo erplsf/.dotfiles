@@ -268,6 +268,7 @@
       "original": {
         "owner": "prismlauncher",
         "repo": "prismlauncher",
+        "rev": "a5c8b166fe70c430548196f0883ca1aaff816c23",
         "type": "github"
       }
     },

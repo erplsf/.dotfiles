@@ -5,7 +5,10 @@
  ;; If there is more than one, they won't work right.
  '(evil-shift-width 2)
  '(safe-local-variable-values
-   '((org-todo-keyword-faces
+   '((todo-keyword-faces
+      ("ACTIVE" . "orange")
+      ("BLOCKED" . "red"))
+     (org-todo-keyword-faces
       ("ACTIVE" . "orange")
       ("BLOCKED" . "red"))
      (org-todo-keyword-faces

@@ -430,3 +430,6 @@ zinit light-mode wait lucid for @ellie/atuin
 
 # we never want to wrap the output
 alias base64="base64 -w0"
+
+# to upload changes in my pantry
+alias "pantry-sync"="pushd ~/ledger && ./upload-pantry.sh && popd"

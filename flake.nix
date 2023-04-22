@@ -5,8 +5,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    prismlauncher.url =
-      "github:prismlauncher/prismlauncher/a5c8b166fe70c430548196f0883ca1aaff816c23";
+    prismlauncher.url = "github:prismlauncher/prismlauncher";
     # url =
     #   "github:prismlauncher/prismlauncher/a5c8b166fe70c430548196f0883ca1aaff816c23"; # NOTE: it worked before, now it's broken
     emacs.url = "github:nix-community/emacs-overlay";

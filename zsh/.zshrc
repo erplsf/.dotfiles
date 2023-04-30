@@ -417,6 +417,7 @@ export AWS_VAULT_BACKEND='pass'
 
 export AWS_SSO_PASS_PASSWORD_STORE_DIR="$HOME/.aws-password-store"
 export AWS_SSO_BACKEND='pass'
+
 export AWE_SSO_ROLE="SRE"
 source "$HOME/code/work/shell-helpers/shell-helpers.plugin.zsh"
 # zinit ice proto'git'
@@ -433,3 +434,10 @@ alias base64="base64 -w0"
 
 # to upload changes in my pantry
 alias "pantry-sync"="pushd ~/ledger && ./upload-pantry.sh && popd"
+
+function k8s-box() { # https://hub.docker.com/r/nicolaka/netshoot
+     ENV="$1"
+     CNT="$2"
+     NS="$3"
+     awe "$ENV" -- kubectl --context "$CNT" run -n "$NS" "devops-toolbox-$RANDOM" -i --tty --image=nicolaka/netshoot --rm -- sh
+}

@@ -7,17 +7,17 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1682956927,
-        "narHash": "sha256-wIvyLXdWdbz+YmzSM8PytTyYohmroazYC+SLe8PWYps=",
-        "owner": "erplsf",
-        "repo": "aws-sso-cli",
-        "rev": "52ea952dff8c8982f7a21cdf37008cb14ddedb0e",
-        "type": "github"
+        "lastModified": 1682959894,
+        "narHash": "sha256-yfQKnesqhV43TPcFdgrEfzU3CCqVNHiofGmi3UjWf1Y=",
+        "ref": "refs/heads/main",
+        "rev": "ff122a656762b12e0f5f26df0740a4e67b508f38",
+        "revCount": 585,
+        "type": "git",
+        "url": "file:///home/dot/code/personal/aws-sso-cli"
       },
       "original": {
-        "owner": "erplsf",
-        "repo": "aws-sso-cli",
-        "type": "github"
+        "type": "git",
+        "url": "file:///home/dot/code/personal/aws-sso-cli"
       }
     },
     "eks-node-viewer": {

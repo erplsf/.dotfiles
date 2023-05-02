@@ -412,11 +412,8 @@ zinit from'gh-r' as'program' \
 #       mkdir -p "$TF_PLUGIN_CACHE_DIR"
 # fi
 
-export AWS_VAULT_PASS_PASSWORD_STORE_DIR="$HOME/.aws-password-store"
-export AWS_VAULT_BACKEND='pass'
-
-export AWS_SSO_PASS_PASSWORD_STORE_DIR="$HOME/.aws-password-store"
 export AWS_SSO_BACKEND='pass'
+export AWS_SSO_PASS_PASSWORD_STORE_DIR="$HOME/.aws-password-store"
 
 export AWE_SSO_ROLE="SRE"
 source "$HOME/code/work/shell-helpers/shell-helpers.plugin.zsh"

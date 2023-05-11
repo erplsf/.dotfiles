@@ -5,12 +5,24 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    prismlauncher.url = "github:prismlauncher/prismlauncher";
+    prismlauncher = {
+      url = "github:prismlauncher/prismlauncher";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     # url =
     #   "github:prismlauncher/prismlauncher/a5c8b166fe70c430548196f0883ca1aaff816c23"; # NOTE: it worked before, now it's broken
-    emacs.url = "github:nix-community/emacs-overlay";
-    eks-node-viewer.url = "github:erplsf/eks-node-viewer";
-    aws-sso-cli.url = "github:erplsf/aws-sso-cli";
+    emacs = {
+      url = "github:nix-community/emacs-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    eks-node-viewer = {
+      url = "github:erplsf/eks-node-viewer";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    aws-sso-cli = {
+      url = "github:erplsf/aws-sso-cli";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   description = "Config for my NixOS testing VM.";

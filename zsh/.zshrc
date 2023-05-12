@@ -328,10 +328,10 @@ zinit from'gh-r' as'program' mv"gomplate* -> gomplate" \
       light-mode wait lucid for \
       @hairyhenderson/gomplate
 
-zinit from'gh-r' as'program' \
-      nocompile'!' \
-      light-mode wait lucid for \
-      @homeport/dyff
+# zinit from'gh-r' as'program' \
+#       nocompile'!' \
+#       light-mode wait lucid for \
+#       @homeport/dyff
 
 zinit depth'1' \
       light-mode wait lucid for \

@@ -377,8 +377,17 @@ if [ $NIXOS -ne 0 ]; then
 fi
 
 # nixos specific aliases
-alias nsr="sudo nixos-rebuild switch --impure --flake \"$HOME/.dotfiles/.?submodules=1\""
-alias nsu="nix flake update ~/.dotfiles"
+function nsr() {
+    sudo nixos-rebuild switch --impure --flake "$HOME/.dotfiles/.?submodules=1"
+}
+
+function nsu() {
+    pushd ~/.dotfiles
+    nix flake update .
+    git add flake.lock
+    git commit -m "update flakes"
+    popd
+}
 
 if command -v direnv 1>/dev/null 2>&1; then
       eval "$(direnv hook zsh)"

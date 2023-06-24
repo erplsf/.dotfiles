@@ -283,14 +283,15 @@ alias md="mkdir -p"
 
 export PATH="$PATH:$HOME/ledger/bin"
 
-alias hl="hledger"
+alias hl="hledger --pretty"
 alias hb="hl balance -BV --pretty-tables --auto --monthly -b 'last quarter' -T budget"  # show amount left/spent in budgets on a monthly basus
 alias hbt="hl --auto bal budget -BV" # show total amount left/overspent in budgets
 alias he="hl is -B --pretty-tables --monthly -b 'last quarter'" # show expenses over last quarter
 alias hr="hl roi -Y --inv investments --pnl 'unrealized' --value='then'" # show returns TODO: fix/improve it
 alias heh="he -b2018 -ethisyear -YA --depth 1" # expenses horizon
 alias hpr="hl reg -P equity:Returns" # to track pending returns
-alias hbm="hl -f ~/ledger/milk.journal bal milk --no-total | sort -nr" # list milks
+alias hbm="hl -f ~/ledger/milk.journal bal milk --no-total --sort-amount" # list milks
+alias hbp="hl -f ~/ledger/pantry.journal bal food --no-total --empty --sort-amount" # list pantry
 
 # doom emacs
 export PATH="$PATH:$HOME/.emacs.d/bin"

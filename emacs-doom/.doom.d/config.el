@@ -315,10 +315,10 @@ With a prefix argument, remove the effective date."
               zig-format-on-save nil
               +format-with-lsp 't)
 
-  (add-hook! '(typescript-mode-local-vars-hook
-               css-mode-hook
-               json-mode-local-vars-hook)
-    (setq lsp-eslint-node (executable-find "node")))
+  ;; (add-hook! '(typescript-mode-local-vars-hook
+  ;;              css-mode-hook
+  ;;              json-mode-local-vars-hook)
+  ;;   (setq lsp-eslint-node (executable-find "node")))
 
   (use-package! websocket
     :after org-roam)
@@ -334,10 +334,21 @@ With a prefix argument, remove the effective date."
           org-roam-ui-follow t
           org-roam-ui-update-on-save t
           org-roam-ui-open-on-start t))
+
   (use-package! org-ql
     :after org
     :custom
-    (org-ql-search-directories-files-recursive t)))
+    (org-ql-search-directories-files-recursive t))
+
+  (use-package! org-now
+    :after org
+    :config
+    (;; setq! org-now-location (concat org-directory "/org-now.org")
+     map! :leader
+          :mode org-mode
+          "m r n l" #'org-now-link
+          "m r n n" #'org-now-refile-to-now
+          "m r n p" #'org-now-refile-to-previous-location)))
 
 ;; set lsp-eslint-server-command
 

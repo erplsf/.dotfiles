@@ -425,6 +425,9 @@ zinit from'gh-r' as'program' \
 export AWS_SSO_BACKEND='pass'
 export AWS_SSO_PASS_PASSWORD_STORE_DIR="$HOME/.aws-password-store"
 
+export AWS_VAULT_BACKEND='pass'
+export AWS_VAULT_PASS_PASSWORD_STORE_DIR="$HOME/.aws-password-store"
+
 export AWE_SSO_ROLE="SRE"
 source "$HOME/code/work/shell-helpers/shell-helpers.plugin.zsh"
 # zinit ice proto'git'
@@ -435,6 +438,11 @@ zinit light-mode wait lucid for @Tarrasch/zsh-bd
 
 # atuin: magical shell history
 zinit light-mode wait lucid for @ellie/atuin
+
+# pv-migrate: migrate volumes in k8s
+zinit from'gh-r' as'program' \
+      light-mode wait lucid for \
+      @utkuozdemir/pv-migrate
 
 # we never want to wrap the output
 alias base64="base64 -w0"

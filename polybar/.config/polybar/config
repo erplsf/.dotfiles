@@ -63,7 +63,7 @@ font-2 = MesloLGS NF:pixelsize=7
 modules-left =
 modules-center = 
 # modules-right = vpn repo_check org filesystem pulseaudio xkeyboard memory cpu battery date powermenu
-modules-right = pulseaudio xkeyboard memory cpu battery date powermenu
+modules-right = dsbattery pulseaudio xkeyboard memory cpu battery date powermenu
 
 tray-position = right
 tray-padding = 2
@@ -229,5 +229,11 @@ screenchange-reload = true
 ;compositing-foreground = source
 ;compositing-border = over
 ;pseudo-transparency = false
+
+[module/dsbattery]
+type = custom/script
+exec = steam-run /home/dot/.local/share/zinit/plugins/valters-tomsons---dsbattery/dsbattery
+click-right = steam-run /home/dot/.local/share/zinit/plugins/valters-tomsons---dsbattery/dsbattery -d
+label-padding = 1
 
 ; vim:ft=dosini

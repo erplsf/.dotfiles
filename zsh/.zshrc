@@ -444,6 +444,11 @@ zinit from'gh-r' as'program' \
       light-mode wait lucid for \
       @utkuozdemir/pv-migrate
 
+# dsbattery: show controller battery status
+zinit from'gh-r' as'program' \
+      light-mode wait lucid for \
+      @valters-tomsons/dsbattery
+
 # we never want to wrap the output
 alias base64="base64 -w0"
 

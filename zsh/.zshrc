@@ -251,6 +251,10 @@ key[Control-Right]="${terminfo[kRIT5]}"
 [[ -n "${key[Control-Left]}"  ]] && bindkey -- "${key[Control-Left]}"  backward-word
 [[ -n "${key[Control-Right]}" ]] && bindkey -- "${key[Control-Right]}" forward-word
 
+# Ctrl-Left / Ctrl-Right
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
+
 # Enable Ctrl-x-e to edit command line
 autoload -U edit-command-line
 # Emacs style

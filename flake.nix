@@ -23,6 +23,10 @@
       url = "github:erplsf/aws-sso-cli";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nbfc = {
+      url = "github:nbfc-linux/nbfc-linux";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   description = "Config for my NixOS testing VM.";

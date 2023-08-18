@@ -357,6 +357,10 @@ With a prefix argument, remove the effective date."
 
 (setq org-roam-directory "~/org/roam")
 
+(add-hook! 'org-insert-heading-hook (save-excursion ;; TODO: extract into separate function to provide a name
+                                      (org-back-to-heading)
+                                      (org-set-property "CREATED" (format-time-string (org-time-stamp-format 't 't)))))
+
 (defun am/ediff-doom-config (file)
   "ediff the current config with the examples in doom-emacs-dir
 

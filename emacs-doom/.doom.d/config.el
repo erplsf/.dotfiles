@@ -233,8 +233,9 @@ With a prefix argument, remove the effective date."
                                          :file "~/org/gtd/inbox.org"
                                          :template "* TODO %?")
                                         ("work" :keys "w"
-                                         :file "~/org/gtd/inbox.org"
-                                         :template "* TODO %? :work:")
+                                         :file "~/org/gtd/work.org"
+                                         :headline "Inbox"
+                                         :template "* TODO %?")
                                         )))))
 
 (use-package! org-edna
@@ -262,7 +263,7 @@ With a prefix argument, remove the effective date."
     (yequake-frames
      '(("org-capture"
         (buffer-fns . (yequake-org-capture))
-        (width . 0.25)
+        (width . 0.125)
         (height . 0.5)
         ;; (alpha . 0.95)
         (frame-parameters . ((undecorated . t)
@@ -357,7 +358,10 @@ With a prefix argument, remove the effective date."
 
 (setq org-roam-directory "~/org/roam")
 
+(setq! org-reverse-note-order 't)
 (add-hook! 'org-insert-heading-hook (save-excursion ;; TODO: extract into separate function to provide a name
+                                      ;; TODO: only insert if "TODO" keyword is found
+                                      ;; TODO: make it work for org-capture too
                                       (org-back-to-heading)
                                       (org-set-property "CREATED" (format-time-string (org-time-stamp-format 't 't)))))
 

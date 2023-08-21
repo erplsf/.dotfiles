@@ -297,3 +297,6 @@ if hc silent new_attr bool my_not_first_autostart; then
 	dunst &
 	alacritty &
 fi
+
+# to allow Tridactyl to switch the window (via X11 urgent flag)
+hc silent set focus_stealing_prevention off

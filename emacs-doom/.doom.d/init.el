@@ -89,7 +89,7 @@
 
        :tools
        ;;ansible
-       (debugger +lsp)     ; FIXME stepping through code, to help you add bugs
+       (:unless IS-ANDROID (debugger +lsp))     ; FIXME stepping through code, to help you add bugs
        (:unless IS-ANDROID direnv)
        ;;docker
        ;;editorconfig      ; let someone else argue about tabs vs spaces

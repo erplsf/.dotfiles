@@ -61,18 +61,6 @@
 
 (exec-path-from-shell-initialize)
 
-(unless IS-PHONE
-  (use-package! keychain-environment
-    :init
-    (keychain-refresh-environment))
-
-  (use-package! web-mode
-    :init
-    (add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))
-    :custom
-    (web-mode-code-indent-offset 2)
-    (web-mode-alist '(("go" . "\\.tmpl\\'")))))
-
 (defvar am/buffer-name-max 50
   "The maximal length of the buffer name in modeline.")
 
@@ -289,7 +277,7 @@ Taken from here: https://github.com/doomemacs/doomemacs/issues/581#issuecomment-
              nil
              (lambda (d) (not (string-prefix-p "." (file-name-nondirectory d)))))))))
 
-(unless IS-PHONE
+(unless IS-ANDROID
   (use-package! org-edna
     :config
     (org-edna-mode))
@@ -396,4 +384,14 @@ Taken from here: https://github.com/doomemacs/doomemacs/issues/581#issuecomment-
           "m r n l" #'org-now-link
           "m r n n" #'org-now-refile-to-now
           "m r n p" #'org-now-refile-to-previous-location))
-  )
+
+  (use-package! keychain-environment
+    :init
+    (keychain-refresh-environment))
+
+  (use-package! web-mode
+    :init
+    (add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))
+    :custom
+    (web-mode-code-indent-offset 2)
+    (web-mode-alist '(("go" . "\\.tmpl\\'")))))

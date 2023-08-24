@@ -15,7 +15,7 @@
 ;;      directory (for easy access to its source code).
 
 ;; detect if we're on the phone
-(defconst IS-ANDROID (string-match-p (regexp-quote "android") system-configuration))
+(defconst IS-ANDROID (not (not (string-match-p (regexp-quote "android") system-configuration))))
 
 (doom! :input
        ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh

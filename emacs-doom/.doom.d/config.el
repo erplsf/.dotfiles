@@ -59,7 +59,8 @@
 
 (setq enable-local-variables 't)
 
-(exec-path-from-shell-initialize)
+(when (or (memq window-system '(mac ns x)) (daemonp))
+  (exec-path-from-shell-initialize))
 
 (defvar am/buffer-name-max 50
   "The maximal length of the buffer name in modeline.")

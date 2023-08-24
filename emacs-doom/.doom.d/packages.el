@@ -11,7 +11,6 @@
 
 (package! ledger-mode)
 (package! org-super-agenda)
-(package! org-edna)
 (package! doct)
 
 ;; Fix for a bug: https://github.com/doomemacs/doomemacs/issues/6425 
@@ -23,7 +22,8 @@
           :pin "bbc60f68ac190f02da8a100b6fb67cf1c27c53ab"
           :recipe (:host github :repo "magit/with-editor"))
 
-(unless (am/phone-p)
+(unless IS-PHONE
+  (package! org-edna)
   (package! jsonnet-mode)
   (package! yaml-mode)
   (package! vterm)

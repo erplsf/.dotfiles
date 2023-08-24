@@ -14,9 +14,8 @@
 ;;      Alternatively, press 'gd' (or 'C-c c d') on a module to browse its
 ;;      directory (for easy access to its source code).
 
-(defun am/phone-p ()
-  (and (equal system-name "localhost")
-       (not (equal user-login-name "komrad"))))
+;; detect if we're on the phone
+(defconst IS-PHONE (string-match-p (regexp-quote "android") system-configuration))
 
 (doom! :input
        ;;bidi              ; (tfel ot) thgir etirw uoy gnipleh
@@ -40,7 +39,7 @@
        hl-todo             ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
        ;;hydra
        indent-guides       ; highlighted indent columns
-       ligatures           ; ligatures and symbols to make your code pretty again
+       (:unless IS-PHONE ligatures)           ; ligatures and symbols to make your code pretty again
        ;;minimap           ; show a map of the code on the side
        modeline            ; snazzy, Atom-inspired modeline, plus API
        nav-flash           ; blink cursor line after big motions
@@ -81,7 +80,7 @@
        ;;eshell            ; the elisp shell that works everywhere
        ;;shell             ; simple shell REPL for Emacs
        ;;term              ; basic terminal emulator for Emacs
-       vterm               ; the best terminal emulation in Emacs
+       (:unless IS-PHONE vterm)               ; the best terminal emulation in Emacs
 
        :checkers
        syntax              ; tasing you for every semicolon you forget
@@ -91,18 +90,18 @@
        :tools
        ;;ansible
        (debugger +lsp)     ; FIXME stepping through code, to help you add bugs
-       direnv
+       (:unless IS-PHONE direnv)
        ;;docker
        ;;editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
        (eval +overlay)     ; run code, run (also, repls)
        ;;gist              ; interacting with github gists
-       lookup              ; navigate your code and its documentation
-       lsp
+       (:unless IS-PHONE lookup)              ; navigate your code and its documentation
+       (:unless IS-PHONE lsp)
        (magit +forge)      ; a git porcelain for Emacs
        ;;make              ; run make tasks from Emacs
        ;;pass              ; password manager for nerds
-       pdf                 ; pdf enhancements
+       (:unless IS-PHONE pdf)                 ; pdf enhancements
        ;;prodigy           ; FIXME managing external services & code builders
        ;;rgb               ; creating color strings
        ;;taskrunner        ; taskrunner for all your projects

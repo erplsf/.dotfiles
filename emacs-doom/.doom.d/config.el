@@ -61,7 +61,7 @@
 
 (exec-path-from-shell-initialize)
 
-(unless (am/phone-p)
+(unless IS-PHONE
   (use-package! keychain-environment
     :init
     (keychain-refresh-environment))
@@ -160,7 +160,7 @@ With a prefix argument, remove the effective date."
 (after! org
   (add-to-list 'org-modules 'org-habit t)
   (org-clock-persistence-insinuate)
-  (setq
+  (setq!
    org-directory "~/org"
    org-default-notes-file "~/org/notes.org"
    org-agenda-files '("~/org/gtd")
@@ -170,6 +170,13 @@ With a prefix argument, remove the effective date."
    org-refile-targets '((org-agenda-files . (:maxlevel . 1)))
    ;; org-capture-templates '(("t" "todo" entry (file "~/org/gtd/refile.org") "* TODO %?"))
    org-todo-keywords '((sequence "TODO(t)" "|" "DONE(d)"))
+   org-todo-keyword-faces '(("WAITING" . "orange") ;; orders
+                            ("TOSEND" . "salmon")
+                            ("SENT". "olive drab")
+                            ("RECEIVED" . "chocolate")
+                            ("ACTIVE" . "orange") ;; films (+work)
+                            ("READY" . "pink")
+                            ("BLOCKED" . "red")) ;; work
    org-return-follows-link t
    ;; agenda configs
    calendar-week-start-day 1
@@ -242,16 +249,51 @@ With a prefix argument, remove the effective date."
                                          :template "* %?")
                                         )))))
 
-(use-package! org-edna
-  :config
-  (org-edna-mode))
-
 (use-package! projectile
   :config
   (setq projectile-project-search-path '(("~/code" . 2)))
   (setq projectile-git-submodule-command nil))
 
-(unless (am/phone-p)
+;; set lsp-eslint-server-command
+
+(if (eq system-type 'darwin)
+    (mac-auto-operator-composition-mode))
+
+(setq org-roam-directory "~/org/roam")
+
+(setq! org-reverse-note-order 't)
+(add-hook! 'org-insert-heading-hook (save-excursion ;; TODO: extract into separate function to provide a name
+                                      ;; TODO: only insert if "TODO" keyword is found
+                                      ;; TODO: make it work for org-capture too
+                                      (org-back-to-heading)
+                                      (org-set-property "CREATED" (format-time-string (org-time-stamp-format 't 't)))))
+
+(defun dlukes/ediff-doom-config (file)
+  "ediff the current config with the examples in doom-emacs-dir
+
+There are multiple config files, so FILE specifies which one to
+diff.
+
+Taken from here: https://github.com/doomemacs/doomemacs/issues/581#issuecomment-895462086
+"
+  (interactive
+    (list (read-file-name "Config file to diff: " doom-user-dir)))
+  (let* ((stem (file-name-base file))
+          (customized-file (format "%s.el" stem))
+          (template-file-regex (format "^%s.example.el$" stem)))
+    (ediff-files
+      (concat doom-user-dir customized-file)
+      (car (directory-files-recursively
+             doom-emacs-dir
+             template-file-regex
+             nil
+             (lambda (d) (not (string-prefix-p "." (file-name-nondirectory d)))))))))
+
+(unless IS-PHONE
+  (use-package! org-edna
+    :config
+    (org-edna-mode))
+
   (add-hook 'compilation-finish-functions
             (lambda (_buf str)
               (if (null (string-match ".*exited abnormally.*" str))
@@ -353,37 +395,5 @@ With a prefix argument, remove the effective date."
           :mode org-mode
           "m r n l" #'org-now-link
           "m r n n" #'org-now-refile-to-now
-          "m r n p" #'org-now-refile-to-previous-location)))
-
-;; set lsp-eslint-server-command
-
-(if (eq system-type 'darwin)
-    (mac-auto-operator-composition-mode))
-
-(setq org-roam-directory "~/org/roam")
-
-(setq! org-reverse-note-order 't)
-(add-hook! 'org-insert-heading-hook (save-excursion ;; TODO: extract into separate function to provide a name
-                                      ;; TODO: only insert if "TODO" keyword is found
-                                      ;; TODO: make it work for org-capture too
-                                      (org-back-to-heading)
-                                      (org-set-property "CREATED" (format-time-string (org-time-stamp-format 't 't)))))
-
-(defun am/ediff-doom-config (file)
-  "ediff the current config with the examples in doom-emacs-dir
-
-There are multiple config files, so FILE specifies which one to
-diff.
-"
-  (interactive
-    (list (read-file-name "Config file to diff: " doom-user-dir)))
-  (let* ((stem (file-name-base file))
-          (customized-file (format "%s.el" stem))
-          (template-file-regex (format "^%s.example.el$" stem)))
-    (ediff-files
-      (concat doom-user-dir customized-file)
-      (car (directory-files-recursively
-             doom-emacs-dir
-             template-file-regex
-             nil
-             (lambda (d) (not (string-prefix-p "." (file-name-nondirectory d)))))))))
+          "m r n p" #'org-now-refile-to-previous-location))
+  )

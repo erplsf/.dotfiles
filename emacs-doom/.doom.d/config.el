@@ -396,3 +396,9 @@ Taken from here: https://github.com/doomemacs/doomemacs/issues/581#issuecomment-
     :custom
     (web-mode-code-indent-offset 2)
     (web-mode-alist '(("go" . "\\.tmpl\\'")))))
+
+(when IS-ANDROID
+  (setq browse-url-browser-function 'browse-url-xdg-open)
+  (use-package! xclip
+    :config
+    (xclip-mode 1)))

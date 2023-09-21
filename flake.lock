@@ -9,11 +9,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1694882174,
-        "narHash": "sha256-xOhWH07P+UupcWZpTIIG9c0x351SH2cgiGnCYMeCH2Q=",
+        "lastModified": 1695289196,
+        "narHash": "sha256-4ncfnmk7j8xMyilLc0hlJMR99xyiAPemDcpFmm3d9WQ=",
         "owner": "erplsf",
         "repo": "aws-sso-cli",
-        "rev": "0737dd1bd7884a42480c363471a5da3652df18bf",
+        "rev": "36b535a20dda632cf23a5acd9cc2510eb973c668",
         "type": "github"
       },
       "original": {

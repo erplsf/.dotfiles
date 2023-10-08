@@ -63,7 +63,7 @@ font-2 = MesloLGS NF:pixelsize=7
 modules-left =
 modules-center = 
 # modules-right = vpn repo_check org filesystem pulseaudio xkeyboard memory cpu battery date powermenu
-modules-right = dsbattery pulseaudio xkeyboard memory cpu battery date powermenu
+modules-right = dsbattery vpn pulseaudio xkeyboard memory cpu battery date powermenu
 
 tray-position = right
 tray-padding = 2
@@ -96,10 +96,10 @@ hook-1 = echo -n "%{B#dce800}%{F#000000}  idle clock is running... %{F-}%{B-}
 
 initial = 1
 
-# [module/vpn]
-# type = custom/script
-# exec = ~/.config/polybar/vpn-check.sh
-# interval = 5
+[module/vpn]
+type = custom/script
+exec = ~/.config/polybar/vpn-check.sh
+interval = 5
 
 [module/xkeyboard]
 type = internal/xkeyboard

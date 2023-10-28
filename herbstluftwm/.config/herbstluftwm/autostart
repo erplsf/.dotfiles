@@ -22,7 +22,7 @@ Tilde='`'
 # hc keybind $Mod-Shift-q quit NOTE: Who in their own mind uses this?
 hc keybind $Mod-Shift-r reload
 hc keybind $Mod-Shift-c close
-hc keybind $Mod-Return spawn ${TERMINAL:-alacritty} # use your $TERMINAL with alacritty as fallback
+hc keybind $Mod-Return spawn ${TERMINAL:-kitty} # use your $TERMINAL with alacritty as fallback
 hc keybind $Mod-e spawn emacsclient --create-frame --no-wait
 hc keybind $Mod-w spawn emacsclient -n -e '(yequake-toggle "org-capture")'
 # hc keybind $Mod-m spawn nvidia-settings
@@ -295,7 +295,7 @@ if hc silent new_attr bool my_not_first_autostart; then
 	redshift -l 53:9 -b 1:0.75 &
 	qxkb &
 	dunst &
-	alacritty &
+	kitty &
 fi
 
 # to allow Tridactyl to switch the window (via X11 urgent flag)

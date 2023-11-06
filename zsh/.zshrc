@@ -1,9 +1,9 @@
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
-# if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
-#   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-# fi
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
 # Clone zinit
 ZINIT_HOME="${XDG_DATA_HOME:-${HOME}/.local/share}/zinit/zinit.git"
@@ -30,15 +30,6 @@ zinit depth'1' \
 zinit depth'1' \
       light-mode for \
       romkatv/powerlevel10k
-
-if [[ ! $TERM == (dumb|linux) ]]; then # fancy terminal, enable fancy theme
-    P10K_CONFIG_FILE=~/.p10k.zsh
-else # dumb terminal, load portable theme
-    P10K_CONFIG_FILE=~/.p10k-portable.zsh
-fi
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f "${P10K_CONFIG_FILE}" ]] || source "${P10K_CONFIG_FILE}"
 
 # envs for term
 export LANG=en_US.UTF-8
@@ -465,3 +456,6 @@ function k8s-box() { # https://hub.docker.com/r/nicolaka/netshoot
      NS="$3"
      awe "$ENV" -- kubectl --context "$CNT" run -n "$NS" "devops-toolbox-$RANDOM" -i --tty --image=nicolaka/netshoot --rm -- sh
 }
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

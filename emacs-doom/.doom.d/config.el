@@ -266,17 +266,17 @@ diff.
 Taken from here: https://github.com/doomemacs/doomemacs/issues/581#issuecomment-895462086
 "
   (interactive
-    (list (read-file-name "Config file to diff: " doom-user-dir)))
+   (list (read-file-name "Config file to diff: " doom-user-dir)))
   (let* ((stem (file-name-base file))
-          (customized-file (format "%s.el" stem))
-          (template-file-regex (format "^%s.example.el$" stem)))
+         (customized-file (format "%s.el" stem))
+         (template-file-regex (format "^%s.example.el$" stem)))
     (ediff-files
-      (concat doom-user-dir customized-file)
-      (car (directory-files-recursively
-             doom-emacs-dir
-             template-file-regex
-             nil
-             (lambda (d) (not (string-prefix-p "." (file-name-nondirectory d)))))))))
+     (concat doom-user-dir customized-file)
+     (car (directory-files-recursively
+           doom-emacs-dir
+           template-file-regex
+           nil
+           (lambda (d) (not (string-prefix-p "." (file-name-nondirectory d)))))))))
 
 (unless IS-ANDROID
   (use-package! org-edna
@@ -381,10 +381,10 @@ Taken from here: https://github.com/doomemacs/doomemacs/issues/581#issuecomment-
     :config
     (;; setq! org-now-location (concat org-directory "/org-now.org")
      map! :leader
-          :mode org-mode
-          "m r n l" #'org-now-link
-          "m r n n" #'org-now-refile-to-now
-          "m r n p" #'org-now-refile-to-previous-location))
+     :mode org-mode
+     "m r n l" #'org-now-link
+     "m r n n" #'org-now-refile-to-now
+     "m r n p" #'org-now-refile-to-previous-location))
 
   (use-package! keychain-environment
     :init
@@ -395,7 +395,8 @@ Taken from here: https://github.com/doomemacs/doomemacs/issues/581#issuecomment-
     (add-to-list 'auto-mode-alist '("\\.tmpl\\'" . web-mode))
     :custom
     (web-mode-code-indent-offset 2)
-    (web-mode-alist '(("go" . "\\.tmpl\\'")))))
+    (web-mode-alist '(("go" . "\\.tmpl\\'"))))
+  (use-package! vcl-mode))
 
 (when IS-ANDROID
   (setq browse-url-browser-function 'browse-url-xdg-open)

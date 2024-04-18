@@ -5,7 +5,12 @@ set -euo pipefail
 # gitstatusd params taken from a running p90k prompt
 
 declare -A repos
-repos=("$HOME/org" "" "$HOME/ledger" "" "$HOME/.dotfiles" "略" "$HOME/.password-store" "")
+repos=(
+	"$HOME/org" ""
+	"$HOME/ledger" ""
+	"$HOME/.dotfiles" "略"
+	"$HOME/.password-store" ""
+)
 
 is_repo_dirty() {
 	local req_id=id

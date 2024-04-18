@@ -84,7 +84,7 @@ but it truncates the buffer name within `am/buffer-name-max'."
   (add-to-list 'doom-modeline-fn-alist (cons 'am/org-clock 'am/doom-modeline-segment--org-clock))
   (doom-modeline-def-modeline 'main
     '(bar matches am/org-clock am/buffer-info remote-host buffer-position parrot selection-info)
-    '(misc-info minor-modes checker input-method buffer-encoding major-mode process vcs))
+    '(misc-info minor-modes input-method buffer-encoding major-mode process vcs))
   (doom-modeline-def-modeline 'vcs
     '(bar window-number modals matches am/org-clock buffer-info buffer-position parrot selection-info)
     '(misc-info battery irc mu4e gnus github debug minor-modes buffer-encoding major-mode process)))
@@ -152,8 +152,8 @@ With a prefix argument, remove the effective date."
   (setq!
    org-directory "~/org"
    org-default-notes-file "~/org/notes.org"
-   org-agenda-files '("~/org/gtd")
-   org-archive-location "~/org/gtd/archive/archive.org::* From %s"
+   org-agenda-files '("~/org/roam")
+   org-archive-location "~/org/roam/archive/archive.org::* From %s"
    org-refile-use-outline-path 'file
    org-outline-path-complete-in-steps nil
    org-refile-targets '((org-agenda-files . (:maxlevel . 1)))
@@ -164,6 +164,8 @@ With a prefix argument, remove the effective date."
                             ("SENT". "olive drab")
                             ("RECEIVED" . "chocolate")
                             ("ACTIVE" . "orange") ;; films (+work)
+                            ("COPY" . "pink") ;; films
+                            ("DELETE" . "red") ;; films
                             ("READY" . "pink")
                             ("BLOCKED" . "red")) ;; work
    org-return-follows-link t
@@ -379,12 +381,13 @@ Taken from here: https://github.com/doomemacs/doomemacs/issues/581#issuecomment-
   (use-package! org-now
     :after org
     :config
-    (;; setq! org-now-location (concat org-directory "/org-now.org")
-     map! :leader
-     :mode org-mode
-     "m r n l" #'org-now-link
-     "m r n n" #'org-now-refile-to-now
-     "m r n p" #'org-now-refile-to-previous-location))
+    (map! :leader
+          :mode org-mode
+          "n g n" #'org-now
+          "m r n l" #'org-now-link
+          "m r n n" #'org-now-refile-to-now
+          "m r n p" #'org-now-refile-to-previous-location)
+    (setq! org-now-location '("now.org" "Now")))
 
   (use-package! keychain-environment
     :init
@@ -396,7 +399,25 @@ Taken from here: https://github.com/doomemacs/doomemacs/issues/581#issuecomment-
     :custom
     (web-mode-code-indent-offset 2)
     (web-mode-alist '(("go" . "\\.tmpl\\'"))))
-  (use-package! vcl-mode))
+  (use-package! vcl-mode)
+  ;; set indentation
+  (setq! evil-shift-width 2
+         typescript-indent-level 2)
+
+  (defhydra doom-window-resize-hydra (:hint nil)
+    "
+             _k_ increase height
+_h_ decrease width    _l_ increase width
+             _j_ decrease height
+"
+    ("h" evil-window-decrease-width)
+    ("j" evil-window-increase-height)
+    ("k" evil-window-decrease-height)
+    ("l" evil-window-increase-width)
+
+    ("q" nil))
+
+  (map! (:leader :desc "Hydra resize" :n "w SPC" #'doom-window-resize-hydra/body)))
 
 (when IS-ANDROID
   (setq browse-url-browser-function 'browse-url-xdg-open)

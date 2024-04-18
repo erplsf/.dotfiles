@@ -4,6 +4,8 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(evil-shift-width 2)
+ '(magit-todos-insert-after '(bottom) nil nil "Changed by setter of obsolete option `magit-todos-insert-at'")
+ '(org-now-location '("now.org/"))
  '(safe-local-variable-values
    '((org-todo-keyword-faces
       ("ACTIVE" . "red"))

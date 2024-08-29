@@ -56,7 +56,9 @@
   (package! org-ql)
   (package! org-now
     :recipe (:host github :repo "alphapapa/org-now"))
-  (package! vcl-mode))
+  (package! vcl-mode)
+  (package! tramp)
+  (package! yaml-pro))
 
 (when IS-ANDROID
   (package! xclip))  ;; to sync with termux/android clipboard

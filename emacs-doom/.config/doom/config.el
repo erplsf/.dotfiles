@@ -152,7 +152,7 @@ With a prefix argument, remove the effective date."
   (setq!
    org-directory "~/org"
    org-default-notes-file "~/org/notes.org"
-   org-agenda-files '("~/org/roam")
+   org-agenda-files (directory-files-recursively org-directory "\\.org$" nil '(lambda (dir) (not (string-match-p "archive" dir))))
    org-archive-location "~/org/roam/archive/archive.org::* From %s"
    org-refile-use-outline-path 'file
    org-outline-path-complete-in-steps nil
@@ -200,8 +200,8 @@ With a prefix argument, remove the effective date."
                                                 :tag "inbox")
                                                ;; (:name "Work"
                                                ;;  :tag "work")
-                                               (:name "Next"
-                                                :tag "next")
+                                               (:take (3 (:name "Next"
+                                                          :tag "next")))
                                                ;; (:name "Weekend"
                                                ;;  :tag "weekend")
                                                ;; (:name "Work"
@@ -213,6 +213,7 @@ With a prefix argument, remove the effective date."
                                                ;; :auto-tags t)
                                                ;; (:name "Active films"
                                                ;;        :todo ("ACTIVE" "TOWATCH"))
+                                               
                                                (:discard (:anything t))))))))
                                 ("w" "Work super-agenda"
                                  ((alltodo "" ((org-agenda-overriding-header "")

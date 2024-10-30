@@ -1682,6 +1682,10 @@
   #               typed after changing current working directory.
   typeset -g POWERLEVEL9K_TRANSIENT_PROMPT=off
 
+  function p10k-on-pre-prompt()  { p10k display '1/left/*'=show '1/right/*'=show }
+
+  function p10k-on-post-prompt() { p10k display '1/left/*'=hide '1/left/dir|prompt_char'=show '1/left/prompt_char'=show '1/right/*'=hide '1/right/time'=show }
+
   # Instant prompt mode.
   #
   #   - off:     Disable instant prompt. Choose this if you've tried instant prompt and found

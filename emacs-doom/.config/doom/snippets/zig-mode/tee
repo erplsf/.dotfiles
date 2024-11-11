@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: testing expectEqual
+# key: tee
+# --
+try std.testing.expectEqual($1, $2);$0

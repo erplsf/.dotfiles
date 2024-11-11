@@ -2,4 +2,4 @@
 # name: catch unreachable
 # key: cu
 # --
-catch unreachable;
+catch unreachable;$0

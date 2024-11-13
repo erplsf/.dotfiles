@@ -420,7 +420,7 @@ _h_ decrease width    _l_ increase width
 
   (map! (:leader :desc "Hydra resize" :n "w SPC" #'doom-window-resize-hydra/body))
                                         ; only show open pull requests by default
-  (setq! forge-status-buffer-default-topic-filters (forge--topics-spec :type 'pullreq :active nil :state 'open :status 'inbox :order 'newest)))
+  (after! forge (setq! forge-status-buffer-default-topic-filters (forge--topics-spec :type 'pullreq :active nil :state 'open :status 'inbox :order 'newest))))
 
 (when IS-ANDROID
   (setq browse-url-browser-function 'browse-url-xdg-open)

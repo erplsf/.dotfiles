@@ -100,6 +100,8 @@
 ## https://docs.rs/regex/latest/regex/#syntax
 history_filter = [
   "^awe-encrypt",
+  "^c( |$)",
+  "^z( |$)",
 ]
 
 ## prevent commands run with cwd matching any of these regexes from being written

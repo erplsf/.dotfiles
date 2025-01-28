@@ -181,7 +181,7 @@ With a prefix argument, remove the effective date."
    org-habit-show-habits-only-for-today nil
    org-agenda-show-future-repeats nil
    org-agenda-custom-commands '(("p" "Personal super-agenda"
-                                 ((agenda "" ((org-agenda-span 'day)
+                                 ((agenda "" ((org-agenda-span 'week)
                                               (org-super-agenda-groups
                                                '((:name "Today"
                                                   :time-grid t)
@@ -243,8 +243,9 @@ With a prefix argument, remove the effective date."
 
 (use-package! projectile
   :config
-  (setq projectile-project-search-path '(("~/code" . 2)))
-  (setq projectile-git-submodule-command nil))
+  (setq! projectile-project-search-path '(("~/code" . 2)))
+  (setq! projectile-git-submodule-command nil)
+  (setq! projectile-switch-project-action 'projectile-vc))
 
 ;; set lsp-eslint-server-command
 
@@ -315,9 +316,9 @@ Taken from here: https://github.com/doomemacs/doomemacs/issues/581#issuecomment-
     ;; (setq lsp-java-format-settings-profile "LeanixFlavoredGoogleStyle")
     (setq lsp-java-save-actions-organize-imports t))
 
-  (use-package company
-    :config
-    (setq company-shell-modes '()))
+  ;; (use-package company
+  ;;  :config
+  ;;(setq company-shell-modes '()))
 
   (add-hook! sh-mode
     (set-company-backend! 'sh-mode nil))
@@ -420,7 +421,10 @@ _h_ decrease width    _l_ increase width
 
   (map! (:leader :desc "Hydra resize" :n "w SPC" #'doom-window-resize-hydra/body))
                                         ; only show open pull requests by default
-  (after! forge (setq! forge-status-buffer-default-topic-filters (forge--topics-spec :type 'pullreq :active nil :state 'open :status 'inbox :order 'newest))))
+  (after! forge (setq! forge-status-buffer-default-topic-filters (forge--topics-spec :type 'pullreq :active nil :state 'open :status 'inbox :order 'newest)))
+  (after! poetry
+    (remove-hook 'python-mode-hook #'poetry-tracking-mode)
+    (add-hook 'python-mode-hook 'poetry-track-virtualenv)))
 
 (when IS-ANDROID
   (setq browse-url-browser-function 'browse-url-xdg-open)

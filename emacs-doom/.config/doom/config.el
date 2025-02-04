@@ -222,24 +222,25 @@ With a prefix argument, remove the effective date."
                                                 '(
                                                   (:name "Work"
                                                    :and (:tag "work" :not (:tag "someday")))
-                                                  (:discard (:anything t))))))))
-                                ))
+                                                  (:discard (:anything t)))))))))
+   browse-url-generic-program "wsl-open"
+   browse-url-handlers '(("." . browse-url-generic))))
 
-  (use-package! doct
-    :config
-    (setq org-capture-templates (doct '(
-                                        ("todo" :keys "t"
-                                         :file "~/org/gtd/inbox.org"
-                                         :template "* %?")
-                                        ("work" :keys "w"
-                                         :file "~/org/gtd/work.org"
-                                         :headline "Inbox"
-                                         :template "* %?")
-                                        ("books" :keys "b"
-                                         :file "~/org/roam/20230626083237-books.org"
-                                         :headline "Inbox"
-                                         :template "* %?")
-                                        )))))
+(use-package! doct
+  :config
+  (setq org-capture-templates (doct '(
+                                      ("todo" :keys "t"
+                                       :file "~/org/gtd/inbox.org"
+                                       :template "* %?")
+                                      ("work" :keys "w"
+                                       :file "~/org/gtd/work.org"
+                                       :headline "Inbox"
+                                       :template "* %?")
+                                      ("books" :keys "b"
+                                       :file "~/org/roam/20230626083237-books.org"
+                                       :headline "Inbox"
+                                       :template "* %?")
+                                      ))))
 
 (use-package! projectile
   :config

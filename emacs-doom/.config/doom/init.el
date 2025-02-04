@@ -149,7 +149,7 @@
        latex               ; writing papers in Emacs has never been so fun
        ;;lean
        ;;factor
-       ledger              ; an accounting system in Emacs
+       ledger              ; an accounting system in Emacs TODO: switch to a custom module for hldeger-mode
        lua                 ; one-based indices? one-based indices
        markdown            ; writing docs for people to ignore
        ;;nim               ; python + lisp at the speed of c

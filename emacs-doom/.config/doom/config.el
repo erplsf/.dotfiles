@@ -341,9 +341,7 @@ Taken from here: https://github.com/doomemacs/doomemacs/issues/581#issuecomment-
   (setq +format-with-lsp nil)
   (setq c-basic-offset 2)
 
-  (after! magit (progn (setq magit-prefer-remote-upstream 't)
-                       (setq git-commit-style-convention-checks
-                             (remove 'overlong-summary-line git-commit-style-convention-checks))))
+  (after! magit (progn (setq! magit-list-refs-sortby "-creatordate")))
 
   (use-package! tts-editor
     :commands (tts-editor/listen-start

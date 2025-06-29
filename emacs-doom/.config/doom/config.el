@@ -223,8 +223,9 @@ With a prefix argument, remove the effective date."
                                                   (:name "Work"
                                                    :and (:tag "work" :not (:tag "someday")))
                                                   (:discard (:anything t)))))))))
-   browse-url-generic-program "wsl-open"
-   browse-url-handlers '(("." . browse-url-generic))))
+   ;; browse-url-generic-program "wsl-open"
+   ;; browse-url-handlers '(("." . browse-url-generic))
+   ))
 
 (use-package! doct
   :config

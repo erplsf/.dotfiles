@@ -51,7 +51,7 @@
   (package! magit-annex)
   (package! git-annex)
   (package! gh-notify)
-  (package! emacsql-sqlite :built-in 'prefer)
+  ;; (package! emacsql-sqlite :built-in 'prefer)
   (package! org-roam-ui)
   (package! org-ql)
   (package! org-now

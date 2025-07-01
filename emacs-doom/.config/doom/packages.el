@@ -58,7 +58,8 @@
     :recipe (:host github :repo "alphapapa/org-now"))
   (package! vcl-mode)
   (package! tramp)
-  (package! yaml-pro))
+  (package! yaml-pro)
+  (package! magit-todos))
 
 (when IS-ANDROID
   (package! xclip))  ;; to sync with termux/android clipboard

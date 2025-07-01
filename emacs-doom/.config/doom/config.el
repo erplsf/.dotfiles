@@ -424,7 +424,11 @@ _h_ decrease width    _l_ increase width
   (after! forge (setq! forge-status-buffer-default-topic-filters (forge--topics-spec :type 'pullreq :active nil :state 'open :status 'inbox :order 'newest)))
   (after! poetry
     (remove-hook 'python-mode-hook #'poetry-tracking-mode)
-    (add-hook 'python-mode-hook 'poetry-track-virtualenv)))
+    (add-hook 'python-mode-hook 'poetry-track-virtualenv))
+
+  ;; taken liberally from this commit https://github.com/doomemacs/doomemacs/commit/0893edefae1fe548c7e1112038c6e50b9e35bd26
+  (use-package! magit-todos
+    :after magit))
 
 (when IS-ANDROID
   (setq browse-url-browser-function 'browse-url-xdg-open)

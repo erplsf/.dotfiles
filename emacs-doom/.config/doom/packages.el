@@ -30,8 +30,6 @@
   (package! keychain-environment)
   (package! go-mode)
   (package! web-mode)
-  (package! terraform-mode)
-  (package! hcl-mode)
   (package! yequake)
   (package! dockerfile-mode)
   (package! lsp-java)

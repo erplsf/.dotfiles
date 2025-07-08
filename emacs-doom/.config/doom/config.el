@@ -249,11 +249,6 @@ With a prefix argument, remove the effective date."
   (setq! projectile-git-submodule-command nil)
   (setq! projectile-switch-project-action 'projectile-vc))
 
-;; set lsp-eslint-server-command
-
-(if (eq system-type 'darwin)
-    (mac-auto-operator-composition-mode))
-
 (setq org-roam-directory "~/org/roam")
 
 (setq! org-reverse-note-order 't)

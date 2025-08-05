@@ -57,6 +57,9 @@
 ;; they are implemented.
 ;;
 
+;;do not ask for confirmation when leaving Emacs
+(setq confirm-kill-emacs nil)
+
 (setq enable-local-variables 't)
 
 (when (or (memq window-system '(mac ns x)) (daemonp))

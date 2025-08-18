@@ -77,10 +77,42 @@
 
 (setq! global-visual-line-mode 't)
 
+
+(defun am/ledger-insert-effective-date (&optional date)
+  "Insert effective date `DATE' to the transaction or posting.
+
+If `DATE' is nil, prompt the user a date.
+
+Replace the current effective date if there's one in the same
+line.
+
+With a prefix argument, remove the effective date."
+  (interactive)
+  (if (and (listp current-prefix-arg)
+           (= 4 (prefix-numeric-value current-prefix-arg)))
+      (ledger-remove-effective-date)
+    (let* ((context (car (ledger-context-at-point)))
+           (date-string (or date (ledger-read-date "Effective date: "))))
+      (save-restriction
+        (narrow-to-region (point-at-bol) (point-at-eol))
+        (cond
+         ((eq 'xact context)
+          (beginning-of-line)
+          (re-search-forward ledger-iso-date-regexp)
+          (when (= (char-after) ?=)
+            (ledger-remove-effective-date))
+          (insert "=" date-string))
+         ((eq 'acct-transaction context)
+          (end-of-line)
+          (ledger-remove-effective-date)
+          (insert "  ; cleared on date:" date-string)))))))
+
+
 ;; TODO: :desc doesn't seem to work
 (when (and (modulep! :lang ledger) (modulep! :editor evil +everywhere))
   (after! evil-ledger
     (map! :localleader
           :map ledger-mode-map
           :desc "Mark current transaction as pending" "t" (cmd! (ledger-toggle-current 'pending))
+          :desc "Set effective date" "e" #'am/ledger-insert-effective-date
   )))

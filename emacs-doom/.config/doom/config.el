@@ -235,7 +235,7 @@ With a prefix argument, remove the effective date."
   (setq org-capture-templates (doct '(
                                       ("todo" :keys "t"
                                        :file "~/org/gtd/inbox.org"
-                                       :template "* %?")
+                                       :template "* TODO %?")
                                       ("work" :keys "w"
                                        :file "~/org/gtd/work.org"
                                        :headline "Inbox"

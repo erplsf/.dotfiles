@@ -255,11 +255,11 @@ With a prefix argument, remove the effective date."
 (setq org-roam-directory "~/org/roam")
 
 (setq! org-reverse-note-order 't)
-;; (add-hook! 'org-insert-heading-hook (save-excursion ;; TODO: extract into separate function to provide a name
-;;                                       ;; TODO: only insert if "TODO" keyword is found
-;;                                       ;; TODO: make it work for org-capture too
-;;                                       (org-back-to-heading)
-;;                                       (org-set-property "CREATED" (format-time-string (org-time-stamp-format 't 't)))))
+(add-hook! 'org-insert-heading-hook (save-excursion ;; TODO: extract into separate function to provide a name
+                                      ;; TODO: only insert if "TODO" keyword is found
+                                      ;; TODO: make it work for org-capture too
+                                      (org-back-to-heading)
+                                      (org-set-property "CREATED" (format-time-string (org-time-stamp-format 't 't)))))
 
 (defun dlukes/ediff-doom-config (file)
   "ediff the current config with the examples in doom-emacs-dir

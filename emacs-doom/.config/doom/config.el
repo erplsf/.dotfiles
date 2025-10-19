@@ -145,8 +145,8 @@ With a prefix argument, remove the effective date."
 (use-package! org-super-agenda
   :after org-agenda
   :config
-  (map! :leader
-        "n A" (cmd! (org-agenda nil "a")))
+  (map! :leader :desc "Org Super Agenda"
+        "n A" (cmd! (org-agenda nil "p")))
   (org-super-agenda-mode))
 
 (after! org

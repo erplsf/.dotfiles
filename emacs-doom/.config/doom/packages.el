@@ -59,7 +59,8 @@
   (package! vcl-mode)
   (package! tramp)
   (package! yaml-pro)
-  (package! magit-todos))
+  (package! magit-todos)
+  (package! jj-mode :recipe (:host github :repo "bolivier/jj-mode.el")))
 
 (when IS-ANDROID
   (package! xclip))  ;; to sync with termux/android clipboard
